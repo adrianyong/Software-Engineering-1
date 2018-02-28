@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Recipe gets the nutritional information from a recipe that the user can use
+ * @author 100021268 100122248 100137721 100090034
  */
 package fitnessapp;
 
-/**
- *
- * @author 100021268
- */
 public class Recipe {
     
 }
