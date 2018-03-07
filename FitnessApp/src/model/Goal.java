@@ -5,13 +5,21 @@
 package model;
 
 public class Goal {
-    Enum Type;
-    int timeSpan;
-    void getType(){
+    
+    private GoalType goal;
+    
+    public static enum GoalType{GainWeight, LoseWeight, MaintainWeight}
+    private int timeSpan;
+    
+    
+    GoalType getType(){
+        return goal;
         //return Type of goal
     }
     
-    void getTimeSpan(){
+    int getTimeSpan(){
+        
+        return timeSpan;
         //return int of time span allowed
     }
 }
