@@ -3,12 +3,12 @@
  * @author 100021268 100122248 100137721 100090034
  */
 
-package fitnessapp;
+package model;
 
 public class FoodTracker {
     Food food;
     double dailyCalorieIntake;
-    double dailyNutrientIntake;
+    int[] dailyNutrientIntake = new int[6];
     double portionSize;
     
     void calculatePortionConsumed(){
@@ -17,6 +17,13 @@ public class FoodTracker {
     
     void getFood(){
         //retuns Food type object from Food 
+    }
+    
+    void getDailyCalorieIntake(){
+        //returns dailyCalorieIntake as int/double 
+    }
+    void getDailyNutrientIntake(){
+        //returns dailyCalorieIntake as int[6]
     }
             
 }

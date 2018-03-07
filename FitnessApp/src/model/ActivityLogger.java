@@ -2,7 +2,7 @@
  * Activity Logger logs the previous activities done
  * @author 100021268 100122248 100137721 100090034
  */
-package fitnessapp;
+package model;
 
 import java.util.ArrayList;
 

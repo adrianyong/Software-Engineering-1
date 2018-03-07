@@ -2,7 +2,7 @@
  * Fitness tracker compares the health scores and sets them into different quartiles
  * @author 100021268 100122248 100137721 100000034
  */
-package fitnessapp;
+package model;
 
 import java.util.HashMap;
 

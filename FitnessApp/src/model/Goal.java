@@ -2,7 +2,7 @@
  * Goal allows the user to set a time goal for their fitness endeavours 
  * @author 100021268 100122248 100137721 100090034
  */
-package fitnessapp;
+package model;
 
 public class Goal {
     Enum Type;

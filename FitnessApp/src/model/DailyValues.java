@@ -2,7 +2,7 @@
  * Daily Values get the values of the person's daily intake
  * @author 100021268 100122248 100137721 100090034
  */
-package fitnessapp;
+package model;
 
 import java.util.Date;
 import java.util.List;

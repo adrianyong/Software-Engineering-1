@@ -2,9 +2,9 @@
  * FitnessApp is the main method 
  * @author 100021268 100122248 100137721 100090034
  */
-package fitnessapp;
+package controller;
 
-public class FitnessApp {
+public class SystemController {
 
     /**
      * @param args the command line arguments

@@ -2,7 +2,7 @@
  * Activity generates a fitness routine for the user and tracks their activity in the routine
  * @author 100021268 100122248 100137721 100090034
  */
-package fitnessapp;
+package model;
 
 import java.util.ArrayList;
 
@@ -22,11 +22,13 @@ public class Activity {
         //users inputted data for the activityLogger
     }
     
-    void getHeartRate(){
+    int getHeartRate(){
+        return heartRate;
         //return type int of average heart rate throughout activity
     }
     
-    void getDuration(){
+    double getDuration(){
+        return duration;
         //return type double of time for activity duration
     }
     

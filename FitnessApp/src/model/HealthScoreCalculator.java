@@ -3,7 +3,7 @@
  * @author 100021268 100122248 100137721 100090034
  */
 
-package fitnessapp;
+package model;
 
 public class HealthScoreCalculator {
     double BMI;
