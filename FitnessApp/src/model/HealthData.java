@@ -7,14 +7,13 @@ package model;
 import java.util.Date;
 
 public class HealthData {
-    double weightKG;
-    double heightCM;
-    ActivityLevel activityLevel;
-    //boolean isMetric;
-    Date dateTime;
+    private final double weightKG;
+    private final double heightCM;
+    private final ActivityLevel activityLevel;
+    private final Date dateTime;
     //List<Double> dailyCalories;
     
-    public static enum ActivityLevel{Sedentry, LightExercise, ModerateExercise, HardExercise, VeryHardExercise}
+    public static enum ActivityLevel{NoExercise, LightExercise, ModerateExercise, HardExercise, VeryHardExercise}
     
     public HealthData(double weightKG, double heightCM, ActivityLevel activityLevel, Date dateTime){
         this.weightKG = weightKG;
