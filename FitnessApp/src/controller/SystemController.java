@@ -12,17 +12,14 @@ import model.*;
 
 public class SystemController {
 
-    private static ArrayList<User> users = new ArrayList();
+    private static ArrayList<User> users = new ArrayList<>();
 
     public static void main(String[] args) {
-        
         if(users.isEmpty()){
             System.out.println("No users found! Please create user.");
         }
-
         User newUser = newUser();
         users.add(newUser);
-        
     }
     
     public static User newUser(){
