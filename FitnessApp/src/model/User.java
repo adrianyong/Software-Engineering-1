@@ -1,5 +1,5 @@
 /**
- * User stores the users data for the login
+ * User stores the users data for the login MERGE TEST VERSION
  * @authors 100021268, 100122248, 100137721,100090034
  */
 
