@@ -22,4 +22,8 @@ public class Goal {
         return timeSpan;
         //return int of time span allowed
     }
+    
+    public String toString(){
+        return "" + goal + timeSpan;
+    }
 }

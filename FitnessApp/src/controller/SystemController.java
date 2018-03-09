@@ -4,11 +4,17 @@
  */
 package controller;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.*;
+
+import org.json.*;
 
 public class SystemController {
 
@@ -20,6 +26,43 @@ public class SystemController {
         }
         User newUser = newUser();
         users.add(newUser);
+        newUser.updateData(70, 180, HealthData.ActivityLevel.LightExercise);
+        newUser.updateData(80, 180, HealthData.ActivityLevel.NoExercise);
+        
+        JSONObject jo = new JSONObject();
+        
+        /*private String email;
+        private String password;
+        private String firstName;
+        private String surname;
+        private Date dateOfBirth;
+        private final Sex bioSex;
+        private ArrayList<HealthData> dataList;
+        private Goal goal;
+        private boolean isMetric;
+        private boolean isTrackingActivity;*/
+        
+        jo.put("email", newUser.getEmail());
+        jo.put("password", newUser.getPassword());
+        jo.put("firstName", newUser.getFirstName());
+        jo.put("surname", newUser.getSurname());
+        jo.put("dateOfBirth", newUser.getDateOfBirth());
+        jo.put("bioSex", newUser.getSex());
+        jo.put("dataList", newUser.getDataList());
+        jo.put("goal", newUser.getGoal());
+        jo.put("isMetric", newUser.isMetric());
+        jo.put("isTrackingActivity", newUser.isTrackingActivity());
+        
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter("users.json");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SystemController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        pw.write(jo.toString(1));
+         
+        pw.flush();
+        pw.close();
     }
     
     public static User newUser(){

@@ -15,22 +15,27 @@ public class HealthData {
     
     public static enum ActivityLevel{NoExercise, LightExercise, ModerateExercise, HardExercise, VeryHardExercise}
     
-    public HealthData(double weightKG, double heightCM, ActivityLevel activityLevel, Date dateTime){
+    public HealthData(double weightKG, double heightCM, ActivityLevel activityLevel){
         this.weightKG = weightKG;
         this.heightCM = heightCM;
         this.activityLevel = activityLevel;
-        this.dateTime = dateTime;
+        this.dateTime = new Date();
     }
     
-    double getWeight(){
+    public double getWeight(){
         return weightKG;
     }
     
-    double getHeight(){
+    public double getHeight(){
         return heightCM;
     }
     
-    Date getDateTime(){
+    public Date getDateTime(){
         return dateTime;
+    }
+    
+    @Override
+    public String toString(){
+        return "" + weightKG + heightCM + activityLevel + dateTime;
     }
 }

@@ -6,9 +6,8 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.List;
 
 public class User {
     private String email;
@@ -17,10 +16,11 @@ public class User {
     private String surname;
     private Date dateOfBirth;
     private final Sex bioSex;
-    private ArrayList<HealthData> dataList;
     private Goal goal;
     private boolean isMetric;
     private boolean isTrackingActivity;
+    
+    private List<HealthData> dataList;
     
     public static enum Sex{Male, Female}
     
@@ -33,14 +33,16 @@ public class User {
         this.bioSex = sex;
         this.isMetric = isMetric;
         this.isTrackingActivity = isTrackingActivity;
+        
+        this.dataList = new ArrayList();
     }
     
     public void updateData(double weight, double height, HealthData.ActivityLevel activityLevel){
         if(!isMetric){
-            weight = Conversions.weightToKG(weight);
+            weight = Conversions.weightLbsToKG(weight);
             height = Conversions.heightToCM(height);
         }
-        dataList.add(new HealthData(weight, height, activityLevel, new Date()));
+        dataList.add(new HealthData(weight, height, activityLevel));
     }
     
     public boolean login(String email, String password){
@@ -96,6 +98,14 @@ public class User {
     
     public Sex getSex(){
         return bioSex;
+    }
+    
+    public List<HealthData> getDataList(){
+        return dataList;
+    }
+    
+    public Goal getGoal(){
+        return goal;
     }
     
     public boolean isMetric(){
