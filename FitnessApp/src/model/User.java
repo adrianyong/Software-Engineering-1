@@ -13,8 +13,8 @@ public class User {
     private String email;
     private String password;
     private String firstName;
-    private String surname;
-    private Date dateOfBirth;
+    private String lastName;
+    private Date dob;
     private final Sex bioSex;
     private Goal goal;
     private boolean isMetric;
@@ -24,12 +24,12 @@ public class User {
     
     public static enum Sex{Male, Female}
     
-    public User(String firstName, String surname, String email, String password, Date dateOfBirth, Sex sex, boolean isMetric, boolean isTrackingActivity){
+    public User(String firstName, String lastName, String email, String password, Date dob, Sex sex, boolean isMetric, boolean isTrackingActivity){
         this.firstName = firstName;
-        this.surname = surname;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.dateOfBirth = dateOfBirth;
+        this.dob = dob;
         this.bioSex = sex;
         this.isMetric = isMetric;
         this.isTrackingActivity = isTrackingActivity;
@@ -73,25 +73,29 @@ public class User {
         this.firstName = firstName;
     }
     
-    public String getSurname(){
-        return surname;
+    public String getLastName(){
+        return lastName;
     }
     
-    public void changeSurname(String surname){
-        this.surname = surname;
+    public void changeLastName(String lastName){
+        this.lastName = lastName;
     }
     
-    public Date getDateOfBirth(){
-        return dateOfBirth;
+    public String getFullName(){
+        return firstName + " " + lastName;
     }
     
-    public void changeDateOfBirth(Date dateOfBirth){
-        this.dateOfBirth = dateOfBirth;
+    public Date getDOB(){
+        return dob;
+    }
+    
+    public void changeDOB(Date dob){
+        this.dob = dob;
     }
     
     public int getAge(){
         Date currentDate = new Date();
-        long age = currentDate.getTime()-dateOfBirth.getTime();
+        long age = currentDate.getTime()-dob.getTime();
         age = (age/1000/60/60/24/365); //Converts age in 
         return (int) age;
     }
@@ -126,6 +130,6 @@ public class User {
     
     @Override
     public String toString(){
-        return email + "," + password + "," + firstName + "," + surname + "," + dateOfBirth + "," + bioSex + "," + isMetric + "," + isTrackingActivity;
+        return email + "," + password + "," + firstName + "," + lastName + "," + dob + "," + bioSex + "," + isMetric + "," + isTrackingActivity;
     }
 }

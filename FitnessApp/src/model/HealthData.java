@@ -30,6 +30,10 @@ public class HealthData {
         return heightCM;
     }
     
+    public ActivityLevel getActivityLevel(){
+        return activityLevel;
+    }
+    
     public Date getDateTime(){
         return dateTime;
     }
