@@ -41,9 +41,9 @@ public class SystemController {
         
         writeTest(newUser);
         writeData(newUser);
-        User oldUser = readTest();
         
-        System.out.println(oldUser);
+        for(User u : users)
+            System.out.println(u);
     }
     
     public static void writeData(User user) throws FileNotFoundException{
@@ -131,14 +131,14 @@ public class SystemController {
     }
     
     public static User newUser(){
-        String email = "bentownsend1997@gmail.com";
-        String password = "password";
-        String firstName = "Ben";
-        String surname = "Townsend";
-        Date dateOfBirth = new GregorianCalendar(1997, Calendar.MARCH, 16).getTime();
-        User.Sex sex = User.Sex.Male;
-        boolean isMetric = true;
-        boolean trackActivity = false;
+        String email = "sophiecevrollo@gmail.com";
+        String password = "12345";
+        String firstName = "Sophie";
+        String surname = "Rollo";
+        Date dateOfBirth = new GregorianCalendar(1994, Calendar.APRIL, 5).getTime();
+        User.Sex sex = User.Sex.Female;
+        boolean isMetric = false;
+        boolean trackActivity = true;
         
         User testUser = new User(firstName, surname, email, password, dateOfBirth, sex, isMetric, trackActivity);
         System.out.println("New User \"" + testUser.getFullName() + "\" created.\n");
