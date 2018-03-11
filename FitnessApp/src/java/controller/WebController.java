@@ -5,10 +5,14 @@
  */
 package controller;
 
+import javax.servlet.http.HttpServlet;
+
 /**
  *
  * @author jxy13mmu
  */
-public class WebController {
+public class WebController extends HttpServlet{
+    
+    
     
 }

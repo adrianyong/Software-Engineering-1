@@ -23,7 +23,7 @@ public class SystemController {
             users = PersistanceController.loadUsers();
             System.out.println("All users loaded successfully.");
         } catch (Exception e) {
-            System.out.println("Error: unable to load users, they may not exist!");
+            System.out.println("Error: una&ble to load users, they may not exist!");
         }
         
         try {
