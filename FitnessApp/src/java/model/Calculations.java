@@ -11,17 +11,39 @@ public class Calculations {
     double BMR;
     double userCalories;
     
-    void BMR(){
-        //returns type double and calculates basic metabolic rate
+    public double BMR(double mass, double height, int age, char sex){
+        
+        //For mass(kg), height(m), age(years)
+        
+        height = height / 100;
+        
+        if(sex == 'm'){
+            BMR = (13.397 * mass) + (4.799 * height) - (5.677 * age) + 88.362;
+        }
+        
+        if(sex == 'f'){
+            BMR = (9.247 * mass) + (3.098 * height) - (4.330 * age) + 447.593;
+        }
+        
+        return BMR;
     }
     
-    void BMI(){
-        //returns type double and calculates body mass index
+    public double BMI(double mass, double height){
+        
+            //When mass(kg) height(m)
+            BMI = mass / (height * height);
+            
+            /** BMI for lbs and inches
+            BMI = (mass / (height * height)) * 703
+            **/
+            
+        return BMI;
     }
     
-    void calcCalories(){
-        //returns type List<double> of calculated calorie allowance per day 
-        //THIS CLASS NEEDS TO ALSO KNOW THE GOAL SO THAT IT CAN USE THIS IN 
-        //CALCULATING THE AMOUNT OF CALS ALLOWED PER DAY 
+    public double calcMaintCalories(double BMR , double activityLevel){
+       
+            userCalories = BMR * activityLevel;
+        
+        return userCalories;
     }
 }
