@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import model.HealthData;
 import model.User;
-
 
 public class SystemController {
 
@@ -52,6 +53,11 @@ public class SystemController {
         }*/
         //PersistanceController.saveHealthData(users);
         
+    }
+    
+    public static List<User> getUsers() throws IOException, FileNotFoundException, org.json.simple.parser.ParseException, ParseException{
+        List<User> users = PersistanceController.loadUsers();
+        return users;
     }
     
     public static List<User> createTestUsers() throws ParseException{

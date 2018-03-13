@@ -8,8 +8,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head><title>First JSP</title></head>
+<html>
+    <head>
+    <title>Example</title>
+    </head>
     <body>
-        
+        <h4>Click here to go to <a href="WebController">Page</a></h4>
+        <%
+            String redirectURL = "WebController";
+            response.sendRedirect(redirectURL);
+        %>
     </body>
-</html>
+</html> 
