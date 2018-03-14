@@ -44,14 +44,12 @@ public class SystemController {
             }
         }*/
         
-        /*for(User u : users){
-            if(u.getDataList().isEmpty()){
-                u.updateData(70, 180, "NoExercise");
-                u.updateData(80, 170, "ModerateExercise");
-                u.updateData(60, 200, "LightExercise");
-            }
-        }*/
-        //PersistanceController.saveHealthData(users);
+        for(User u : users){
+            u.updateData(70, 180, "NoExercise");
+            u.updateData(80, 170, "ModerateExercise");
+            u.updateData(60, 200, "LightExercise");
+        }
+        PersistanceController.saveHealthData(users);
         
     }
     

@@ -54,10 +54,16 @@ public class WebController extends HttpServlet {
                 out.println("<h4><a href=\"/FitnessApp\">Return</a></h4>");
             }
             
+            out.println("<br>");
             for(User u : users){
                 out.println("<h3>" + u.getFullName() + "</h3>");
                 out.println("<h4>" + u.getEmail() + "</h4>");
+                out.println("<h4><a href=\"AddData?email=" + u.getEmail() + "\">Add Data</a> <a href=\"ViewData?email=" + u.getEmail() + "\">View Data</a></h4>");
+                out.println("<br>");
             }
+            
+            out.println("<h4><a href=\"userForm.jsp\">New User</a></h4>");
+            out.println("<br>");
             
             out.println("<h4><a href=\"/FitnessApp\">Return</a></h4>");
             out.println("</div>");

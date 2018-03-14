@@ -17,6 +17,10 @@
         <div class=col-auto>
         <h4><a href="WebController">Click here to go to view users</a></h4>
         <h4><a href="userForm.jsp">Click here to go to add new user</a></h4>
-        </div>
+        <%
+            String redirectURL = "WebController";
+            response.sendRedirect(redirectURL);
+        %>
+       </div>
     </body>
 </html> 

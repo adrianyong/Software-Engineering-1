@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class=col-auto>
-        <form action="${pageContext.request.contextPath}/NewUser" method="post">
+        <form action="NewUser" method="post">
             <p>Email       
                 <input type="text" name="email" /></p>
             
@@ -28,7 +28,7 @@
                 <input type="text" name="lastName" /></p>
 
             <p>Date of Birth
-                <input type="date" name="dob" required pattern="[0-9]{4}/[0-9]{2}-[0-9]{2}"></p>
+                <input type="date" name="dob"></p>
             
             <p>Sex      
                 <input type="radio" name="sex" value="Male" /> Male

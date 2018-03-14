@@ -34,7 +34,7 @@ import org.json.simple.parser.ParseException;
 public class PersistanceController {
     
     public static void saveUsers(List<User> users) throws FileNotFoundException, IOException{
-        PrintWriter pw = new PrintWriter(new FileWriter("userdata.json"));
+        PrintWriter pw = new PrintWriter(new FileWriter("U:/Documents/Software Engineering/FitnessApp/userdata.json"));
         JSONObject jo = new JSONObject();
         JSONArray ja = new JSONArray();
         
@@ -69,7 +69,7 @@ public class PersistanceController {
     }
 
     public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
-        Object obj = new JSONParser().parse(new FileReader("userdata.json"));
+        Object obj = new JSONParser().parse(new FileReader("U:/Documents/Software Engineering/FitnessApp/userdata.json"));
         JSONObject jo = (JSONObject) obj;
         JSONArray ja = (JSONArray) jo.get("users");
         List<User> users = new ArrayList();
@@ -120,7 +120,7 @@ public class PersistanceController {
     
     public static void saveHealthData(List<User> users) throws FileNotFoundException, IOException{
         for(User u : users){
-            File file = new File("users/" + u.getEmail() + ".json");
+            File file = new File("U:/Documents/Software Engineering/FitnessApp/users/" + u.getEmail() + ".json");
             file.createNewFile();
             PrintWriter pw = new PrintWriter(file);
             JSONObject jo = new JSONObject();
@@ -153,7 +153,7 @@ public class PersistanceController {
 
     public static void loadHealthData(List<User> users) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
         for(User u : users){
-            Object obj = new JSONParser().parse(new FileReader("users/" + u.getEmail() + ".json"));
+            Object obj = new JSONParser().parse(new FileReader("U:/Documents/Software Engineering/FitnessApp/" + u.getEmail() + ".json"));
             JSONObject jo = (JSONObject) obj;
             JSONArray ja = (JSONArray) jo.get("data");
 
@@ -167,7 +167,6 @@ public class PersistanceController {
             while (itr2.hasNext()) 
             {
                 Iterator<Map.Entry> itr1 = ((Map) itr2.next()).entrySet().iterator();
-                String[] userData = new String[8];
 
                 while (itr1.hasNext()) {
                 Map.Entry pair = itr1.next();
@@ -188,4 +187,73 @@ public class PersistanceController {
             System.out.println("User \"" + u.getFullName() + "\" data loaded");
         }
     }
+    
+    public static void saveHealthDataEmail(String email, double weight, double height, String activityLevel) throws FileNotFoundException, IOException, ParseException, java.text.ParseException{
+        File file = new File("U:/Documents/Software Engineering/FitnessApp/users/" + email + ".json");
+        file.createNewFile();
+        PrintWriter pw = new PrintWriter(file);
+        JSONObject jo = new JSONObject();
+        JSONArray ja = new JSONArray();
+
+        List<HealthData> healthData = loadHealthDataEmail(email);
+        healthData.add(new HealthData(weight, height, activityLevel));
+        
+        for(HealthData hd : healthData){
+            Map m = new LinkedHashMap();
+
+            m.put("weight", hd.getWeight());
+            m.put("height", hd.getHeight());
+            m.put("activityLevel", hd.getActivityLevel().toString());
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+            String dateTime = formatter.format(hd.getDateTime());
+            m.put("dateTime", dateTime);
+
+            ja.add(m);
+
+        jo.put("data", ja);
+
+        pw.write(jo.toJSONString());
+
+        pw.flush();
+        pw.close();
+        }
+    }
+    
+    public static List<HealthData> loadHealthDataEmail(String email) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
+        Object obj = new JSONParser().parse(new FileReader("U:/Documents/Software Engineering/FitnessApp/" + email + ".json"));
+        JSONObject jo = (JSONObject) obj;
+        JSONArray ja = (JSONArray) jo.get("data");
+
+        Iterator itr2 = ja.iterator();
+
+        String weight = null;
+        String height = null;
+        String activityLevel = null;
+        String dateTime = null;
+
+        List<HealthData> healthData = new ArrayList();
+        
+        while (itr2.hasNext()) 
+        {
+            Iterator<Map.Entry> itr1 = ((Map) itr2.next()).entrySet().iterator();
+
+            while (itr1.hasNext()) {
+            Map.Entry pair = itr1.next();
+            if("weight".equals(pair.getKey().toString()))
+                weight = pair.getValue().toString();
+            else if("height".equals(pair.getKey().toString()))
+                height = pair.getValue().toString();
+            else if("activityLevel".equals(pair.getKey().toString()))
+                activityLevel = pair.getValue().toString();
+            else if("dateTime".equals(pair.getKey().toString()))
+                dateTime = pair.getValue().toString();
+            }
+
+            healthData.add(new HealthData(Double.parseDouble(weight), Double.parseDouble(height), activityLevel, dateTime));
+        }
+        
+        return healthData;
+    }
+        
 }
