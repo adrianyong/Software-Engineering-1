@@ -4,9 +4,17 @@
         <servlet-name>WebController</servlet-name>
         <servlet-class>controller.WebController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NewUser</servlet-name>
+        <servlet-class>view.NewUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WebController</servlet-name>
         <url-pattern>/WebController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewUser</servlet-name>
+        <url-pattern>/NewUser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

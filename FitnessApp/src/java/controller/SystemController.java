@@ -24,7 +24,7 @@ public class SystemController {
             users = PersistanceController.loadUsers();
             System.out.println("All users loaded successfully.");
         } catch (Exception e) {
-            System.out.println("Error: una&ble to load users, they may not exist!");
+            System.out.println("Error: unable to load users, they may not exist!");
         }
         
         try {
@@ -34,7 +34,7 @@ public class SystemController {
             System.out.println("Error: unable to load user data, it may not exist!");
         }
         
-        if(users.isEmpty()){
+        /*if(users.isEmpty()){
             createTestUsers();
             try {
                 PersistanceController.saveUsers(users);
@@ -42,7 +42,7 @@ public class SystemController {
             } catch (Exception e){
                 System.out.println("Error: unable to save users!");
             }
-        }
+        }*/
         
         /*for(User u : users){
             if(u.getDataList().isEmpty()){
@@ -58,6 +58,15 @@ public class SystemController {
     public static List<User> getUsers() throws IOException, FileNotFoundException, org.json.simple.parser.ParseException, ParseException{
         List<User> users = PersistanceController.loadUsers();
         return users;
+    }
+    
+    public static void addUser(User user) throws IOException, FileNotFoundException, org.json.simple.parser.ParseException, ParseException{
+        List<User> users = PersistanceController.loadUsers();
+        System.out.println(users + "loaded");
+        users.add(user);
+        System.out.println(user + "added");
+        PersistanceController.saveUsers(users);
+        System.out.println(users + "saved");
     }
     
     public static List<User> createTestUsers() throws ParseException{

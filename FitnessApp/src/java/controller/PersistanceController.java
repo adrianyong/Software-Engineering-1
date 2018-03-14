@@ -9,11 +9,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,9 +34,7 @@ import org.json.simple.parser.ParseException;
 public class PersistanceController {
     
     public static void saveUsers(List<User> users) throws FileNotFoundException, IOException{
-        File file = new File("userdata.json");
-        file.createNewFile();
-        PrintWriter pw = new PrintWriter(file);
+        PrintWriter pw = new PrintWriter(new FileWriter("userdata.json"));
         JSONObject jo = new JSONObject();
         JSONArray ja = new JSONArray();
         

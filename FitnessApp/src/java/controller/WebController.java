@@ -40,21 +40,27 @@ public class WebController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>User Display</title>");            
+            out.println("<title>User List</title>");      
+            out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.css\">");
             out.println("</head>");
             out.println("<body>");
-            
+            out.println("<div class=col-auto>");
             List<User> users = null;
             try {
-                users = SystemController.createTestUsers();
-            } catch (ParseException ex) {
-                out.println("Error: unable to load users");
+                users = SystemController.getUsers();
+                out.println("<h2>All users loaded successfully.</h2>");
+            } catch (Exception ex) {
+                out.println("<h2>Error: unable to load users, they may not exist!</h2>");
+                out.println("<h4><a href=\"/FitnessApp\">Return</a></h4>");
             }
             
             for(User u : users){
-                out.println("<h1>Hello, " + u.toString() + "</h1>");
+                out.println("<h3>" + u.getFullName() + "</h3>");
+                out.println("<h4>" + u.getEmail() + "</h4>");
             }
             
+            out.println("<h4><a href=\"/FitnessApp\">Return</a></h4>");
+            out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         }
