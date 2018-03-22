@@ -34,7 +34,7 @@ import org.json.simple.parser.ParseException;
 public class PersistanceController {
     
     public static void saveUsers(List<User> users) throws FileNotFoundException, IOException{
-        PrintWriter pw = new PrintWriter(new FileWriter("U:/Documents/Software Engineering/FitnessApp/userdata.json"));
+        PrintWriter pw = new PrintWriter(new FileWriter("userdata.json"));
         JSONObject jo = new JSONObject();
         JSONArray ja = new JSONArray();
         
@@ -69,7 +69,7 @@ public class PersistanceController {
     }
 
     public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
-        Object obj = new JSONParser().parse(new FileReader("U:/Documents/Software Engineering/FitnessApp/userdata.json"));
+        Object obj = new JSONParser().parse(new FileReader("userdata.json"));
         JSONObject jo = (JSONObject) obj;
         JSONArray ja = (JSONArray) jo.get("users");
         List<User> users = new ArrayList();
@@ -120,7 +120,7 @@ public class PersistanceController {
     
     public static void saveHealthData(List<User> users) throws FileNotFoundException, IOException{
         for(User u : users){
-            File file = new File("U:/Documents/Software Engineering/FitnessApp/users/" + u.getEmail() + ".json");
+            File file = new File("users/" + u.getEmail() + ".json");
             file.createNewFile();
             PrintWriter pw = new PrintWriter(file);
             JSONObject jo = new JSONObject();
@@ -153,7 +153,7 @@ public class PersistanceController {
 
     public static void loadHealthData(List<User> users) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
         for(User u : users){
-            Object obj = new JSONParser().parse(new FileReader("U:/Documents/Software Engineering/FitnessApp/" + u.getEmail() + ".json"));
+            Object obj = new JSONParser().parse(new FileReader("users/" + u.getEmail() + ".json"));
             JSONObject jo = (JSONObject) obj;
             JSONArray ja = (JSONArray) jo.get("data");
 
@@ -189,7 +189,7 @@ public class PersistanceController {
     }
     
     public static void saveHealthDataEmail(String email, double weight, double height, String activityLevel) throws FileNotFoundException, IOException, ParseException, java.text.ParseException{
-        File file = new File("U:/Documents/Software Engineering/FitnessApp/users/" + email + ".json");
+        File file = new File("users/" + email + ".json");
         file.createNewFile();
         PrintWriter pw = new PrintWriter(file);
         JSONObject jo = new JSONObject();
@@ -221,7 +221,7 @@ public class PersistanceController {
     }
     
     public static List<HealthData> loadHealthDataEmail(String email) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
-        Object obj = new JSONParser().parse(new FileReader("U:/Documents/Software Engineering/FitnessApp/" + email + ".json"));
+        Object obj = new JSONParser().parse(new FileReader("users/" + email + ".json"));
         JSONObject jo = (JSONObject) obj;
         JSONArray ja = (JSONArray) jo.get("data");
 
