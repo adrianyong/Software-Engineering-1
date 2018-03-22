@@ -18,7 +18,6 @@ public class Goal {
     }
     
     int getTimeSpan(){
-        
         return timeSpan;
         //return int of time span allowed
     }
