@@ -10,17 +10,31 @@
 <html>
 <html>
     <head>
-    <title>Menu</title>
+    <title>Home</title>   
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     </head>
     <body>
-        <div class=col-auto>
-        <h4><a href="WebController">Click here to go to view users</a></h4>
-        <h4><a href="userForm.jsp">Click here to go to add new user</a></h4>
-        <%
-            String redirectURL = "WebController";
-            response.sendRedirect(redirectURL);
-        %>
-       </div>
+        <div class="jumbotron text-center bg-success">
+        <h1>Front page</h1>
+        <p>test front page</p> 
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>New User Creation</h3>
+              <p><a href="userLogin.jsp" class="btn btn-info" role="button">Link Button</a></p>
+            </div>
+            <div class="col-sm-4">
+              <h3>View Users</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+            </div>
+            <div class="col-sm-4">
+              <h3>Log data</h3>        
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+            </div>
+          </div>
+        </div>
+
     </body>
 </html> 

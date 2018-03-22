@@ -32,48 +32,27 @@ public class WebController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>User List</title>");      
-            out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.css\">");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<div class=col-auto>");
-            List<User> users = null;
-            try {
-                users = SystemController.getUsers();
-                out.println("<h2>All users loaded successfully.</h2>");
-            } catch (Exception ex) {
-                out.println("<h2>Error: unable to load users, they may not exist!</h2>");
-                
-                out.println("<h4><a href=\"userForm.jsp\">New User</a></h4>");
-                out.println("<br>");
-                out.println("<h4><a href=\"/FitnessApp\">Return</a></h4>");
-            }
-            
-            out.println("<br>");
-            for(User u : users){
-                out.println("<h3>" + u.getFullName() + "</h3>");
-                out.println("<h4>" + u.getEmail() + "</h4>");
-                out.println("<h4><a href=\"AddData?email=" + u.getEmail() + "\">Add Data</a> <a href=\"ViewData?email=" + u.getEmail() + "\">View Data</a></h4>");
-                out.println("<br>");
-            }
-            
-            out.println("<h4><a href=\"userForm.jsp\">New User</a></h4>");
-            out.println("<br>");
-            
-            out.println("<h4><a href=\"/FitnessApp\">Return</a></h4>");
-            out.println("</div>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+        String formType = request.getParameter("formType");
+        switch(formType){
+        case "register":
+            String firstName = request.getParameter("firstName");
+            System.out.println("Yo this is a registration");
+            request.setAttribute("firstName",firstName);
+            request.setAttribute("messageType","Success");
+            request.setAttribute("message","User created successfully");
+        { 
+            try {
+                request.getRequestDispatcher("welcome.jsp").forward(request, response);
+            } catch (Exception ex) {
+                System.out.println("Error");
+            }
+        }
+            break;
+      }
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
