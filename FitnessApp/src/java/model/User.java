@@ -17,29 +17,34 @@ public class User {
     private String firstName;
     private String lastName;
     private Date dob;
-    private final Sex bioSex;
+    private final Sex sex;
+    private final Height height;
+    private final Weight weight;
     private Goal goal;
-    private boolean isMetric;
     private boolean isTrackingActivity;
     
     private List<HealthData> dataList;
     
     public static enum Sex{Male, Female}
+    public static enum Height{cm, feet}
+    public static enum Weight{kg, stone, pound}
     
-    public User(String email, String password, String firstName, String lastName, Date dob, Sex sex, boolean isMetric, boolean isTrackingActivity){
+    public User(String email, String password, String firstName, String lastName, Date dob, Sex sex, Height height, Weight weight, boolean isTrackingActivity){
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
-        this.bioSex = sex;
-        this.isMetric = isMetric;
+        this.sex = sex;
+        this.height = height;
+        this.weight = weight;
+        
         this.isTrackingActivity = isTrackingActivity;
         
         this.dataList = new ArrayList();
     }
     
-    public User(String email, String password, String firstName, String lastName, String dobs, String sexs, boolean isMetric, boolean isTrackingActivity) throws ParseException{
+    public User(String email, String password, String firstName, String lastName, String dobs, String sexs, String heights, String weights, boolean isTrackingActivity) throws ParseException{
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -48,14 +53,16 @@ public class User {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         this.dob = formatter.parse(dobs);
         
-        this.bioSex = Sex.valueOf(sexs);
-        this.isMetric = isMetric;
+        this.sex = Sex.valueOf(sexs);
+        this.height = Height.valueOf(heights);
+        this.weight = Weight.valueOf(weights);
+        
         this.isTrackingActivity = isTrackingActivity;
         
         this.dataList = new ArrayList();
     }
     
-    public void updateData(double weight, double height, String activityLevel){
+    /*public void updateData(double weight, double height, String activityLevel){
         if(!isMetric){
             weight = Conversions.weightLbsToKG(weight);
             height = Conversions.heightToCM(height);
@@ -69,7 +76,7 @@ public class User {
             height = Conversions.heightToCM(height);
         }
         dataList.add(new HealthData(weight, height, activityLevel, dateTime));
-    }
+    }*/
     
     public boolean login(String email, String password){
         return this.email.equals(email) && this.password.equals(password);
@@ -132,7 +139,7 @@ public class User {
     }
     
     public Sex getSex(){
-        return bioSex;
+        return sex;
     }
     
     public List<HealthData> getDataList(){
@@ -143,13 +150,13 @@ public class User {
         return goal;
     }
     
-    public boolean isMetric(){
+    /*public boolean isMetric(){
         return isMetric;
     }
     
     public void setMetricPreference(boolean isMetric){
         this.isMetric = isMetric;
-    }
+    }*/
     
     public boolean isTrackingActivity(){
         return isTrackingActivity;
@@ -161,6 +168,20 @@ public class User {
     
     @Override
     public String toString(){
-        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + bioSex + "," + isMetric + "," + isTrackingActivity;
+        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + getHeight() + "," + getWeight() + "," + isTrackingActivity;
+    }
+
+    /**
+     * @return the height
+     */
+    public Height getHeight() {
+        return height;
+    }
+
+    /**
+     * @return the weight
+     */
+    public Weight getWeight() {
+        return weight;
     }
 }

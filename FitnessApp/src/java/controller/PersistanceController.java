@@ -51,8 +51,9 @@ public class PersistanceController {
             m.put("dob", dateOfBirth);
 
             m.put("sex", u.getSex().toString());
+            m.put("height", u.getHeight().toString());
+            m.put("weight", u.getWeight().toString());
 
-            m.put("metric", u.isMetric());
             m.put("tracking", u.isTrackingActivity());
 
             ja.add(m);
@@ -68,7 +69,7 @@ public class PersistanceController {
         pw.close();
     }
 
-    public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
+    /*public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
         Object obj = new JSONParser().parse(new FileReader("userdata.json"));
         JSONObject jo = (JSONObject) obj;
         JSONArray ja = (JSONArray) jo.get("users");
@@ -254,6 +255,6 @@ public class PersistanceController {
         }
         
         return healthData;
-    }
+    }*/
         
 }

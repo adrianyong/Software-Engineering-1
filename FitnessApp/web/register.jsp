@@ -20,12 +20,45 @@
                 <input type="hidden" name="formType" value="register">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+                
                 <label for="firstName">First Name: </label>
                 <input type="input" class="form-control" id="firstName" placeholder="Enter first name" name="firstName">
+                
                 <label for="lastName">Last Name: </label>
                 <input type="input" class="form-control" id="lastName" placeholder="Enter last name" name="lastName">
+                
+                <label for="dob">Date of Birth: </label>
+                <input type="date" class="form-control" id="dob" placeholder="Enter date of birth" name="dob">
+                
+                <h4>Sex</h4>
+                <label for="sex1">Male </label>
+                <input type="radio" class="form-control" id="sex1" name="sex" value="Male">
+                <label for="sex1">Female </label>
+                <input type="radio" class="form-control" id="sex2" name="sex" value="Female">
+                
+                <h4>Height Preferences</h4>
+                <label for="heightPref1">cm </label>
+                <input type="radio" class="form-control" id="heightPref1" name="height" value="cm">
+                <label for="heightPref2">feet </label>
+                <input type="radio" class="form-control" id="heightPref2" name="height" value="feet">
+                
+                <h4>Weight Preferences</h4>
+                <label for="weightPref1">kg </label>
+                <input type="radio" class="form-control" id="weightPref1" name="weight" value="kg">
+                <label for="weightPref2">stone </label>
+                <input type="radio" class="form-control" id="weightPref2" name="weight" value="stone">
+                <label for="weightPref3">pound </label>
+                <input type="radio" class="form-control" id="weightPref3" name="weight" value="pound">
+                
+                <h4>Would you like to Track Activity?</h4>
+                <label for="tracking1">yes </label>
+                <input type="radio" class="form-control" id="tracking1" name="tracking" value="True">
+                <label for="tracking2">no </label>
+                <input type="radio" class="form-control" id="tracking2" name="tracking" value="False">
+                
                 <div class="form-check">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
