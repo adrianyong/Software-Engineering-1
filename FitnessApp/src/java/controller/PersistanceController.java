@@ -18,6 +18,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.HealthData;
 
 import model.User;
@@ -33,8 +35,13 @@ import org.json.simple.parser.ParseException;
  */
 public class PersistanceController {
     
-    public static void saveUsers(List<User> users) throws FileNotFoundException, IOException{
-        PrintWriter pw = new PrintWriter(new FileWriter("userdata.json"));
+    public static void saveUsers(List<User> users){
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileWriter("userdata.json"));
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO SAVE USERS");
+        }
         JSONObject jo = new JSONObject();
         JSONArray ja = new JSONArray();
         
@@ -68,9 +75,14 @@ public class PersistanceController {
         pw.flush();
         pw.close();
     }
-
-    /*public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
-        Object obj = new JSONParser().parse(new FileReader("userdata.json"));
+    
+    public static List<User> loadUsers(){
+        Object obj = null;
+        try {
+            obj = new JSONParser().parse(new FileReader("userdata.json"));
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
+        }
         JSONObject jo = (JSONObject) obj;
         JSONArray ja = (JSONArray) jo.get("users");
         List<User> users = new ArrayList();
@@ -87,7 +99,8 @@ public class PersistanceController {
             String password = null;
             String dob = null;
             String sex = null;
-            boolean metric = true;
+            String height = null;
+            String weight = null;
             boolean tracking = false;
             
             while (itr1.hasNext()) {
@@ -104,13 +117,20 @@ public class PersistanceController {
                     dob = pair.getValue().toString();
                 else if("sex".equals(pair.getKey().toString()))
                     sex = pair.getValue().toString();
-                else if("metric".equals(pair.getKey().toString()))
-                    metric = Boolean.parseBoolean(pair.getValue().toString());
+                else if("height".equals(pair.getKey().toString()))
+                    height = pair.getValue().toString();
+                else if("weight".equals(pair.getKey().toString()))
+                    weight = pair.getValue().toString();
                 else if("tracking".equals(pair.getKey().toString()))
                     tracking = Boolean.parseBoolean(pair.getValue().toString());
             }
             
-            User user = new User(email, password, firstName, lastName, dob, sex, metric, tracking);
+            User user = null;
+            try {
+                user = new User(email, password, firstName, lastName, dob, sex, height, weight, tracking);
+            } catch (java.text.ParseException ex) {
+                System.out.println("ERROR: UNABLE TO LOAD AND INSTIANIATE NEW USER");
+            }
             users.add(user);
            
             System.out.println("User \"" + user.getFullName() + "\" loaded");
@@ -119,6 +139,21 @@ public class PersistanceController {
         return users;
     }
     
+    public static void saveUser(User u){
+        List<User> users = loadUsers();
+        users.add(u);
+        saveUsers(users);
+    }
+    
+    public boolean matchUser(String email){
+        //load usae methodh here
+        //if(user.!existsinloaded()){
+        //    return true;
+        //}
+        return false;
+    }
+    
+    /*
     public static void saveHealthData(List<User> users) throws FileNotFoundException, IOException{
         for(User u : users){
             File file = new File("users/" + u.getEmail() + ".json");

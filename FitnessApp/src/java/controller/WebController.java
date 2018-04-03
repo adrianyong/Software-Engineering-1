@@ -51,7 +51,7 @@ public class WebController extends HttpServlet {
             try {
                 dobd = formatter.parse(dobs);
             } catch (ParseException ex) {
-                System.out.println("Error with date reformatting");
+                System.out.println("ERROR: INCOMPATIBLE DATE FORMAT");
             }
             formatter = new SimpleDateFormat("dd/MM/1997");
             String dob = formatter.format(dobd);
@@ -64,38 +64,26 @@ public class WebController extends HttpServlet {
             System.out.println(email + ", " + password + ", " + firstName + ", " + lastName + ", " + dob + ", " + sex + ", " + height + ", " + weight + ", " + tracking);
             
             User user = null;
-            {
-                try {
-                    user = new User(email, password, firstName, lastName, dob, sex, height, weight, Boolean.parseBoolean(tracking));
-                } catch (ParseException ex) {
-                    System.out.println("Error creating user");
-                }
+            try {
+                user = new User(email, password, firstName, lastName, dob, sex, height, weight, Boolean.parseBoolean(tracking));
+            } catch (ParseException ex) {
+                System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER");
             }
             
             System.out.println(user);
+            PersistanceController.saveUser(user);
             
-            ArrayList<User> users = new ArrayList();
-            users.add(user);
-            
-            {
-                try {
-                    PersistanceController.saveUsers(users);
-                } catch (IOException ex) {
-                    System.out.println("Error saving user");
-                }
-            }
-            
-            /*System.out.println("Yo this is a registration");
+            System.out.println("Yo this is a registration");
             request.setAttribute("firstName",firstName);
             request.setAttribute("messageType","Success");
             request.setAttribute("message","User created successfully");
-            { 
-                try {
-                    request.getRequestDispatcher("welcome.jsp").forward(request, response);
-                } catch (Exception ex) {
-                    System.out.println("Error");
-                }
-            }*/
+            
+            try {
+                request.getRequestDispatcher("welcome.jsp").forward(request, response);
+            } catch (Exception ex) {
+                System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE");
+            }
+            
             break;
       }
     }

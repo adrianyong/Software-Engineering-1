@@ -23,6 +23,8 @@ public class User {
     private Goal goal;
     private boolean isTrackingActivity;
     
+    private boolean admin;
+    
     private List<HealthData> dataList;
     
     public static enum Sex{Male, Female}
@@ -38,8 +40,9 @@ public class User {
         this.sex = sex;
         this.height = height;
         this.weight = weight;
-        
         this.isTrackingActivity = isTrackingActivity;
+        
+        this.admin = false;
         
         this.dataList = new ArrayList();
     }
@@ -168,7 +171,7 @@ public class User {
     
     @Override
     public String toString(){
-        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + getHeight() + "," + getWeight() + "," + isTrackingActivity;
+        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + height+ "," + weight + "," + isTrackingActivity + "," + admin;
     }
 
     /**
