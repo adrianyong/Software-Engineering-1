@@ -11,7 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -79,7 +82,9 @@ public class PersistanceController {
     public static List<User> loadUsers(){
         Object obj = null;
         try {
-            obj = new JSONParser().parse(new FileReader("userdata.json"));
+            InputStream inputStream = PersistanceController.class.getResourceAsStream("userdata.json");
+            Reader reader = new InputStreamReader(inputStream, "UTF-8");
+            obj = new JSONParser().parse(reader);
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
         }
@@ -145,12 +150,18 @@ public class PersistanceController {
         saveUsers(users);
     }
     
-    public boolean matchUser(String email){
-        //load usae methodh here
-        //if(user.!existsinloaded()){
-        //    return true;
-        //}
+    public static boolean matchUser(String email){
+        for(User u : loadUsers())
+            if(u.getEmail().equals(email))
+                return true;
         return false;
+    }
+    
+    public static User getUser(String email, String password){
+        for(User u : loadUsers())
+            if(u.getEmail().equals(email) && u.getPassword().equals(password))
+                return u;
+        return null;
     }
     
     /*

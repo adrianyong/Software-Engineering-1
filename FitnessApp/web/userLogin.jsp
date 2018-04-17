@@ -29,7 +29,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-            <p><a href="index.jsp" class="btn btn-info" role="button">Back Home dawg</a></p>
+            <p><a href="index.jsp" class="btn btn-info" role="button">Back Home</a></p>
             
             <p><a href="register.jsp" class="btn btn-info" role="button">Register New User</a></p>
         </div>

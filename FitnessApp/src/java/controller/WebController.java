@@ -40,6 +40,7 @@ public class WebController extends HttpServlet {
         String formType = request.getParameter("formType");
         switch(formType){
         case "register":
+            System.out.println("Form is asking for registration");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             String firstName = request.getParameter("firstName");
@@ -73,7 +74,6 @@ public class WebController extends HttpServlet {
             System.out.println(user);
             PersistanceController.saveUser(user);
             
-            System.out.println("Yo this is a registration");
             request.setAttribute("firstName",firstName);
             request.setAttribute("messageType","Success");
             request.setAttribute("message","User created successfully");
@@ -81,11 +81,32 @@ public class WebController extends HttpServlet {
             try {
                 request.getRequestDispatcher("welcome.jsp").forward(request, response);
             } catch (Exception ex) {
-                System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE");
+                System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER REGISTRATION");
             }
             
             break;
-      }
+        case "login":
+            System.out.println("Form is asking for login");
+            email = request.getParameter("email");
+            password = request.getParameter("password");
+            
+            user = null;
+            if(PersistanceController.matchUser(email)){
+                user = PersistanceController.getUser(email, password);
+            }
+            
+            firstName = user.getFirstName();
+            
+            request.setAttribute("firstName",firstName);
+            request.setAttribute("messageType","Success");
+            request.setAttribute("message","User created successfully");
+            
+            try {
+                request.getRequestDispatcher("welcome.jsp").forward(request, response);
+            } catch (Exception ex) {
+                System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER LOGIN");
+            }
+        }
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
