@@ -43,7 +43,7 @@ public class PersistanceController {
     public static void saveUsers(List<User> users){
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new FileWriter("userdata.json"));
+            pw = new PrintWriter(new FileWriter("WEB-INF/userdata.json"));
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO SAVE USERS");
         }
@@ -81,7 +81,7 @@ public class PersistanceController {
         pw.close();
     }
     
-    public static List<User> loadUsers(){
+    public static List<User> loadUsers(Reader reader){
         Object obj = null;
         try {
             obj = new JSONParser().parse(reader);
@@ -145,22 +145,24 @@ public class PersistanceController {
     }
     
     public static void saveUser(User u){
-        List<User> users = loadUsers();
+        /*List<User> users = loadUsers();
         users.add(u);
-        saveUsers(users);
+        saveUsers(users);*/
     }
     
     public static boolean matchUser(String email){
-        for(User u : loadUsers())
+        /*for(User u : loadUsers()){
             if(u.getEmail().equals(email))
                 return true;
+        }*/
         return false;
     }
     
     public static User getUser(String email, String password){
-        for(User u : loadUsers())
+        /*for(User u : loadUsers()){
             if(u.getEmail().equals(email) && u.getPassword().equals(password))
                 return u;
+        }*/
         return null;
     }
     
