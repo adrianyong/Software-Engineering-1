@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import model.HealthData;
 
 import model.User;
@@ -82,8 +84,6 @@ public class PersistanceController {
     public static List<User> loadUsers(){
         Object obj = null;
         try {
-            InputStream inputStream = PersistanceController.class.getResourceAsStream("userdata.json");
-            Reader reader = new InputStreamReader(inputStream, "UTF-8");
             obj = new JSONParser().parse(reader);
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");

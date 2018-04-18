@@ -4,6 +4,11 @@
     Author     : 100021268
 --%>
 
+<%@page import="java.io.Reader"%>
+<%@page import="java.io.InputStreamReader"%>
+<%@page import="org.apache.tomcat.util.http.fileupload.IOUtils"%>
+<%@page import="java.io.StringWriter"%>
+<%@page import="java.io.InputStream"%>
 <%@page import="controller.PersistanceController"%>
 <%@page import="model.User"%>
 <%@page import="java.util.List"%>
@@ -17,6 +22,13 @@
     </head>
     <body>
         <%
+            System.out.println("attempting test");
+            InputStream inputStream = application.getResourceAsStream("WEB-INF/userdata.json");
+            System.out.println("test result");
+            System.out.println(inputStream.available());
+            Reader reader = null;
+            reader = new InputStreamReader(inputStream, "UTF-8");
+            System.out.println(reader.toString());
             List<User> users = PersistanceController.loadUsers();
             for(User u : users){%>
                 <p> <%= u.toString()%> </p>
