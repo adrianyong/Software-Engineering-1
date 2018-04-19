@@ -43,7 +43,10 @@ public class PersistanceController {
     public static void saveUsers(List<User> users){
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new FileWriter("WEB-INF/userdata.json"));
+            new File("FitnessApp/").mkdir();
+            File userdata = new File("FitnessApp/userdata.json");
+            userdata.createNewFile();
+            pw = new PrintWriter(new FileWriter(userdata));
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO SAVE USERS");
         }
@@ -81,13 +84,16 @@ public class PersistanceController {
         pw.close();
     }
     
-    public static List<User> loadUsers(Reader reader){
+    public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException{
         Object obj = null;
-        try {
-            obj = new JSONParser().parse(reader);
-        } catch (Exception ex) {
-            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
-        }
+        //try {
+            new File("FitnessApp/").mkdir();
+            File userdata = new File("FitnessApp/userdata.json");
+            userdata.createNewFile();
+            obj = new JSONParser().parse(new FileReader(userdata));
+        //} catch (Exception ex) {
+        //    System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
+        //}
         JSONObject jo = (JSONObject) obj;
         JSONArray ja = (JSONArray) jo.get("users");
         List<User> users = new ArrayList();
@@ -145,24 +151,46 @@ public class PersistanceController {
     }
     
     public static void saveUser(User u){
-        /*List<User> users = loadUsers();
+        List<User> users;
+        try {
+            users = loadUsers();
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
+            users = new ArrayList();
+        }
         users.add(u);
-        saveUsers(users);*/
+        saveUsers(users);
     }
     
     public static boolean matchUser(String email){
-        /*for(User u : loadUsers()){
+        List<User> users;
+        try {
+            users = loadUsers();
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
+            return false;
+        }
+        
+        for(User u : users){
             if(u.getEmail().equals(email))
                 return true;
-        }*/
+        }
         return false;
     }
     
     public static User getUser(String email, String password){
-        /*for(User u : loadUsers()){
+        List<User> users;
+        try {
+            users = loadUsers();
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
+            return null;
+        }
+        
+        for(User u : users){
             if(u.getEmail().equals(email) && u.getPassword().equals(password))
                 return u;
-        }*/
+        }
         return null;
     }
     

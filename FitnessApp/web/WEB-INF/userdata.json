@@ -1,1 +1,15 @@
-{"users":[{"email":"bentownsend1997@gmail.com","password":"password","firstName":"Ben","lastName":"Townsend","dob":"16\/03\/1997","sex":"Male","metric":true,"tracking":false},{"email":"sophiecevrollo@gmail.com","password":"12345","firstName":"Sophie","lastName":"Rollo","dob":"05\/04\/1994","sex":"Female","metric":false,"tracking":true},{"email":"brazil.jdogg@gmail.com","password":"12345","firstName":"James","lastName":"Mason","dob":"10\/12\/1995","sex":"Male","metric":true,"tracking":true},{"email":"ayong104@gmail.com","password":"12345","firstName":"Adrian","lastName":"Yong","dob":"10\/04\/1997","sex":"Male","metric":true,"tracking":false}]}
+{
+    "users": [
+        {
+            "email": "bentownsend1997@gmail.com",
+            "password": "password",
+            "firstName": "Ben",
+            "lastName": "Townsend",
+            "dob": "16\/03\/1997",
+            "sex": "Male",
+            "height": "cm",
+            "weight": "kg",
+            "tracking": false
+        }
+    ]
+}

@@ -22,18 +22,15 @@
     </head>
     <body>
         <%
-            System.out.println("attempting test");
-            InputStream inputStream = application.getResourceAsStream("WEB-INF/userdata.json");
-            System.out.println("test result");
-            System.out.println(inputStream.available());
-            Reader reader = null;
-            reader = new InputStreamReader(inputStream, "UTF-8");
-            System.out.println(reader.toString());
-            List<User> users = PersistanceController.loadUsers();
-            for(User u : users){%>
+            try {
+                List<User> users = PersistanceController.loadUsers();
+                for(User u : users){%>
                 <p> <%= u.toString()%> </p>
-          <%}
+            <%}
+            }catch (Exception ex) { %>
+                <p>No users found</p>
+            <%}
         %>
-        <p><a href="index.jsp" class="btn btn-info" role="button">Back Home dawg</a></p>
+        <p><a href="index.jsp" class="btn btn-info" role="button">Back Home</a></p>
     </body>
 </html>
