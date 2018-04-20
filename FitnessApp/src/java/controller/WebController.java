@@ -79,7 +79,7 @@ public class WebController extends HttpServlet {
             request.setAttribute("message","User created successfully");
             
             try {
-                request.getRequestDispatcher("welcome.jsp").forward(request, response);
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
             } catch (Exception ex) {
                 System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER REGISTRATION");
             }
@@ -135,7 +135,7 @@ public class WebController extends HttpServlet {
             request.setAttribute("message","User login successful");
             
             try {
-                request.getRequestDispatcher("welcome.jsp").forward(request, response);
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
             } catch (Exception ex) {
                 System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER LOGIN");
             }
