@@ -163,6 +163,7 @@ public class PersistanceController {
     }
     
     public static boolean matchUser(String email){
+        System.out.println("Searching for email " + email);
         List<User> users;
         try {
             users = loadUsers();
@@ -172,13 +173,17 @@ public class PersistanceController {
         }
         
         for(User u : users){
-            if(u.getEmail().equals(email))
+            System.out.println("Now trying user " + u.getFullName());
+            if(u.getEmail().equals(email)){
+                System.out.println("Found at user " + u.getFullName());
                 return true;
+            }
         }
         return false;
     }
     
     public static User getUser(String email, String password){
+        System.out.println("Getting user with email " + email);
         List<User> users;
         try {
             users = loadUsers();
@@ -188,8 +193,16 @@ public class PersistanceController {
         }
         
         for(User u : users){
-            if(u.getEmail().equals(email) && u.getPassword().equals(password))
-                return u;
+            System.out.println("Now trying user " + u.getFullName());
+            System.out.println("Checking " + u.getEmail() + " against " + email);
+            if(u.getEmail().equals(email)){
+                System.out.println("Checking " + u.getPassword() + " against " + password);
+                if(u.getPassword().equals(password)){
+                    System.out.println("User found " + u.getFullName());
+                    return u;
+                }
+            }
+            System.out.println("User email not found");
         }
         return null;
     }

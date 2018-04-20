@@ -20,8 +20,8 @@
                 <input type="hidden" name="formType" value="login">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
                 <div class="form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" type="checkbox" name="remember"> Remember me
@@ -29,6 +29,17 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            
+            <%
+            String message = (String)request.getAttribute("message"); 
+            
+            if(message != null){
+            %>
+            <div class="alert alert-danger">
+                <strong>Error: </strong> <%= message%>
+            </div>
+            <%}%>
+            
             <p><a href="index.jsp" class="btn btn-info" role="button">Back Home</a></p>
             
             <p><a href="register.jsp" class="btn btn-info" role="button">Register New User</a></p>

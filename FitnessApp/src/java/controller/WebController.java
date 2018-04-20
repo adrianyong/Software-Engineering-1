@@ -86,20 +86,53 @@ public class WebController extends HttpServlet {
             
             break;
         case "login":
+            boolean error = false;
+            
             System.out.println("Form is asking for login");
             email = request.getParameter("email");
             password = request.getParameter("password");
             
+            if(email==""){
+                request.setAttribute("message","Please enter an email");
+                error=true;
+            }
+            else if(password==""){
+                request.setAttribute("message","Please enter a password");
+                error=true;
+            }
+            
             user = null;
-            if(PersistanceController.matchUser(email)){
+            if(PersistanceController.matchUser(email) && error==false){
+                //Email is correct
                 user = PersistanceController.getUser(email, password);
+                if(user == null){
+                    //Password is incorrect
+                    request.setAttribute("message","Wrong password");
+                    error=true;
+                }
+                else{
+                    //Password is correct
+                }
+            }
+            else if (error==false){
+                //Email is incorrect
+                request.setAttribute("message","Email not found");
+                error=true;
+            }
+            
+            if(error){
+                try {
+                    request.getRequestDispatcher("userLogin.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    System.out.println("ERROR: UNABLE TO RELOAD LOGIN PAGE");
+                }
             }
             
             firstName = user.getFirstName();
             
             request.setAttribute("firstName",firstName);
             request.setAttribute("messageType","Success");
-            request.setAttribute("message","User created successfully");
+            request.setAttribute("message","User login successful");
             
             try {
                 request.getRequestDispatcher("welcome.jsp").forward(request, response);
