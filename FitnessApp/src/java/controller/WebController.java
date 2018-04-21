@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.HealthData;
 import model.User;
 
 /**
@@ -50,11 +51,14 @@ public class WebController extends HttpServlet {
         case "logout":
             logout(request, response, httpSession);
             break;
+        case "weightHeight":
+            weightHeight(request, response, httpSession);
+            break;
         }
     }
     
     void registration(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
-        System.out.println("Form is asking for registration");
+        //System.out.println("Form is asking for registration");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String firstName = request.getParameter("firstName");
@@ -76,7 +80,7 @@ public class WebController extends HttpServlet {
         String weight = request.getParameter("weight");
         String tracking = request.getParameter("tracking");
 
-        System.out.println(email + ", " + password + ", " + firstName + ", " + lastName + ", " + dob + ", " + sex + ", " + height + ", " + weight + ", " + tracking);
+        //System.out.println(email + ", " + password + ", " + firstName + ", " + lastName + ", " + dob + ", " + sex + ", " + height + ", " + weight + ", " + tracking);
 
         User user = null;
         try {
@@ -85,8 +89,8 @@ public class WebController extends HttpServlet {
             System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER");
         }
 
-        System.out.println(user);
-        PersistanceController.saveUser(user);
+        //System.out.println(user);
+        PersistanceController.addUser(user);
 
         request.setAttribute("firstName",firstName);
         request.setAttribute("messageType","Success");
@@ -107,7 +111,7 @@ public class WebController extends HttpServlet {
     void login(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
         boolean error = false;
             
-        System.out.println("Form is asking for login");
+        //System.out.println("Form is asking for login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -170,6 +174,25 @@ public class WebController extends HttpServlet {
             request.getRequestDispatcher("userLogin.jsp").forward(request, response);
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO LOAD LOGIN PAGE AFTER LOGOUT");
+        }
+    }
+    
+    void weightHeight(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        String email = (String) httpSession.getAttribute("email");
+        
+        String weight = request.getParameter("weight");
+        String height = request.getParameter("height");
+        String activityLevel = request.getParameter("activityLevel");
+        
+        HealthData healthData = new HealthData(Double.parseDouble(weight), Double.parseDouble(height), activityLevel);
+
+        System.out.println(healthData);
+        PersistanceController.addHealthData(healthData, email);
+
+        try {
+            request.getRequestDispatcher("updateWeight.jsp").forward(request, response);
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
         }
     }
     

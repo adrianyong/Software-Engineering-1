@@ -24,9 +24,9 @@ public class HealthData {
         this.dateTime = new Date();
     }
     
-    public HealthData(double weightKG, double heightCM, String activityLevel, String dateTimes) throws ParseException{
-        this.weightKG = weightKG;
-        this.heightCM = heightCM;
+    public HealthData(String weightKG, String heightCM, String activityLevel, String dateTimes) throws ParseException{
+        this.weightKG = Double.parseDouble(weightKG);
+        this.heightCM = Double.parseDouble(heightCM);
         this.activityLevel = ActivityLevel.valueOf(activityLevel);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

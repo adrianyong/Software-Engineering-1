@@ -25,7 +25,7 @@ public class User {
     
     private boolean admin;
     
-    private List<HealthData> dataList;
+    //private List<HealthData> dataList;
     
     public static enum Sex{Male, Female}
     public static enum Height{cm, feet}
@@ -44,7 +44,7 @@ public class User {
         
         this.admin = false;
         
-        this.dataList = new ArrayList();
+        //this.dataList = new ArrayList();
     }
     
     public User(String email, String password, String firstName, String lastName, String dobs, String sexs, String heights, String weights, boolean isTrackingActivity) throws ParseException{
@@ -62,7 +62,7 @@ public class User {
         
         this.isTrackingActivity = isTrackingActivity;
         
-        this.dataList = new ArrayList();
+        //this.dataList = new ArrayList();
     }
     
     /*public void updateData(double weight, double height, String activityLevel){
@@ -145,9 +145,9 @@ public class User {
         return sex;
     }
     
-    public List<HealthData> getDataList(){
-        return dataList;
-    }
+//    public List<HealthData> getDataList(){
+//        return dataList;
+//    }
     
     public Goal getGoal(){
         return goal;

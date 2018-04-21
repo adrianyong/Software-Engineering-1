@@ -73,7 +73,7 @@ public class PersistanceController {
 
             ja.add(m);
 
-            System.out.println("User \"" + u.getFullName() + "\" saved");
+            //System.out.println("User \"" + u.getFullName() + "\" saved");
         }
         
         jo.put("users", ja);
@@ -86,14 +86,11 @@ public class PersistanceController {
     
     public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException{
         Object obj = null;
-        //try {
-            new File("FitnessApp/").mkdir();
-            File userdata = new File("FitnessApp/userdata.json");
-            userdata.createNewFile();
-            obj = new JSONParser().parse(new FileReader(userdata));
-        //} catch (Exception ex) {
-        //    System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
-        //}
+        new File("FitnessApp/").mkdir();
+        File userdata = new File("FitnessApp/userdata.json");
+        userdata.createNewFile();
+        obj = new JSONParser().parse(new FileReader(userdata));
+            
         JSONObject jo = (JSONObject) obj;
         JSONArray ja = (JSONArray) jo.get("users");
         List<User> users = new ArrayList();
@@ -144,18 +141,18 @@ public class PersistanceController {
             }
             users.add(user);
            
-            System.out.println("User \"" + user.getFullName() + "\" loaded");
+            //System.out.println("User \"" + user.getFullName() + "\" loaded");
         }
         
         return users;
     }
     
-    public static void saveUser(User u){
+    public static void addUser(User u){
         List<User> users;
         try {
             users = loadUsers();
         } catch (Exception ex) {
-            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
+            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\", POSSIBLY EMPTY FILE, INITIALISING");
             users = new ArrayList();
         }
         users.add(u);
@@ -163,7 +160,7 @@ public class PersistanceController {
     }
     
     public static boolean matchUser(String email){
-        System.out.println("Searching for email " + email);
+        //System.out.println("Searching for email " + email);
         List<User> users;
         try {
             users = loadUsers();
@@ -173,9 +170,9 @@ public class PersistanceController {
         }
         
         for(User u : users){
-            System.out.println("Now trying user " + u.getFullName());
+            //System.out.println("Now trying user " + u.getFullName());
             if(u.getEmail().equals(email)){
-                System.out.println("Found at user " + u.getFullName());
+                //System.out.println("Found at user " + u.getFullName());
                 return true;
             }
         }
@@ -183,7 +180,7 @@ public class PersistanceController {
     }
     
     public static User getUser(String email, String password){
-        System.out.println("Getting user with email " + email);
+        //System.out.println("Getting user with email " + email);
         List<User> users;
         try {
             users = loadUsers();
@@ -193,101 +190,33 @@ public class PersistanceController {
         }
         
         for(User u : users){
-            System.out.println("Now trying user " + u.getFullName());
-            System.out.println("Checking " + u.getEmail() + " against " + email);
+            //System.out.println("Now trying user " + u.getFullName());
+            //System.out.println("Checking " + u.getEmail() + " against " + email);
             if(u.getEmail().equals(email)){
-                System.out.println("Checking " + u.getPassword() + " against " + password);
+                //System.out.println("Checking " + u.getPassword() + " against " + password);
                 if(u.getPassword().equals(password)){
-                    System.out.println("User found " + u.getFullName());
+                    //System.out.println("User found " + u.getFullName());
                     return u;
                 }
             }
-            System.out.println("User email not found");
+            //System.out.println("User email not found");
         }
         return null;
     }
     
-    /*
-    public static void saveHealthData(List<User> users) throws FileNotFoundException, IOException{
-        for(User u : users){
-            File file = new File("users/" + u.getEmail() + ".json");
-            file.createNewFile();
-            PrintWriter pw = new PrintWriter(file);
-            JSONObject jo = new JSONObject();
-            JSONArray ja = new JSONArray();
-
-            for(HealthData hd : u.getDataList()){
-                Map m = new LinkedHashMap();
-
-                m.put("weight", hd.getWeight());
-                m.put("height", hd.getHeight());
-                m.put("activityLevel", hd.getActivityLevel().toString());
-
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-                String dateTime = formatter.format(hd.getDateTime());
-                m.put("dateTime", dateTime);
-
-                ja.add(m);
-            }
-
-            jo.put("data", ja);
-
-            pw.write(jo.toJSONString());
-
-            pw.flush();
-            pw.close();
-            
-            System.out.println("User \"" + u.getFullName() + "\" data saved");
+    public static void saveHealthData(List<HealthData> healthData, String email){
+        PrintWriter pw = null;
+        try {
+            new File("FitnessApp/users").mkdir();
+            File userdata = new File("FitnessApp/users/" + email + ".json");
+            userdata.createNewFile();
+            pw = new PrintWriter(new FileWriter(userdata));
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO OPEN \"" + email + ".json\" FILE TO SAVE DATA");
         }
-    }
-
-    public static void loadHealthData(List<User> users) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
-        for(User u : users){
-            Object obj = new JSONParser().parse(new FileReader("users/" + u.getEmail() + ".json"));
-            JSONObject jo = (JSONObject) obj;
-            JSONArray ja = (JSONArray) jo.get("data");
-
-            Iterator itr2 = ja.iterator();
-
-            String weight = null;
-            String height = null;
-            String activityLevel = null;
-            String dateTime = null;
-            
-            while (itr2.hasNext()) 
-            {
-                Iterator<Map.Entry> itr1 = ((Map) itr2.next()).entrySet().iterator();
-
-                while (itr1.hasNext()) {
-                Map.Entry pair = itr1.next();
-                if("weight".equals(pair.getKey().toString()))
-                    weight = pair.getValue().toString();
-                else if("height".equals(pair.getKey().toString()))
-                    height = pair.getValue().toString();
-                else if("activityLevel".equals(pair.getKey().toString()))
-                    activityLevel = pair.getValue().toString();
-                else if("dateTime".equals(pair.getKey().toString()))
-                    dateTime = pair.getValue().toString();
-            }
-
-                u.updateData(Double.parseDouble(weight), Double.parseDouble(height), activityLevel, dateTime);
-                
-            }
-            
-            System.out.println("User \"" + u.getFullName() + "\" data loaded");
-        }
-    }
-    
-    public static void saveHealthDataEmail(String email, double weight, double height, String activityLevel) throws FileNotFoundException, IOException, ParseException, java.text.ParseException{
-        File file = new File("users/" + email + ".json");
-        file.createNewFile();
-        PrintWriter pw = new PrintWriter(file);
         JSONObject jo = new JSONObject();
         JSONArray ja = new JSONArray();
 
-        List<HealthData> healthData = loadHealthDataEmail(email);
-        healthData.add(new HealthData(weight, height, activityLevel));
-        
         for(HealthData hd : healthData){
             Map m = new LinkedHashMap();
 
@@ -300,20 +229,39 @@ public class PersistanceController {
             m.put("dateTime", dateTime);
 
             ja.add(m);
+        }
 
-        jo.put("data", ja);
+        jo.put("healthData", ja);
 
         pw.write(jo.toJSONString());
 
         pw.flush();
         pw.close();
-        }
+
+        System.out.println("User \"" + email + "\" data saved");
     }
-    
-    public static List<HealthData> loadHealthDataEmail(String email) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
-        Object obj = new JSONParser().parse(new FileReader("users/" + email + ".json"));
+
+    public static List<HealthData> loadHealthData(String email){
+        List<HealthData> healthData = new ArrayList();
+        Object obj = null;
+        
+        new File("FitnessApp/users").mkdir();
+        File userdata = new File("FitnessApp/users/" + email + ".json");
+        try {
+            userdata.createNewFile();
+        } catch (IOException ex) {
+            System.out.println("ERROR: with creating file");
+        }
+        try {
+            obj = new JSONParser().parse(new FileReader(userdata));
+        } catch (IOException ex) {
+            System.out.println("ERROR: with reading");
+        } catch (ParseException ex) {
+            System.out.println("ERROR: wutg parsing");
+        }
+        
         JSONObject jo = (JSONObject) obj;
-        JSONArray ja = (JSONArray) jo.get("data");
+        JSONArray ja = (JSONArray) jo.get("healthData");
 
         Iterator itr2 = ja.iterator();
 
@@ -322,8 +270,6 @@ public class PersistanceController {
         String activityLevel = null;
         String dateTime = null;
 
-        List<HealthData> healthData = new ArrayList();
-        
         while (itr2.hasNext()) 
         {
             Iterator<Map.Entry> itr1 = ((Map) itr2.next()).entrySet().iterator();
@@ -338,12 +284,27 @@ public class PersistanceController {
                 activityLevel = pair.getValue().toString();
             else if("dateTime".equals(pair.getKey().toString()))
                 dateTime = pair.getValue().toString();
-            }
-
-            healthData.add(new HealthData(Double.parseDouble(weight), Double.parseDouble(height), activityLevel, dateTime));
         }
+            try {
+                healthData.add(new HealthData(weight, height, activityLevel, dateTime));
+            } catch (java.text.ParseException ex) {
+                System.out.println("ERROR: UNABLE TO LOAD DATA ENTRY INTO LIST");
+            }
+        }
+
+        System.out.println("User \"" + email + "\" data loaded");
         
         return healthData;
-    }*/
+    }
+    
+    public static void addHealthData(HealthData data, String email){
+        System.out.println("Adding new data for " + email);
         
+        List<HealthData> healthData;
+        healthData = loadHealthData(email);
+        healthData.add(data);
+        saveHealthData(healthData, email);
+        
+        System.out.println("New health data added");
+    }
 }
