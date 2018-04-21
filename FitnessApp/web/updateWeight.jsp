@@ -4,15 +4,29 @@
     Author     : Bento
 --%>
 
+<%@page import="model.HealthData"%>
+<%@page import="java.util.List"%>
+<%@page import="model.User"%>
+<%@page import="controller.PersistanceController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Add Data</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <%
+            //Redirect to login page if user session is invalid
+            HttpSession httpSession = request.getSession();
+            String email = (String) httpSession.getAttribute("email");
+            String password = (String) httpSession.getAttribute("password");
+            if(email == null){
+                response.sendRedirect("userLogin.jsp");
+            }
+            
+            User user = PersistanceController.getUser(email, password);
+        %>
         <form class="form-inline" action="WebController">
             <p>
                 <input type="hidden" name="formType" value="weightHeight">
@@ -26,5 +40,8 @@
             </p>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+        <%
+            List<HealthData> dataList = user.getDataList();
+        %>
     </body>
 </html>

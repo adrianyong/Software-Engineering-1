@@ -13,6 +13,14 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     </head>
     <body>
+        <%
+            //Redirect to profile page if user session already exists
+            HttpSession httpSession = request.getSession();
+            String email = (String) httpSession.getAttribute("email");
+            if(email != null){
+                response.sendRedirect("profile.jsp");
+            }
+        %>
         <div class="container">
             <h2>Login</h2>
             <p>Make the viewport larger than 576px wide to see that all of the form elements are inline and left-aligned. On small screens, the form groups will stack horizontally.</p>

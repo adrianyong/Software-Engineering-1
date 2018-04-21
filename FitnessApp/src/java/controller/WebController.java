@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
 
 /**
@@ -37,108 +38,138 @@ public class WebController extends HttpServlet {
      */
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession httpSession = request.getSession();
         String formType = request.getParameter("formType");
         switch(formType){
         case "register":
-            System.out.println("Form is asking for registration");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            
-            String dobs = request.getParameter("dob");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date dobd = null;
-            try {
-                dobd = formatter.parse(dobs);
-            } catch (ParseException ex) {
-                System.out.println("ERROR: INCOMPATIBLE DATE FORMAT");
-            }
-            formatter = new SimpleDateFormat("dd/MM/1997");
-            String dob = formatter.format(dobd);
-            
-            String sex = request.getParameter("sex");
-            String height = request.getParameter("height");
-            String weight = request.getParameter("weight");
-            String tracking = request.getParameter("tracking");
-            
-            System.out.println(email + ", " + password + ", " + firstName + ", " + lastName + ", " + dob + ", " + sex + ", " + height + ", " + weight + ", " + tracking);
-            
-            User user = null;
-            try {
-                user = new User(email, password, firstName, lastName, dob, sex, height, weight, Boolean.parseBoolean(tracking));
-            } catch (ParseException ex) {
-                System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER");
-            }
-            
-            System.out.println(user);
-            PersistanceController.saveUser(user);
-            
-            request.setAttribute("firstName",firstName);
-            request.setAttribute("messageType","Success");
-            request.setAttribute("message","User created successfully");
-            
-            try {
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
-            } catch (Exception ex) {
-                System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER REGISTRATION");
-            }
-            
+            registration(request, response, httpSession);
             break;
         case "login":
-            boolean error = false;
+            login(request, response, httpSession);
+            break;
+        case "logout":
+            logout(request, response, httpSession);
+            break;
+        }
+    }
+    
+    void registration(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        System.out.println("Form is asking for registration");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+
+        String dobs = request.getParameter("dob");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date dobd = null;
+        try {
+            dobd = formatter.parse(dobs);
+        } catch (ParseException ex) {
+            System.out.println("ERROR: INCOMPATIBLE DATE FORMAT");
+        }
+        formatter = new SimpleDateFormat("dd/MM/1997");
+        String dob = formatter.format(dobd);
+
+        String sex = request.getParameter("sex");
+        String height = request.getParameter("height");
+        String weight = request.getParameter("weight");
+        String tracking = request.getParameter("tracking");
+
+        System.out.println(email + ", " + password + ", " + firstName + ", " + lastName + ", " + dob + ", " + sex + ", " + height + ", " + weight + ", " + tracking);
+
+        User user = null;
+        try {
+            user = new User(email, password, firstName, lastName, dob, sex, height, weight, Boolean.parseBoolean(tracking));
+        } catch (ParseException ex) {
+            System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER");
+        }
+
+        System.out.println(user);
+        PersistanceController.saveUser(user);
+
+        request.setAttribute("firstName",firstName);
+        request.setAttribute("messageType","Success");
+        request.setAttribute("message","User created successfully");
+
+        httpSession.setAttribute("email", email);
+        httpSession.setAttribute("password", password);
+        httpSession.setAttribute("name", firstName);
+
+        try {
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER REGISTRATION");
+        }
             
-            System.out.println("Form is asking for login");
-            email = request.getParameter("email");
-            password = request.getParameter("password");
+    }
+    
+    void login(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        boolean error = false;
             
-            if(email==""){
-                request.setAttribute("message","Please enter an email");
+        System.out.println("Form is asking for login");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        if(email==""){
+            request.setAttribute("message","Please enter an email");
+            error=true;
+        }
+        else if(password==""){
+            request.setAttribute("message","Please enter a password");
+            error=true;
+        }
+
+        User user = null;
+        if(PersistanceController.matchUser(email) && error==false){
+            //Email is correct
+            user = PersistanceController.getUser(email, password);
+            if(user == null){
+                //Password is incorrect
+                request.setAttribute("message","Wrong password");
                 error=true;
             }
-            else if(password==""){
-                request.setAttribute("message","Please enter a password");
-                error=true;
+            else{
+                //Password is correct
             }
-            
-            user = null;
-            if(PersistanceController.matchUser(email) && error==false){
-                //Email is correct
-                user = PersistanceController.getUser(email, password);
-                if(user == null){
-                    //Password is incorrect
-                    request.setAttribute("message","Wrong password");
-                    error=true;
-                }
-                else{
-                    //Password is correct
-                }
-            }
-            else if (error==false){
-                //Email is incorrect
-                request.setAttribute("message","Email not found");
-                error=true;
-            }
-            
-            if(error){
-                try {
-                    request.getRequestDispatcher("userLogin.jsp").forward(request, response);
-                } catch (Exception ex) {
-                    System.out.println("ERROR: UNABLE TO RELOAD LOGIN PAGE");
-                }
-            }
-            
-            firstName = user.getFirstName();
-            
-            request.setAttribute("firstName",firstName);
-            request.setAttribute("messageType","Success");
-            request.setAttribute("message","User login successful");
-            
+        }
+        else if (error==false){
+            //Email is incorrect
+            request.setAttribute("message","Email not found");
+            error=true;
+        }
+
+        if(error){
             try {
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                request.getRequestDispatcher("userLogin.jsp").forward(request, response);
             } catch (Exception ex) {
-                System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER LOGIN");
+                System.out.println("ERROR: UNABLE TO RELOAD LOGIN PAGE");
             }
+        }
+
+        String firstName = user.getFirstName();
+
+        request.setAttribute("firstName",firstName);
+        request.setAttribute("messageType","Success");
+        request.setAttribute("message","User login successful");
+
+        httpSession.setAttribute("email", email);
+        httpSession.setAttribute("password", password);
+        httpSession.setAttribute("name", firstName);
+
+        try {
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER LOGIN");
+        }
+    }
+    
+    void logout(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        httpSession.invalidate();
+        try {
+            request.getRequestDispatcher("userLogin.jsp").forward(request, response);
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO LOAD LOGIN PAGE AFTER LOGOUT");
         }
     }
     
