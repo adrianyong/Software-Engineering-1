@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="container">
-            <h2>Register</h2>
+            <h2>Registration</h2>
             <p>Make the viewport larger than 576px wide to see that all of the form elements are inline and left-aligned. On small screens, the form groups will stack horizontally.</p>
             <form class="form-inline" action="WebController">
                 <input type="hidden" name="formType" value="register">
@@ -61,7 +61,7 @@
                 
                 <div class="form-check">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Next</button>
             </form>
             <p><a href="index.jsp" class="btn btn-info" role="button">Back Home</a></p>
             

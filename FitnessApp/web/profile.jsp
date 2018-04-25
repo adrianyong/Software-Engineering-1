@@ -51,7 +51,7 @@
                 String timeOfDay = "morning";
                 int hour = cal.get(Calendar.HOUR_OF_DAY);
 
-                if (hour > 12 && hour < 17) {
+                if (hour >= 12 && hour < 17) {
                     timeOfDay = "afternoon";
                 }
                 else if (hour >= 17) {
@@ -64,6 +64,8 @@
             <p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>
             <p><a href="updateWeight.jsp" class="btn btn-info" role="button">Weight Log</a></p>
             <p><a href="goals.jsp" class="btn btn-info" role="button">Goals</a></p>
+            
+            <a href="settings.jsp" class="btn btn-info" role="button">Settings</a>
             
             <form class="form-inline" action="WebController">
                 <input type="hidden" name="formType" value="logout">

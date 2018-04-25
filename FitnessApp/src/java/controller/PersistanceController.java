@@ -70,6 +70,8 @@ public class PersistanceController {
             m.put("weight", u.getWeight().toString());
 
             m.put("tracking", u.isTrackingActivity());
+            
+            m.put("activityLevel", u.getActivityLevel());
 
             ja.add(m);
 
@@ -109,7 +111,8 @@ public class PersistanceController {
             String sex = null;
             String height = null;
             String weight = null;
-            boolean tracking = false;
+            String tracking = null;
+            String activityLevel = null;
             
             while (itr1.hasNext()) {
                 Map.Entry pair = itr1.next();
@@ -130,12 +133,14 @@ public class PersistanceController {
                 else if("weight".equals(pair.getKey().toString()))
                     weight = pair.getValue().toString();
                 else if("tracking".equals(pair.getKey().toString()))
-                    tracking = Boolean.parseBoolean(pair.getValue().toString());
+                    tracking = pair.getValue().toString();
+                else if("activityLevel".equals(pair.getKey().toString()))
+                    activityLevel = pair.getValue().toString();
             }
             
             User user = null;
             try {
-                user = new User(email, password, firstName, lastName, dob, sex, height, weight, tracking);
+                user = new User(email, password, firstName, lastName, dob, sex, height, weight, tracking, activityLevel);
             } catch (java.text.ParseException ex) {
                 System.out.println("ERROR: UNABLE TO LOAD AND INSTIANIATE NEW USER");
             }
@@ -222,7 +227,6 @@ public class PersistanceController {
 
             m.put("weight", hd.getWeight());
             m.put("height", hd.getHeight());
-            m.put("activityLevel", hd.getActivityLevel().toString());
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
             String dateTime = formatter.format(hd.getDateTime());
@@ -286,7 +290,7 @@ public class PersistanceController {
                 dateTime = pair.getValue().toString();
         }
             try {
-                healthData.add(new HealthData(weight, height, activityLevel, dateTime));
+                healthData.add(new HealthData(weight, height, dateTime));
             } catch (java.text.ParseException ex) {
                 System.out.println("ERROR: UNABLE TO LOAD DATA ENTRY INTO LIST");
             }
@@ -301,10 +305,24 @@ public class PersistanceController {
         System.out.println("Adding new data for " + email);
         
         List<HealthData> healthData;
-        healthData = loadHealthData(email);
+        try {
+            healthData = loadHealthData(email);
+        } catch (Exception ex){
+            healthData = new ArrayList();
+        }
         healthData.add(data);
         saveHealthData(healthData, email);
         
         System.out.println("New health data added");
+    }
+    
+    public static HealthData getMostRecentData(String email){
+        List<HealthData> healthData = null;
+        try {
+            healthData = loadHealthData(email);
+        } catch (Exception ex){
+            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT");
+        }
+        return healthData.get(healthData.size()-1);
     }
 }

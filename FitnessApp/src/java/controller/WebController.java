@@ -79,12 +79,13 @@ public class WebController extends HttpServlet {
         String height = request.getParameter("height");
         String weight = request.getParameter("weight");
         String tracking = request.getParameter("tracking");
+        String activityLevel = "NoExercise"; //= request.getParameter("activityLevel");
 
         //System.out.println(email + ", " + password + ", " + firstName + ", " + lastName + ", " + dob + ", " + sex + ", " + height + ", " + weight + ", " + tracking);
 
         User user = null;
         try {
-            user = new User(email, password, firstName, lastName, dob, sex, height, weight, Boolean.parseBoolean(tracking));
+            user = new User(email, password, firstName, lastName, dob, sex, height, weight, tracking, activityLevel);
         } catch (ParseException ex) {
             System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER");
         }
@@ -184,7 +185,7 @@ public class WebController extends HttpServlet {
         String height = request.getParameter("height");
         String activityLevel = request.getParameter("activityLevel");
         
-        HealthData healthData = new HealthData(Double.parseDouble(weight), Double.parseDouble(height), activityLevel);
+        HealthData healthData = new HealthData(Double.parseDouble(weight), Double.parseDouble(height));
 
         System.out.println(healthData);
         PersistanceController.addHealthData(healthData, email);
