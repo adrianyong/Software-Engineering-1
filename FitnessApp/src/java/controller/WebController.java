@@ -54,6 +54,9 @@ public class WebController extends HttpServlet {
         case "weightHeight":
             weightHeight(request, response, httpSession);
             break;
+        case "settings":
+            settings(request, response, httpSession);
+            break;
         }
     }
     
@@ -183,7 +186,6 @@ public class WebController extends HttpServlet {
         
         String weight = request.getParameter("weight");
         String height = request.getParameter("height");
-        String activityLevel = request.getParameter("activityLevel");
         
         HealthData healthData = new HealthData(Double.parseDouble(weight), Double.parseDouble(height));
 
@@ -192,6 +194,33 @@ public class WebController extends HttpServlet {
 
         try {
             request.getRequestDispatcher("updateWeight.jsp").forward(request, response);
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
+        }
+    }
+
+    void settings(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        String email = (String) httpSession.getAttribute("email");
+        
+        String activityLevel = request.getParameter("activityLevel");
+        
+        List<User> users = null;
+        try {
+            users = PersistanceController.loadUsers();
+        } catch (Exception ex) {
+            Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for(User u : users){
+            if (u.getEmail().equals(email)){
+                u.setActivityLevel(activityLevel);
+            }
+        }
+        
+        PersistanceController.saveUsers(users);
+        
+        try {
+            request.getRequestDispatcher("settings.jsp").forward(request, response);
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
         }

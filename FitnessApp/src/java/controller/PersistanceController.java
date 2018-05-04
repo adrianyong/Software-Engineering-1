@@ -71,7 +71,7 @@ public class PersistanceController {
 
             m.put("tracking", u.isTrackingActivity());
             
-            m.put("activityLevel", u.getActivityLevel());
+            m.put("activityLevel", u.getActivityLevel().toString());
 
             ja.add(m);
 

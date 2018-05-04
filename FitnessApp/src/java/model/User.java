@@ -180,6 +180,10 @@ public class User {
         this.activityLevel = activityLevel;
     }
     
+    public void setActivityLevel(String activityLevel) {
+        this.activityLevel = ActivityLevel.valueOf(activityLevel);
+    }
+    
     @Override
     public String toString(){
         return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + height+ "," + weight + "," + isTrackingActivity + "," + admin + "," + activityLevel;
