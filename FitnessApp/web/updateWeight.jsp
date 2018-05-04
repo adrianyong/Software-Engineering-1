@@ -25,9 +25,13 @@
                 response.sendRedirect("userLogin.jsp");
             }
             
-            HealthData healthData = PersistanceController.getMostRecentData(email);
-            String lastWeight = Double.toString(healthData.getWeight());
-            String lastHeight = Double.toString(healthData.getHeight());
+            HealthData recentData = PersistanceController.getMostRecentData(email);
+            String lastWeight = "";
+            String lastHeight = "";
+            if(recentData!=null){
+                lastWeight = Double.toString(recentData.getWeight());
+                lastHeight = Double.toString(recentData.getHeight());
+            }
         %>
         <form class="form-inline" action="WebController">
             <input type="hidden" name="formType" value="weightHeight">
@@ -40,16 +44,6 @@
                 <label for="height">Height:</label> <!--SESSION DATA USE HEIGHT FROM USER AS PLACEHOLDER-->
                 <input type="height" class="form-control" id="height" value="<%=lastHeight%>" name="height">
             </p>
-            <!--<p>
-                <label for="activityLevel">Activity Level</label>
-                <select name="activityLevel" selected="<%=lastActivityLevel%>">
-                    <option value="NoExercise">No Exercise</option>
-                    <option value="LightExercise">Light Exercise</option>
-                    <option value="ModerateExercise">Moderate Exercise</option>
-                    <option value="HardExercise">Hard Exercise</option>
-                    <option value="VeryHardExercise">Very Hard Exercise</option>
-                </select>
-            </p>-->
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <%

@@ -14,15 +14,7 @@
     </head>
     <body>
         <form class="form-inline" action="WebController">
-                <input type="hidden" name="formType" value="register">
-                <p><label for="email">Weight</label>
-                <input type="input" class="form-control" id="email" placeholder="Enter weight" name="email"></p>
-                
-                <p><label for="password">Height</label>
-                <input type="input" class="form-control" id="password" placeholder="Enter height" name="password"></p>
-                
-                <p><label for="firstName">Goal Weight</label>
-                <input type="input" class="form-control" id="firstName" placeholder="Enter goal weight" name="firstName"></p>
+                <input type="hidden" name="formType" value="register2">
                 
                 <p><label for="activityLevel">Activity Level</label>
                 <select name="activityLevel">
@@ -39,22 +31,22 @@
                     <option value="ModerateExercise">Active Lifestyle</option>
                 </select></p>
                 
-                <p><label for="goal">Goal</label>
-                <select name="goal">
+                <p><label for="goalType">Goal</label>
+                <select name="goalType">
                     <option value="Gain">Gain Weight</option>
                     <option value="Lose">Lose Weight</option>
                     <option value="Maintain">Maintain Weight</option>
                 </select></p>
                 
-                <p><label for="activityLevel">Goal Speed</label>
-                <select name="activityLevel">
+                <p><label for="goalSpeed">Goal Speed</label>
+                <select name="goalSpeed">
                     <option value="Slow">Slow 0.225kg/week</option>
                     <option value="Average">Average 0.45kg/week</option>
                     <option value="Aggressive">Aggressive 0.9kg/week</option>
                 </select></p>
                 
                 <p><a href="register.jsp" class="btn btn-info" role="button">Back</a>
-                <button type="submit" class="btn btn-primary">Submit</button></p>
+                <button type="submit" class="btn btn-primary">Register</button></p>
             </form>
     </body>
 </html>

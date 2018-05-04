@@ -42,8 +42,11 @@ public class WebController extends HttpServlet {
         HttpSession httpSession = request.getSession();
         String formType = request.getParameter("formType");
         switch(formType){
-        case "register":
-            registration(request, response, httpSession);
+        case "register1":
+            register1(request, response, httpSession);
+            break;
+        case "register2":
+            register2(request, response, httpSession);
             break;
         case "login":
             login(request, response, httpSession);
@@ -60,9 +63,10 @@ public class WebController extends HttpServlet {
         }
     }
     
-    void registration(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+    void register1(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
         //System.out.println("Form is asking for registration");
         String email = request.getParameter("email");
+        email = email.toLowerCase();
         String password = request.getParameter("password");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -82,15 +86,58 @@ public class WebController extends HttpServlet {
         String height = request.getParameter("height");
         String weight = request.getParameter("weight");
         String tracking = request.getParameter("tracking");
-        String activityLevel = "NoExercise"; //= request.getParameter("activityLevel");
 
-        //System.out.println(email + ", " + password + ", " + firstName + ", " + lastName + ", " + dob + ", " + sex + ", " + height + ", " + weight + ", " + tracking);
+        httpSession.setAttribute("email", email);
+        httpSession.setAttribute("password", password);
+        httpSession.setAttribute("firstName", firstName);
+        httpSession.setAttribute("lastName", lastName);
+        httpSession.setAttribute("dob", dob);
+        httpSession.setAttribute("sex", sex);
+        httpSession.setAttribute("height", height);
+        httpSession.setAttribute("weight", weight);
+        httpSession.setAttribute("tracking", tracking);
 
+        try {
+            request.getRequestDispatcher("registerFinal.jsp").forward(request, response);
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER REGISTRATION");
+        }
+            
+    }
+    
+    void register2(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        //Retrieve values from first page
+        String email = (String) httpSession.getAttribute("email");
+        String password = (String) httpSession.getAttribute("password");
+        String firstName = (String) httpSession.getAttribute("firstName");
+        String lastName = (String) httpSession.getAttribute("lastName");
+        String dob = (String) httpSession.getAttribute("dob");
+        String sex = (String) httpSession.getAttribute("sex");
+        String height = (String) httpSession.getAttribute("height");
+        String weight = (String) httpSession.getAttribute("weight");
+        String tracking = (String) httpSession.getAttribute("tracking");
+        
+        String activityLevel = request.getParameter("activityLevel");
+        String goalType = request.getParameter("goalType");
+        String goalSpeed = request.getParameter("goalSpeed");
+        
+        //Error is user with email already exists
+        System.out.println("User already exists? " + PersistanceController.matchUser(email));
+        if(PersistanceController.matchUser(email)){
+            httpSession.invalidate();
+            request.setAttribute("message","User with that email already exists");
+            try {
+                request.getRequestDispatcher("userLogin.jsp").forward(request, response);
+            } catch (Exception ex) {
+                System.out.println("ERROR: UNABLE TO RELOAD LOGIN PAGE");
+            }
+        }
+        
         User user = null;
         try {
             user = new User(email, password, firstName, lastName, dob, sex, height, weight, tracking, activityLevel);
         } catch (ParseException ex) {
-            System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER");
+            System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER IN REGISTRATION");
         }
 
         //System.out.println(user);
@@ -117,6 +164,7 @@ public class WebController extends HttpServlet {
             
         //System.out.println("Form is asking for login");
         String email = request.getParameter("email");
+        email = email.toLowerCase();
         String password = request.getParameter("password");
 
         if(email==""){

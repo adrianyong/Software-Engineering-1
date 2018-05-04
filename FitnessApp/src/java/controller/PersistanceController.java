@@ -321,8 +321,12 @@ public class PersistanceController {
         try {
             healthData = loadHealthData(email);
         } catch (Exception ex){
-            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT");
+            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
+            healthData = new ArrayList();
         }
+        if(healthData.size()==0)
+            return null;
+        
         return healthData.get(healthData.size()-1);
     }
 }

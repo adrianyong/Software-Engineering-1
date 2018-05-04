@@ -17,47 +17,47 @@
             <h2>Registration</h2>
             <p>Make the viewport larger than 576px wide to see that all of the form elements are inline and left-aligned. On small screens, the form groups will stack horizontally.</p>
             <form class="form-inline" action="WebController">
-                <input type="hidden" name="formType" value="register">
+                <input type="hidden" name="formType" value="register1">
                 <p><label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email"></p>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required></p>
                 
                 <p><label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter password" name="password"></p>
+                <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required></p>
                 
                 <p><label for="firstName">First Name: </label>
-                <input type="input" class="form-control" id="firstName" placeholder="Enter first name" name="firstName"></p>
+                <input type="input" class="form-control" id="firstName" placeholder="Enter first name" name="firstName" required></p>
                 
                 <p><label for="lastName">Last Name: </label>
-                <input type="input" class="form-control" id="lastName" placeholder="Enter last name" name="lastName"></p>
+                <input type="input" class="form-control" id="lastName" placeholder="Enter last name" name="lastName" required></p>
                 
                 <p><label for="dob">Date of Birth: </label>
-                <input type="date" class="form-control" id="dob" placeholder="Enter date of birth" name="dob"></p>
+                <input type="date" class="form-control" id="dob" placeholder="Enter date of birth" name="dob" required></p>
                 
                 <p><h4>Sex</h4>
                 <label for="sex1">Male </label>
-                <input type="radio" class="form-control" id="sex1" name="sex" value="Male">
+                <input type="radio" class="form-control" id="sex1" name="sex" value="Male" required>
                 <label for="sex1">Female </label>
-                <input type="radio" class="form-control" id="sex2" name="sex" value="Female"></p>
+                <input type="radio" class="form-control" id="sex2" name="sex" value="Female" required></p>
                 
                 <p><h4>Height Preferences</h4>
                 <label for="heightPref1">cm </label>
-                <input type="radio" class="form-control" id="heightPref1" name="height" value="cm">
+                <input type="radio" class="form-control" id="heightPref1" name="height" value="cm" required>
                 <label for="heightPref2">feet </label>
-                <input type="radio" class="form-control" id="heightPref2" name="height" value="feet"></p>
+                <input type="radio" class="form-control" id="heightPref2" name="height" value="feet" required></p>
                 
                 <p><h4>Weight Preferences</h4>
                 <label for="weightPref1">kg </label>
-                <input type="radio" class="form-control" id="weightPref1" name="weight" value="kg">
+                <input type="radio" class="form-control" id="weightPref1" name="weight" value="kg" required>
                 <label for="weightPref2">stone </label>
-                <input type="radio" class="form-control" id="weightPref2" name="weight" value="stone">
+                <input type="radio" class="form-control" id="weightPref2" name="weight" value="stone" required>
                 <label for="weightPref3">pound </label>
-                <input type="radio" class="form-control" id="weightPref3" name="weight" value="pound"></p>
+                <input type="radio" class="form-control" id="weightPref3" name="weight" value="pound" required></p>
                 
                 <p><h4>Would you like to Track Activity?</h4>
                 <label for="tracking1">yes </label>
-                <input type="radio" class="form-control" id="tracking1" name="tracking" value="True">
+                <input type="radio" class="form-control" id="tracking1" name="tracking" value="True" required>
                 <label for="tracking2">no </label>
-                <input type="radio" class="form-control" id="tracking2" name="tracking" value="False"></p>
+                <input type="radio" class="form-control" id="tracking2" name="tracking" value="False" required></p>
                 
                 <div class="form-check">
                 </div>
