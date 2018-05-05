@@ -152,6 +152,10 @@ public class User {
 //        return dataList;
 //    }
     
+    public void setGoal(Goal goal){
+        this.goal = goal;
+    }
+    
     public Goal getGoal(){
         return goal;
     }

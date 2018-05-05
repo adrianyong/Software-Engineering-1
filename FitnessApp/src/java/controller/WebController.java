@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Conversions;
+import model.Goal;
 import model.HealthData;
 import model.User;
 
@@ -120,6 +121,7 @@ public class WebController extends HttpServlet {
         
         String activityLevel = request.getParameter("activityLevel");
         String goalType = request.getParameter("goalType");
+        String goalWeight = request.getParameter("goalWeight");
         String goalSpeed = request.getParameter("goalSpeed");
         
         //Error is user with email already exists
@@ -140,6 +142,9 @@ public class WebController extends HttpServlet {
         } catch (ParseException ex) {
             System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER IN REGISTRATION");
         }
+        
+        System.out.println(goalWeight + " " + goalType + " " + goalSpeed);
+        user.setGoal(new Goal(goalWeight, goalType, goalSpeed));
 
         //System.out.println(user);
         PersistanceController.addUser(user);

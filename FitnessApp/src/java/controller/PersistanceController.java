@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import model.Goal;
 import model.HealthData;
 
 import model.User;
@@ -73,6 +74,10 @@ public class PersistanceController {
             
             m.put("activityLevel", u.getActivityLevel().toString());
 
+            m.put("goalWeight", Double.toString(u.getGoal().getGoalWeight()));
+            m.put("goalType", u.getGoal().getType().toString());
+            m.put("goalSpeed", u.getGoal().getGoalSpeed().toString());
+            
             ja.add(m);
 
             //System.out.println("User \"" + u.getFullName() + "\" saved");
@@ -113,6 +118,9 @@ public class PersistanceController {
             String weight = null;
             String tracking = null;
             String activityLevel = null;
+            String goalWeight = null;
+            String goalType = null;
+            String goalSpeed = null;
             
             while (itr1.hasNext()) {
                 Map.Entry pair = itr1.next();
@@ -136,6 +144,12 @@ public class PersistanceController {
                     tracking = pair.getValue().toString();
                 else if("activityLevel".equals(pair.getKey().toString()))
                     activityLevel = pair.getValue().toString();
+                else if("goalWeight".equals(pair.getKey().toString()))
+                    goalWeight = pair.getValue().toString();
+                else if("goalType".equals(pair.getKey().toString()))
+                    goalType = pair.getValue().toString();
+                else if("goalSpeed".equals(pair.getKey().toString()))
+                    goalSpeed = pair.getValue().toString();
             }
             
             User user = null;
@@ -144,6 +158,7 @@ public class PersistanceController {
             } catch (java.text.ParseException ex) {
                 System.out.println("ERROR: UNABLE TO LOAD AND INSTIANIATE NEW USER");
             }
+            user.setGoal(new Goal(goalWeight, goalType, goalSpeed));
             users.add(user);
            
             //System.out.println("User \"" + user.getFullName() + "\" loaded");

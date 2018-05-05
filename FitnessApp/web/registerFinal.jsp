@@ -33,10 +33,13 @@
                 
                 <p><label for="goalType">Goal</label>
                 <select name="goalType">
-                    <option value="Gain">Gain Weight</option>
-                    <option value="Lose">Lose Weight</option>
-                    <option value="Maintain">Maintain Weight</option>
+                    <option value="GainWeight">Gain Weight</option>
+                    <option value="LoseWeight">Lose Weight</option>
+                    <option value="MaintainWeight">Maintain Weight</option>
                 </select></p>
+                
+                <label for="goalWeight">Goal Weight</label>
+                <input type="number" class="form-control" id="goalWeight" value="" name="goalWeight">
                 
                 <p><label for="goalSpeed">Goal Speed</label>
                 <select name="goalSpeed">

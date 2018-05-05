@@ -9,19 +9,19 @@ public class Goal {
     public static enum GoalSpeed{Slow, Average, Aggressive}
     
     private double goalWeight;
-    private GoalType goal;
-    private GoalSpeed speed;
+    private GoalType goalType;
+    private GoalSpeed goalSpeed;
     
-    Goal(double goalWeight, GoalType goal, GoalSpeed speed){
+    public Goal(double goalWeight, GoalType goalType, GoalSpeed goalSpeed){
         this.goalWeight = goalWeight;
-        this.goal=goal;
-        this.speed=speed;
+        this.goalType=goalType;
+        this.goalSpeed=goalSpeed;
     }
     
-    Goal(String goalWeight, String goal, String speed){
+    public Goal(String goalWeight, String goalType, String goalSpeed){
         this.goalWeight = Double.parseDouble(goalWeight);
-        this.goal=GoalType.valueOf(goal);
-        this.speed=GoalSpeed.valueOf(speed);
+        this.goalType=GoalType.valueOf(goalType);
+        this.goalSpeed=GoalSpeed.valueOf(goalSpeed);
     }
     
     public void setGoalWeight(double goalWeight){
@@ -33,25 +33,25 @@ public class Goal {
     }
     
     public void setGoal(GoalType goal){
-        this.goal = goal;
+        this.goalType = goal;
     }
     
     public GoalType getType(){
-        return goal;
+        return goalType;
         //return Type of goal
     }
     
     public void setGoalSpeed(GoalSpeed speed){
-        this.speed = speed;
+        this.goalSpeed = speed;
     }
     
     public GoalSpeed getGoalSpeed(){
-        return speed;
+        return goalSpeed;
         //return int of time span allowed
     }
     
     @Override
     public String toString(){
-        return goalWeight + goal.toString() + speed.toString();
+        return goalWeight + goalType.toString() + goalSpeed.toString();
     }
 }
