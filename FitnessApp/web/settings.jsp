@@ -48,7 +48,7 @@
                             <%}%>>Moderate Exercise</option>
                     <option value="HardExercise" <%if (activityLevelString.equals("HardExercise")){%>
                             selected
-                            <%}%>>Moderate Exercise</option>
+                            <%}%>>Hard Exercise</option>
                     <option value="VeryHardExercise"<%if (activityLevelString.equals("VeryHardExercise")){%>
                             selected
                             <%}%>>Very Hard Exercise</option>

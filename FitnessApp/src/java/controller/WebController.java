@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Conversions;
 import model.HealthData;
 import model.User;
 
@@ -231,15 +232,42 @@ public class WebController extends HttpServlet {
     
     void weightHeight(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
         String email = (String) httpSession.getAttribute("email");
+        String password = (String) httpSession.getAttribute("password");
+        
+        User user = PersistanceController.getUser(email, password);
+        HealthData healthData = null;
         
         String weight = request.getParameter("weight");
+        String weight2 = request.getParameter("weight2");
         String height = request.getParameter("height");
+        String height2 = request.getParameter("height2");
         
-        HealthData healthData = new HealthData(Double.parseDouble(weight), Double.parseDouble(height));
+        String weightUnit = user.getWeight().toString();
+        String heightUnit = user.getHeight().toString();
+        double weightKg = 0;
+        double heightKg = 0;
+        
+        if("kg".equals(weightUnit)){
+            weightKg = Double.parseDouble(weight);
+        }
+        else if("pound".equals(weightUnit)){
+            weightKg = Conversions.weightPoundsToKg(Double.parseDouble(weight));
+        }
+        else if("stonePound".equals(weightUnit)){
+            System.out.println(weight + " " + weight2);
+            weightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(weight), Double.parseDouble(weight2));
+        }
+        
+        if("cm".equals(heightUnit)){
+            heightKg = Double.parseDouble(height);
+        }
+        else if("feetInches".equals(heightUnit)){
+            heightKg = Conversions.heightFeetInchesToCM(Double.parseDouble(height), Double.parseDouble(height2));
+        }
 
-        System.out.println(healthData);
+        healthData = new HealthData(weightKg, heightKg);
         PersistanceController.addHealthData(healthData, email);
-
+        
         try {
             request.getRequestDispatcher("updateWeight.jsp").forward(request, response);
         } catch (Exception ex) {

@@ -51,6 +51,6 @@ public class HealthData {
     
     @Override
     public String toString(){
-        return "" + weightKG + heightCM + dateTime;
+        return "Weight: " + weightKG + " Height: " + heightCM + " DateTime: " + dateTime;
     }
 }

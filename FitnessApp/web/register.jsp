@@ -25,10 +25,10 @@
                 <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required></p>
                 
                 <p><label for="firstName">First Name: </label>
-                <input type="input" class="form-control" id="firstName" placeholder="Enter first name" name="firstName" required></p>
+                <input type="text" class="form-control" id="firstName" placeholder="Enter first name" name="firstName" required></p>
                 
                 <p><label for="lastName">Last Name: </label>
-                <input type="input" class="form-control" id="lastName" placeholder="Enter last name" name="lastName" required></p>
+                <input type="text" class="form-control" id="lastName" placeholder="Enter last name" name="lastName" required></p>
                 
                 <p><label for="dob">Date of Birth: </label>
                 <input type="date" class="form-control" id="dob" placeholder="Enter date of birth" name="dob" required></p>
@@ -42,16 +42,16 @@
                 <p><h4>Height Preferences</h4>
                 <label for="heightPref1">cm </label>
                 <input type="radio" class="form-control" id="heightPref1" name="height" value="cm" required>
-                <label for="heightPref2">feet </label>
-                <input type="radio" class="form-control" id="heightPref2" name="height" value="feet" required></p>
+                <label for="heightPref2">feet and inches </label>
+                <input type="radio" class="form-control" id="heightPref2" name="height" value="feetInches" required></p>
                 
                 <p><h4>Weight Preferences</h4>
                 <label for="weightPref1">kg </label>
                 <input type="radio" class="form-control" id="weightPref1" name="weight" value="kg" required>
-                <label for="weightPref2">stone </label>
-                <input type="radio" class="form-control" id="weightPref2" name="weight" value="stone" required>
-                <label for="weightPref3">pound </label>
-                <input type="radio" class="form-control" id="weightPref3" name="weight" value="pound" required></p>
+                <label for="weightPref2">pound </label>
+                <input type="radio" class="form-control" id="weightPref2" name="weight" value="pound" required>
+                <label for="weightPref3">stone and pounds </label>
+                <input type="radio" class="form-control" id="weightPref3" name="weight" value="stonePound" required></p>
                 
                 <p><h4>Would you like to Track Activity?</h4>
                 <label for="tracking1">yes </label>

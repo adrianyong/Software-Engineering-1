@@ -27,8 +27,8 @@ public class User {
     private boolean admin;
     
     public static enum Sex{Male, Female}
-    public static enum Height{cm, feet}
-    public static enum Weight{kg, stone, pound}
+    public static enum Height{cm, feetInches}
+    public static enum Weight{kg, pound, stonePound}
     public static enum ActivityLevel{NoExercise, LightExercise, ModerateExercise, HardExercise, VeryHardExercise}
     
     public User(String email, String password, String firstName, String lastName, Date dob, Sex sex, Height height, Weight weight, boolean isTrackingActivity, ActivityLevel activityLevel){
