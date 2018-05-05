@@ -4,6 +4,10 @@
     Author     : 100021268
 --%>
 
+<%@page import="model.Calculations"%>
+<%@page import="model.HealthData"%>
+<%@page import="controller.PersistanceController"%>
+<%@page import="model.User"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,9 +25,12 @@
             //Redirect to login page if user session is invalid
             HttpSession httpSession = request.getSession();
             String email = (String) httpSession.getAttribute("email");
+            String password = (String) httpSession.getAttribute("password");
             if(email == null){
                 response.sendRedirect("userLogin.jsp");
             }
+            
+            User user = PersistanceController.getUser(email, password);
             
             String messageType = (String)request.getAttribute("messageType");
             String message = (String)request.getAttribute("message"); 
@@ -63,6 +70,17 @@
             <p><a href="exerciseLog.jsp" class="btn btn-info" role="button">Exercise Log</a></p>
             <p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>
             <p><a href="updateWeight.jsp" class="btn btn-info" role="button">Weight Log</a></p>
+            <%
+                HealthData recentData = PersistanceController.getMostRecentData(email);
+                if(recentData!=null){
+                    String weight = Double.toString(recentData.getWeight());
+                    String BMI = Double.toString(Calculations.BMI(recentData.getWeight(), recentData.getHeight()));
+                    String BMIClass = Calculations.BMIClass(recentData.getWeight(), recentData.getHeight());
+                    String BMR = Double.toString(Calculations.BMR(recentData.getWeight(), recentData.getHeight(), user.getAge(), user.getSex()));%>
+                    <p>Weight: <%= weight%></p>
+                    <p>BMI: <%= BMI%> | <%= BMIClass%></p>
+                    <p>BMR: <%= BMR%></p>
+                <%}%>
             <p><a href="goals.jsp" class="btn btn-info" role="button">Goals</a></p>
             
             <a href="settings.jsp" class="btn btn-info" role="button">Settings</a>
