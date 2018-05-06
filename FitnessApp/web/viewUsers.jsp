@@ -4,6 +4,11 @@
     Author     : 100021268
 --%>
 
+<%@page import="java.io.Reader"%>
+<%@page import="java.io.InputStreamReader"%>
+<%@page import="org.apache.tomcat.util.http.fileupload.IOUtils"%>
+<%@page import="java.io.StringWriter"%>
+<%@page import="java.io.InputStream"%>
 <%@page import="controller.PersistanceController"%>
 <%@page import="model.User"%>
 <%@page import="java.util.List"%>
@@ -17,11 +22,15 @@
     </head>
     <body>
         <%
-            List<User> users = PersistanceController.loadUsers();
-            for(User u : users){%>
+            try {
+                List<User> users = PersistanceController.loadUsers();
+                for(User u : users){%>
                 <p> <%= u.toString()%> </p>
-          <%}
+            <%}
+            }catch (Exception ex) { %>
+                <p>No users found</p>
+            <%}
         %>
-        <p><a href="index.jsp" class="btn btn-info" role="button">Back Home dawg</a></p>
+        <p><a href="index.jsp" class="btn btn-info" role="button">Back Home</a></p>
     </body>
 </html>

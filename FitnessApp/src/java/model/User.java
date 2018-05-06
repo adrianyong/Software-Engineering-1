@@ -22,16 +22,16 @@ public class User {
     private final Weight weight;
     private Goal goal;
     private boolean isTrackingActivity;
+    private ActivityLevel activityLevel;
     
     private boolean admin;
     
-    private List<HealthData> dataList;
-    
     public static enum Sex{Male, Female}
-    public static enum Height{cm, feet}
-    public static enum Weight{kg, stone, pound}
+    public static enum Height{cm, feetInches}
+    public static enum Weight{kg, pound, stonePound}
+    public static enum ActivityLevel{NoExercise, LightExercise, ModerateExercise, HardExercise, VeryHardExercise}
     
-    public User(String email, String password, String firstName, String lastName, Date dob, Sex sex, Height height, Weight weight, boolean isTrackingActivity){
+    public User(String email, String password, String firstName, String lastName, Date dob, Sex sex, Height height, Weight weight, boolean isTrackingActivity, ActivityLevel activityLevel){
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -41,13 +41,14 @@ public class User {
         this.height = height;
         this.weight = weight;
         this.isTrackingActivity = isTrackingActivity;
+        this.activityLevel = activityLevel;
         
         this.admin = false;
         
-        this.dataList = new ArrayList();
+        //this.dataList = new ArrayList();
     }
     
-    public User(String email, String password, String firstName, String lastName, String dobs, String sexs, String heights, String weights, boolean isTrackingActivity) throws ParseException{
+    public User(String email, String password, String firstName, String lastName, String dobs, String sexs, String heights, String weights, String isTrackingActivity, String activityLevel) throws ParseException{
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -60,9 +61,11 @@ public class User {
         this.height = Height.valueOf(heights);
         this.weight = Weight.valueOf(weights);
         
-        this.isTrackingActivity = isTrackingActivity;
+        this.isTrackingActivity = Boolean.parseBoolean(isTrackingActivity);
         
-        this.dataList = new ArrayList();
+        this.activityLevel = ActivityLevel.valueOf(activityLevel);
+        
+        //this.dataList = new ArrayList();
     }
     
     /*public void updateData(double weight, double height, String activityLevel){
@@ -145,8 +148,12 @@ public class User {
         return sex;
     }
     
-    public List<HealthData> getDataList(){
-        return dataList;
+//    public List<HealthData> getDataList(){
+//        return dataList;
+//    }
+    
+    public void setGoal(Goal goal){
+        this.goal = goal;
     }
     
     public Goal getGoal(){
@@ -169,9 +176,21 @@ public class User {
         this.isTrackingActivity = isTrackingActivity;
     }
     
+    public ActivityLevel getActivityLevel() {
+        return activityLevel;
+    }
+
+    public void setActivityLevel(ActivityLevel activityLevel) {
+        this.activityLevel = activityLevel;
+    }
+    
+    public void setActivityLevel(String activityLevel) {
+        this.activityLevel = ActivityLevel.valueOf(activityLevel);
+    }
+    
     @Override
     public String toString(){
-        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + height+ "," + weight + "," + isTrackingActivity + "," + admin;
+        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + height+ "," + weight + "," + isTrackingActivity + "," + admin + "," + activityLevel;
     }
 
     /**
