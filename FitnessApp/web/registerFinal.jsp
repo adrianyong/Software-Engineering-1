@@ -15,7 +15,12 @@
     <body>
         <form class="form-inline" action="WebController">
                 <input type="hidden" name="formType" value="register2">
-                
+                <%
+                    HttpSession httpSession = request.getSession();
+                    String trackingS = (String) httpSession.getAttribute("tracking");
+                    boolean tracking = Boolean.parseBoolean(trackingS);
+                    if(!tracking){
+                %>
                 <p><label for="activityLevel">Activity Level</label>
                 <select name="activityLevel">
                     <option value="NoExercise">No Exercise</option>
@@ -24,13 +29,14 @@
                     <option value="HardExercise">Hard Exercise 6-7 days/week</option>
                     <option value="VeryHardExercise">Very Hard Exercise with Physical Job</option>
                 </select></p>
-                
+                <%}
+                else{%>
                 <p><label for="activityLevel">Activity Level (with tracking)</label>
                 <select name="activityLevel">
                     <option value="NoExercise">Sedentary</option>
                     <option value="ModerateExercise">Active Lifestyle</option>
                 </select></p>
-                
+                <%}%>
                 <p><label for="goalType">Goal</label>
                 <select name="goalType">
                     <option value="GainWeight">Gain Weight</option>

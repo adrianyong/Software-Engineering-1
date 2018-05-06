@@ -53,7 +53,7 @@
                 }
 
                 if("cm".equals(heightUnit)){
-                    lastHeight = Double.toString(recentData.getWeight());
+                    lastHeight = Double.toString(recentData.getHeight());
                 }
                 else if("feetInches".equals(heightUnit)){
                     lastHeight = Double.toString((int) Conversions.heightCMToFeetPart(recentData.getHeight()));
