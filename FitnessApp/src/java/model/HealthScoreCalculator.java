@@ -12,7 +12,16 @@ public class HealthScoreCalculator {
     double bodyFatPercentage;
     int lungCapacity; 
     
-    void addBMI(){
+    void addBMI(double BMI){
+        if(BMI < 18.5)
+            return "Underweight";
+        else if(BMI < 24.9)
+            return "Healthy Weight";
+        else if(BMI < 29.9)
+            return "Overweight";
+        else
+            return "Obese";
+        if()
         //translates the BMI into a healthscore value, adds this onto the healthScore
         //return type void
     }

@@ -7,18 +7,22 @@ package model;
 import java.util.HashMap;
 
 public class FitnessTracker {
+    int currentHealthScore;
     int previousHealthScore;
     int medianHealthScore;
     int highestHealthScore;
     int lowestHealthScore;
     HashMap healthScoreLog;
     
-    void compareTo(){
-        //compares two health scores return type boolean, true if higher false if lower or similar
-        //required for compareHealthScores
+    boolean compareTo(int healthScore1, int healthScore2){
+        return healthScore1>healthScore2;
     }
     
-    void compareHealthScores(){
-        //compares two healthScoreInts using compareTo, returns the higher or lower as needed
+    //compares two healthScoreInts using compareTo, returns the higher
+    int compareHealthScores(int healthScore1, int healthScore2){
+        if(compareTo(healthScore1, healthScore2)){
+            return healthScore1;
+        }
+        return healthScore2; 
     }
 }

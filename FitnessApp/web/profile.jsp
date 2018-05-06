@@ -68,7 +68,7 @@
                 <p> Good <%= timeOfDay%>, <%= name%>!</p>
             <p><a href="profile.jsp" class="btn btn-info" role="button">Home</a></p>
             <p><a href="exerciseLog.jsp" class="btn btn-info" role="button">Exercise Log</a></p>
-            <p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>
+           <!--<p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>-->
             <p><a href="updateWeight.jsp" class="btn btn-info" role="button">Weight Log</a></p>
             <%
                 HealthData recentData = PersistanceController.getMostRecentData(email);
