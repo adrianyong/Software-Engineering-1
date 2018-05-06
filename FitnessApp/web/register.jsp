@@ -22,30 +22,30 @@
 			<div style="background:transparent !important" class="jumbotron d-flex align-items-center">
 				<div class="container text-center leftmid">
 					<form class="form-mb4" action="WebController">
-						<input type="hidden" name="formType" value="register">
+						<input type="hidden" name="formType" value="register1">
 						<p><label for="email" class="sr-only">Email:</label>
-						<input type="email" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="email" placeholder="Enter email" name="email"></p>
+						<input type="email" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="email" placeholder="Enter email" name="email" required></p>
 						
 						<p><label for="password" class="sr-only">Password:</label>
-						<input type="password" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="password" placeholder="Enter password" name="password"></p>
+						<input type="password" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="password" placeholder="Enter password" name="password" required></p>
 						
 						<p><label for="firstName" class="sr-only">First Name: </label>
-						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="firstName" placeholder="Enter first name" name="firstName"></p>
+						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="firstName" placeholder="Enter first name" name="firstName" required></p>
 						
 						<p><label for="lastName" class="sr-only">Last Name: </label>
-						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="lastName" placeholder="Enter last name" name="lastName"></p>
+						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="lastName" placeholder="Enter last name" name="lastName" required></p>
 						
 						<p><label for="dob" class="sr-only">Date of Birth: </label>
-						<input type="date" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="dob" placeholder="Enter date of birth" name="dob"></p>
+						<input type="date" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="dob" placeholder="Enter date of birth" name="dob" required></p>
 						
 						<h6>Sex </h6>
 						<div class="form-group">
 							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="sex">
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="sex" id="sex1" value="Male" autocomplete="off" checked> Male
+								<input type="radio" class= "form-control" name="sex" id="sex1" value="Male" autocomplete="off" checked required> Male
 							  </label>
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="sex" id="sex2" value="Female" autocomplete="off" checked> Female
+								<input type="radio" class= "form-control" name="sex" id="sex2" value="Female" autocomplete="off" checked required> Female
 							  </label>
 							</div>
 						</div>
@@ -54,10 +54,10 @@
 						<div class="form-group">
 							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="height">
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="height" id="heightPref1" value="cm" autocomplete="off" checked> Cm
+								<input type="radio" class= "form-control" name="height" id="heightPref1" value="cm" autocomplete="off" checked required> Cm
 							  </label>
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="height" id="heightPref2" value="feet" autocomplete="off" checked> Feet
+								<input type="radio" class= "form-control" name="height" id="heightPref2" value="feetInches" autocomplete="off" checked required> Feet
 							  </label>
 							</div>
 						</div>
@@ -66,10 +66,10 @@
 						<div class="form-group">
 							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="height">
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="weight" id="weightPref1" value="kg" autocomplete="off" checked> Kg
+								<input type="radio" class= "form-control" name="weight" id="weightPref1" value="kg" autocomplete="off" checked required> Kg
 							  </label>
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="weight" id="weightPref2" value="stone" autocomplete="off" checked> Stone
+								<input type="radio" class= "form-control" name="weight" id="weightPref2" value="stonePound" autocomplete="off" checked required> Stone
 							  </label>
 							</div>
 						</div>
@@ -78,10 +78,10 @@
 						<div class="form-group">
 							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="height">
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="tracking" id="tracking1" value="True" autocomplete="off" checked> Yes
+								<input type="radio" class= "form-control" name="tracking" id="tracking1" value="True" autocomplete="off" checked required> Yes
 							  </label>
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="tracking" id="tracking2" value="False" autocomplete="off" checked> No
+								<input type="radio" class= "form-control" name="tracking" id="tracking2" value="False" autocomplete="off" checked required> No
 							  </label>
 							</div>
 						</div>

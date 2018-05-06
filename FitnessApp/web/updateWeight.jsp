@@ -37,8 +37,8 @@
             String lastHeight2 = "";
             
             
-            String weightUnit = user.getWeight().toString();
-            String heightUnit = user.getHeight().toString();
+            String weightUnit = user.getWeightUnit().toString();
+            String heightUnit = user.getHeightUnit().toString();
             
             if(recentData!=null){
                 if("kg".equals(weightUnit)){

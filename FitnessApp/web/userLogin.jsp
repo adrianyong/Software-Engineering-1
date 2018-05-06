@@ -53,13 +53,13 @@
 							id="pwd" placeholder="Password" name="password">
 						</div>
 		
-						<fieldset class="form-group">					
+<!--						<fieldset class="form-group">					
 							<div class="form-check">
 								<label class="form-check-label">
 									<input class="form-check-input" type="checkbox" name="remember"> Remember me
 								</label>
 							</div>
-						</fieldset>
+						</fieldset>-->
 						
 						<button type="submit" class="btn btn-info btn-block ">Submit</button>
 					</form>

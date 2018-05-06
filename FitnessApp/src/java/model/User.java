@@ -18,28 +18,33 @@ public class User {
     private String lastName;
     private Date dob;
     private final Sex sex;
-    private final Height height;
-    private final Weight weight;
-    private Goal goal;
+    private final HeightUnit heightUnit;
+    private final WeightUnit weightUnit;
     private boolean isTrackingActivity;
     private ActivityLevel activityLevel;
+    
+    private Goal goal;
+    private List<HealthData> dataList;
+    
+    private int restingHeartRate;
+    private double bodyFatPercentage;
     
     private boolean admin;
     
     public static enum Sex{Male, Female}
-    public static enum Height{cm, feetInches}
-    public static enum Weight{kg, pound, stonePound}
+    public static enum HeightUnit{cm, feetInches}
+    public static enum WeightUnit{kg, pound, stonePound}
     public static enum ActivityLevel{NoExercise, LightExercise, ModerateExercise, HardExercise, VeryHardExercise}
     
-    public User(String email, String password, String firstName, String lastName, Date dob, Sex sex, Height height, Weight weight, boolean isTrackingActivity, ActivityLevel activityLevel){
+    public User(String email, String password, String firstName, String lastName, Date dob, Sex sex, HeightUnit height, WeightUnit weight, boolean isTrackingActivity, ActivityLevel activityLevel){
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
         this.sex = sex;
-        this.height = height;
-        this.weight = weight;
+        this.heightUnit = height;
+        this.weightUnit = weight;
         this.isTrackingActivity = isTrackingActivity;
         this.activityLevel = activityLevel;
         
@@ -58,8 +63,8 @@ public class User {
         this.dob = formatter.parse(dobs);
         
         this.sex = Sex.valueOf(sexs);
-        this.height = Height.valueOf(heights);
-        this.weight = Weight.valueOf(weights);
+        this.heightUnit = HeightUnit.valueOf(heights);
+        this.weightUnit = WeightUnit.valueOf(weights);
         
         this.isTrackingActivity = Boolean.parseBoolean(isTrackingActivity);
         
@@ -148,10 +153,6 @@ public class User {
         return sex;
     }
     
-//    public List<HealthData> getDataList(){
-//        return dataList;
-//    }
-    
     public void setGoal(Goal goal){
         this.goal = goal;
     }
@@ -188,22 +189,72 @@ public class User {
         this.activityLevel = ActivityLevel.valueOf(activityLevel);
     }
     
-    @Override
-    public String toString(){
-        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + height+ "," + weight + "," + isTrackingActivity + "," + admin + "," + activityLevel;
+    public void setDataList(List<HealthData> dataList){
+        this.dataList = dataList;
+    }
+    
+    public List<HealthData> getDataList(){
+        return dataList;
+    }
+    
+    public double getWeight(){
+        return dataList.get(dataList.size() - 1).getWeight();
+    }
+    
+    public double getHeight(){
+        return dataList.get(dataList.size() - 1).getHeight();
+    }
+    
+    public double getBMI(){
+        double weight = getWeight();
+        double height = getHeight();
+        return Calculations.BMI(weight, height);
     }
 
     /**
      * @return the height
      */
-    public Height getHeight() {
-        return height;
+    public HeightUnit getHeightUnit() {
+        return heightUnit;
     }
 
     /**
      * @return the weight
      */
-    public Weight getWeight() {
-        return weight;
+    public WeightUnit getWeightUnit() {
+        return weightUnit;
+    }
+    
+    /**
+     * @return the restingHeartRate
+     */
+    public int getRestingHeartRate() {
+        return restingHeartRate;
+    }
+
+    /**
+     * @param restingHeartRate the restingHeartRate to set
+     */
+    public void setRestingHeartRate(int restingHeartRate) {
+        this.restingHeartRate = restingHeartRate;
+    }
+
+    /**
+     * @return the bodyFatPercentage
+     */
+    public double getBodyFatPercentage() {
+        return bodyFatPercentage;
+    }
+
+    /**
+     * @param bodyFatPercentage the bodyFatPercentage to set
+     */
+    public void setBodyFatPercentage(double bodyFatPercentage) {
+        this.bodyFatPercentage = bodyFatPercentage;
+    }
+    
+     @Override
+    public String toString(){
+        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + heightUnit+ "," + weightUnit + "," + isTrackingActivity + "," + admin + "," + activityLevel;
     }
 }

@@ -45,7 +45,7 @@
                 </select></p>
                 
                 <label for="goalWeight">Goal Weight</label>
-                <input type="number" class="form-control" id="goalWeight" value="" name="goalWeight">
+                <input type="number" class="form-control" id="goalWeight" value="" name="goalWeight" required>
                 
                 <p><label for="goalSpeed">Goal Speed</label>
                 <select name="goalSpeed">

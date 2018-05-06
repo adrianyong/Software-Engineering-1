@@ -5,26 +5,18 @@
  */
 package controller;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import model.Goal;
 import model.HealthData;
 
@@ -67,8 +59,8 @@ public class PersistanceController {
             m.put("dob", dateOfBirth);
 
             m.put("sex", u.getSex().toString());
-            m.put("height", u.getHeight().toString());
-            m.put("weight", u.getWeight().toString());
+            m.put("heightUnit", u.getHeightUnit().toString());
+            m.put("weightUnit", u.getWeightUnit().toString());
 
             m.put("tracking", u.isTrackingActivity());
             
@@ -77,6 +69,9 @@ public class PersistanceController {
             m.put("goalWeight", Double.toString(u.getGoal().getGoalWeight()));
             m.put("goalType", u.getGoal().getType().toString());
             m.put("goalSpeed", u.getGoal().getGoalSpeed().toString());
+            
+            m.put("restingHeartRate", Double.toString(u.getRestingHeartRate()));
+            m.put("bodyFatPercentage", Double.toString(u.getBodyFatPercentage()));
             
             ja.add(m);
 
@@ -114,13 +109,17 @@ public class PersistanceController {
             String password = null;
             String dob = null;
             String sex = null;
-            String height = null;
-            String weight = null;
+            String heightUnit = null;
+            String weightUnit = null;
             String tracking = null;
             String activityLevel = null;
+            
             String goalWeight = null;
             String goalType = null;
             String goalSpeed = null;
+            
+            String restingHeartRate = null;
+            String bodyFatPercentage = null;
             
             while (itr1.hasNext()) {
                 Map.Entry pair = itr1.next();
@@ -136,29 +135,48 @@ public class PersistanceController {
                     dob = pair.getValue().toString();
                 else if("sex".equals(pair.getKey().toString()))
                     sex = pair.getValue().toString();
-                else if("height".equals(pair.getKey().toString()))
-                    height = pair.getValue().toString();
-                else if("weight".equals(pair.getKey().toString()))
-                    weight = pair.getValue().toString();
+                else if("heightUnit".equals(pair.getKey().toString()))
+                    heightUnit = pair.getValue().toString();
+                else if("weightUnit".equals(pair.getKey().toString()))
+                    weightUnit = pair.getValue().toString();
                 else if("tracking".equals(pair.getKey().toString()))
                     tracking = pair.getValue().toString();
                 else if("activityLevel".equals(pair.getKey().toString()))
                     activityLevel = pair.getValue().toString();
+                
                 else if("goalWeight".equals(pair.getKey().toString()))
                     goalWeight = pair.getValue().toString();
                 else if("goalType".equals(pair.getKey().toString()))
                     goalType = pair.getValue().toString();
                 else if("goalSpeed".equals(pair.getKey().toString()))
                     goalSpeed = pair.getValue().toString();
+                
+                else if("restingHeartRate".equals(pair.getKey().toString()))
+                    restingHeartRate = pair.getValue().toString();
+                else if("bodyFatPercentage".equals(pair.getKey().toString()))
+                    bodyFatPercentage = pair.getValue().toString();
             }
             
             User user = null;
             try {
-                user = new User(email, password, firstName, lastName, dob, sex, height, weight, tracking, activityLevel);
+                user = new User(email, password, firstName, lastName, dob, sex, heightUnit, weightUnit, tracking, activityLevel);
             } catch (java.text.ParseException ex) {
                 System.out.println("ERROR: UNABLE TO LOAD AND INSTIANIATE NEW USER");
             }
             user.setGoal(new Goal(goalWeight, goalType, goalSpeed));
+//            user.setRestingHeartRate(Integer.parseInt(restingHeartRate));
+//            user.setBodyFatPercentage(Double.parseDouble(bodyFatPercentage));
+            
+            List<HealthData> healthData = null;
+            try {
+                healthData = loadHealthData(email);
+            } catch (Exception ex){
+                System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
+                healthData = new ArrayList();
+            }
+        
+            user.setDataList(healthData);
+
             users.add(user);
            
             //System.out.println("User \"" + user.getFullName() + "\" loaded");
@@ -276,7 +294,7 @@ public class PersistanceController {
         } catch (IOException ex) {
             System.out.println("ERROR: with reading");
         } catch (ParseException ex) {
-            System.out.println("ERROR: wutg parsing");
+            System.out.println("ERROR: with parsing");
         }
         
         JSONObject jo = (JSONObject) obj;

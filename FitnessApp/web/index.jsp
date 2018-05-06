@@ -15,6 +15,9 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     </head>
     <body>
+        
+        <%response.sendRedirect("userLogin.jsp");%>
+        
         <div class="jumbotron text-center bg-success">
         <h1>Front page</h1>
         <p>test front page</p> 

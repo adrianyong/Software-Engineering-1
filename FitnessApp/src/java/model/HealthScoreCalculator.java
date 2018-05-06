@@ -6,53 +6,115 @@
 package model;
 
 public class HealthScoreCalculator {
-    double BMI;
-    int restingHeartRate;
+
     int OneMileTime;
-    double bodyFatPercentage;
+    
     int lungCapacity; 
     
-    void addBMI(double BMI){
+    /*
+    *Translates BMI into a healthscore value, adds this onto the healthScore
+    *optional
+    */
+    private static int addBMI(double BMI){
         if(BMI < 18.5)
-            return "Underweight";
+            return -1;
         else if(BMI < 24.9)
-            return "Healthy Weight";
+            return +1;
         else if(BMI < 29.9)
-            return "Overweight";
+            return -1;
         else
-            return "Obese";
-        if()
-        //translates the BMI into a healthscore value, adds this onto the healthScore
-        //return type void
+            return -2;
     }
-    void addRestingHeartRate(){
-        //translates the BMI into a healthscore value, adds this onto the healthScore
+    
+    /*
+    *Translates RestingHeartRate into a healthscore value, adds this onto the healthScore
+    *optional
+    */
+    private static int addRestingHeartRate(int restingHeartRate){
+        if(restingHeartRate>80){
+            return -2;
+        }
+        else if(restingHeartRate>75){
+            return -1;
+        }
+        else if(restingHeartRate>70){
+            return 0;
+        }
+        else if(restingHeartRate>65){
+            return 1;
+        }
+        else if(restingHeartRate>60){
+            return 2;
+        }
+        else if(restingHeartRate>55){
+            return 3;
+        }
+        return 4;
+    }
+        
+    /*
+    *Translates body fat percentage into a healthscore value, adds this onto the healthScore
+    *optional
+    */
+    private static int addBodyFatPercentage(double bodyFatPercentage, User.Sex sex){
+        if(sex == User.Sex.Male){
+            if(bodyFatPercentage<5){
+                return -1;
+            }
+            else if(bodyFatPercentage<13){
+                return 2;
+            }
+            else if(bodyFatPercentage<17){
+                return 1;
+            }
+            else if(bodyFatPercentage<24){
+                return 0;
+            }
+            return -1;
+        }
+        //else if female
+        if(bodyFatPercentage<13){
+            return -1;
+        }
+        else if(bodyFatPercentage<20){
+            return 2;
+        }
+        else if(bodyFatPercentage<24){
+            return 1;
+        }
+        else if(bodyFatPercentage<31){
+            return 0;
+        }
+        return -1;
+    }
+      
+    /*
+    *Translates lung capacity percentage into a healthscore value, adds this onto the healthScore
+    *optional
+    */
+    private static void addLungCapacity(){
+        //translates the  into a healthscore value, adds this onto the healthScore
         //is optional
         //return type void
     }
-    void addBodyFatPercentage(){
-        //translates the body fat percentage into a healthscore value, adds this onto the healthScore
-        //is optional
-        //return type void
-    }
-    void addLungCapacity(){
-        //translates the lung capacity into a healthscore value, adds this onto the healthScore
-        //is optional
-        //return type void
-    }
-    void addOneMileTime(){
+    private static void addOneMileTime(){
         //translates the one mile time into a healthscore value, adds this onto the healthScore
         //is optional
         //return type void
     }
     
-    void healthScoreCalculator(){
-        /*
-        * calculates the health score using the different values etc. 
-        * The healthscore is specific to our app and allows people to give a 
-        * numerical value to thier health so they can better track it
-        * return type int
-        */
+    /*
+     * calculates the health score using the different values etc. 
+     * The healthscore is specific to our app and allows people to give a 
+     * numerical value to thier health so they can better track it
+     * return type int
+     */
+    public static int healthScoreCalculator(User u){
+        int healthScore = 0;
+        healthScore += addBMI(u.getBMI());
+        healthScore += addRestingHeartRate(u.getRestingHeartRate());
+        healthScore += addBodyFatPercentage(u.getBodyFatPercentage(), u.getSex());
+        return healthScore;
     }
     
 }

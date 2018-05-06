@@ -247,8 +247,8 @@ public class WebController extends HttpServlet {
         String height = request.getParameter("height");
         String height2 = request.getParameter("height2");
         
-        String weightUnit = user.getWeight().toString();
-        String heightUnit = user.getHeight().toString();
+        String weightUnit = user.getWeightUnit().toString();
+        String heightUnit = user.getHeightUnit().toString();
         double weightKg = 0;
         double heightKg = 0;
         
