@@ -16,7 +16,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add Data</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<!--        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
+        
     </head>
     <body>
         <%
@@ -65,29 +66,29 @@
             <form class="form-inline" action="WebController">
                 <input type="hidden" name="formType" value="weightHeight">
                 <div>
-                <%if(weightUnit == "kg"){%>
+                <%if("kg".equals(weightUnit)){%>
                 <p>
                     <label for="weight">Weight</label>
                     <input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">kg
                 </p><%}%>
-                <%if(weightUnit == "pound"){%>
+                <%if("pound".equals(weightUnit)){%>
                 <p>
                     <label for="weight">Weight</label>
                     <input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">lbs
                 </p><%}%>
-                <%if(weightUnit == "stonePound"){%>
+                <%if("stonePound".equals(weightUnit)){%>
                 <p>
                     <label for="weight">Weight</label>
                     <input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">st
                     <input type="number" class="form-control" id="weight2" value="<%=lastWeight2%>" name="weight2">lbs
                 </p><%}%>
 
-                <%if(heightUnit == "cm"){%>
+                <%if("cm".equals(heightUnit)){%>
                 <p>
                     <label for="height">Height:</label>
                     <input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">cm
                 </p><%}%>
-                <%if(heightUnit == "feetInches"){%>
+                <%if("feetInches".equals(heightUnit)){%>
                 <p>
                     <label for="height">Height:</label>
                     <input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">ft
@@ -96,6 +97,7 @@
                 <p> <button type="submit" class="btn btn-primary">Submit</button> </p>
                 </div>
             </form>
+                
             <%
                 try {
                     List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
@@ -121,6 +123,7 @@
                         else if("feetInches".equals(heightUnit)){
                             heightDisplay = Double.toString((int) Conversions.heightCMToFeetPart(hd.getHeight())) + "ft " + Double.toString((int) Conversions.heightCMToInchesPart(hd.getHeight())) + "in";
                         }%>
+                        
                         <div>
                             <p>Weight: <%=weightDisplay%></p>
                             <p>Height: <%=heightDisplay%></p>

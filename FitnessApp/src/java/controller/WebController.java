@@ -62,6 +62,9 @@ public class WebController extends HttpServlet {
         case "settings":
             settings(request, response, httpSession);
             break;
+        case "goals":
+            goals(request, response, httpSession);
+            break;
         }
     }
     
@@ -85,8 +88,8 @@ public class WebController extends HttpServlet {
         String dob = formatter.format(dobd);
 
         String sex = request.getParameter("sex");
-        String height = request.getParameter("height");
-        String weight = request.getParameter("weight");
+        String heightUnit = request.getParameter("heightUnit");
+        String weightUnit = request.getParameter("weightUnit");
         String tracking = request.getParameter("tracking");
 
         httpSession.setAttribute("email", email);
@@ -95,12 +98,12 @@ public class WebController extends HttpServlet {
         httpSession.setAttribute("lastName", lastName);
         httpSession.setAttribute("dob", dob);
         httpSession.setAttribute("sex", sex);
-        httpSession.setAttribute("height", height);
-        httpSession.setAttribute("weight", weight);
+        httpSession.setAttribute("heightUnit", heightUnit);
+        httpSession.setAttribute("weightUnit", weightUnit);
         httpSession.setAttribute("tracking", tracking);
 
         try {
-            request.getRequestDispatcher("registerFinal.jsp").forward(request, response);
+            response.sendRedirect("registerFinal.jsp");
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO LOAD WELCOME PAGE AFTER REGISTRATION");
         }
@@ -115,14 +118,19 @@ public class WebController extends HttpServlet {
         String lastName = (String) httpSession.getAttribute("lastName");
         String dob = (String) httpSession.getAttribute("dob");
         String sex = (String) httpSession.getAttribute("sex");
-        String height = (String) httpSession.getAttribute("height");
-        String weight = (String) httpSession.getAttribute("weight");
+        String heightUnit = (String) httpSession.getAttribute("heightUnit");
+        String weightUnit = (String) httpSession.getAttribute("weightUnit");
         String tracking = (String) httpSession.getAttribute("tracking");
         
         String activityLevel = request.getParameter("activityLevel");
         String goalType = request.getParameter("goalType");
         String goalWeight = request.getParameter("goalWeight");
         String goalSpeed = request.getParameter("goalSpeed");
+        
+        String height = request.getParameter("height");
+        String height2 = request.getParameter("height2");
+        String weight = request.getParameter("weight");
+        String weight2 = request.getParameter("weight2");
         
         //Error is user with email already exists
         System.out.println("User already exists? " + PersistanceController.matchUser(email));
@@ -138,7 +146,7 @@ public class WebController extends HttpServlet {
         
         User user = null;
         try {
-            user = new User(email, password, firstName, lastName, dob, sex, height, weight, tracking, activityLevel);
+            user = new User(email, password, firstName, lastName, dob, sex, heightUnit, weightUnit, tracking, activityLevel);
         } catch (ParseException ex) {
             System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER IN REGISTRATION");
         }
@@ -146,6 +154,30 @@ public class WebController extends HttpServlet {
         System.out.println(goalWeight + " " + goalType + " " + goalSpeed);
         user.setGoal(new Goal(goalWeight, goalType, goalSpeed));
 
+        double weightKg = 0;
+        double heightKg = 0;
+        
+        if("kg".equals(weightUnit)){
+            weightKg = Double.parseDouble(weight);
+        }
+        else if("pound".equals(weightUnit)){
+            weightKg = Conversions.weightPoundsToKg(Double.parseDouble(weight));
+        }
+        else if("stonePound".equals(weightUnit)){
+            System.out.println(weight + " " + weight2);
+            weightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(weight), Double.parseDouble(weight2));
+        }
+        
+        if("cm".equals(heightUnit)){
+            heightKg = Double.parseDouble(height);
+        }
+        else if("feetInches".equals(heightUnit)){
+            heightKg = Conversions.heightFeetInchesToCM(Double.parseDouble(height), Double.parseDouble(height2));
+        }
+
+        HealthData healthData = new HealthData(weightKg, heightKg);
+        PersistanceController.addHealthData(healthData, email);
+        
         //System.out.println(user);
         PersistanceController.addUser(user);
 
@@ -259,7 +291,6 @@ public class WebController extends HttpServlet {
             weightKg = Conversions.weightPoundsToKg(Double.parseDouble(weight));
         }
         else if("stonePound".equals(weightUnit)){
-            System.out.println(weight + " " + weight2);
             weightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(weight), Double.parseDouble(weight2));
         }
         
@@ -274,7 +305,7 @@ public class WebController extends HttpServlet {
         PersistanceController.addHealthData(healthData, email);
         
         try {
-            request.getRequestDispatcher("updateWeight.jsp").forward(request, response);
+            response.sendRedirect("updateWeight.jsp");
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
         }
@@ -301,9 +332,57 @@ public class WebController extends HttpServlet {
         PersistanceController.saveUsers(users);
         
         try {
-            request.getRequestDispatcher("settings.jsp").forward(request, response);
+            response.sendRedirect("settings.jsp");
         } catch (Exception ex) {
-            System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
+            System.out.println("ERROR: UNABLE TO RELOAD settings PAGE");
+        }
+    }
+    
+    void goals(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        String email = (String) httpSession.getAttribute("email");
+        String password = (String) httpSession.getAttribute("password");
+        User user = PersistanceController.getUser(email, password);
+        String weightUnit = user.getWeightUnit().toString();
+        
+        String goalType = request.getParameter("goalType");
+        String goalSpeed = request.getParameter("goalSpeed");
+        String goalWeight = request.getParameter("goalWeight");
+        String goalWeight2 = request.getParameter("goalWeight2");
+        
+        double weightKg = 0;
+        
+        if("kg".equals(weightUnit)){
+            weightKg = Double.parseDouble(goalWeight);
+        }
+        else if("pound".equals(weightUnit)){
+            weightKg = Conversions.weightPoundsToKg(Double.parseDouble(goalWeight));
+        }
+        else if("stonePound".equals(weightUnit)){
+            weightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(goalWeight), Double.parseDouble(goalWeight2));
+        }
+        
+        List<User> users = null;
+        try {
+            users = PersistanceController.loadUsers();
+        } catch (Exception ex) {
+            Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for(User u : users){
+            if (u.getEmail().equals(email)){
+                u.getGoal().setGoal(Goal.GoalType.valueOf(goalType));
+                u.getGoal().setGoalSpeed(Goal.GoalSpeed.valueOf(goalSpeed));
+                u.getGoal().setGoalWeight(weightKg);
+                
+            }
+        }
+        
+        PersistanceController.saveUsers(users);
+        
+        try {
+            response.sendRedirect("goals.jsp");
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO RELOAD GOAL PAGE");
         }
     }
     

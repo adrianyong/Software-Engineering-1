@@ -52,24 +52,24 @@
 						
 						<h6>Height Preferences </h6>
 						<div class="form-group">
-							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="height">
+							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="heightUnit">
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="height" id="heightPref1" value="cm" autocomplete="off" checked required> Cm
+								<input type="radio" class= "form-control" name="heightUnit" id="heightPref1" value="cm" autocomplete="off" checked required> Cm
 							  </label>
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="height" id="heightPref2" value="feetInches" autocomplete="off" checked required> Feet
+								<input type="radio" class= "form-control" name="heightUnit" id="heightPref2" value="feetInches" autocomplete="off" checked required> Feet
 							  </label>
 							</div>
 						</div>
 						
 						<h6>Weight Preferences</h6>
 						<div class="form-group">
-							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="height">
+							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="weightUnit">
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="weight" id="weightPref1" value="kg" autocomplete="off" checked required> Kg
+								<input type="radio" class= "form-control" name="weightUnit" id="weightPref1" value="kg" autocomplete="off" checked required> Kg
 							  </label>
 							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="weight" id="weightPref2" value="stonePound" autocomplete="off" checked required> Stone
+								<input type="radio" class= "form-control" name="weightUnit" id="weightPref2" value="stonePound" autocomplete="off" checked required> Stone
 							  </label>
 							</div>
 						</div>

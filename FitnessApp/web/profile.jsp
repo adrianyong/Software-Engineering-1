@@ -16,7 +16,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
     </head>
     <body>
         <div class="container">
@@ -77,7 +77,7 @@
                     String BMI = Double.toString(Calculations.BMI(recentData.getWeight(), recentData.getHeight()));
                     String BMIClass = Calculations.BMIClass(recentData.getWeight(), recentData.getHeight());
                     String BMR = Double.toString(Calculations.BMR(recentData.getWeight(), recentData.getHeight(), user.getAge(), user.getSex()));%>
-                    <p>Weight: <%= weight%></p>
+                    <p>Weight: <%= weight%>kg</p>
                     <p>BMI: <%= BMI%> | <%= BMIClass%></p>
                     <p>BMR: <%= BMR%></p>
                 <%}%>
