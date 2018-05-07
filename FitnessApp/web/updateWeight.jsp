@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Collections"%>
 <%@page import="model.Conversions"%>
 <%@page import="model.HealthData"%>
@@ -14,17 +15,60 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Add Data</title>
-<!--        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
-        
-    </head>
-    <body>
         <%
             //Redirect to login page if user session is invalid
             HttpSession httpSession = request.getSession();
             String email = (String) httpSession.getAttribute("email");
             String password = (String) httpSession.getAttribute("password");
+            if(email == null){
+                response.sendRedirect("userLogin.jsp");
+            }
+        %>
+        
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Add Data</title>
+<!--        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Date', 'Weight', 'Height'],
+              <%
+                List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
+                String oldDate = "";
+                for(HealthData hd : healthDatas){
+                    String weightDisplay = Double.toString(hd.getWeight());
+                    String heightDisplay = Double.toString(hd.getHeight());
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                    String dateTimeDisplay = formatter.format(hd.getDateTime());
+                    if(dateTimeDisplay.equals(oldDate))
+                        break;
+                    %>
+                    ['<%=dateTimeDisplay%>',  <%=weightDisplay%>,      <%=heightDisplay%>],
+                    <%
+                    oldDate = dateTimeDisplay;
+                }
+              %>
+            ]);
+
+            var options = {
+              curveType: 'function',
+              legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+          }
+        </script>
+    </head>
+    <body>
+        <%
+            //Redirect to login page if user session is invalid
             if(email == null){
                 response.sendRedirect("userLogin.jsp");
             }
@@ -98,9 +142,11 @@
                 </div>
             </form>
                 
+            <div id="curve_chart" style="width: 900px; height: 500px"></div>
+                
             <%
                 try {
-                    List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
+                    //List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
                     Collections.reverse(healthDatas);;
                     for(HealthData hd : healthDatas){
                         String weightDisplay = "";
