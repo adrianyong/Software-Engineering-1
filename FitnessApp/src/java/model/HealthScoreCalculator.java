@@ -91,17 +91,17 @@ public class HealthScoreCalculator {
     /*
     *Translates lung capacity percentage into a healthscore value, adds this onto the healthScore
     *optional
-    */
-    private static void addLungCapacity(){
-        //translates the  into a healthscore value, adds this onto the healthScore
-        //is optional
-        //return type void
-    }
-    private static void addOneMileTime(){
-        //translates the one mile time into a healthscore value, adds this onto the healthScore
-        //is optional
-        //return type void
-    }
+//    */
+//    private static void addLungCapacity(){
+//        //translates the  into a healthscore value, adds this onto the healthScore
+//        //is optional
+//        //return type void
+//    }
+//    private static void addOneMileTime(){
+//        //translates the one mile time into a healthscore value, adds this onto the healthScore
+//        //is optional
+//        //return type void
+//    }
     
     /*
      * calculates the health score using the different values etc. 

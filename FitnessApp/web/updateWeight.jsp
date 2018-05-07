@@ -48,7 +48,7 @@
                     if(dateTimeDisplay.equals(oldDate))
                         break;
                     %>
-                    ['<%=dateTimeDisplay%>',  <%=weightDisplay%>,      <%=heightDisplay%>],
+                    ['<%=dateTimeDisplay%>', <%=weightDisplay%>, <%=heightDisplay%>],
                     <%
                     oldDate = dateTimeDisplay;
                 }

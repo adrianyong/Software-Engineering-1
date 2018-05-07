@@ -5,43 +5,64 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class Activity {
-    ActivityTemplate activity;
-    int heartRate;
-    double duration;
-    String activityType;
-    double userWeight;
-    double caloriesBurnt;
-    ArrayList activityLog;
-    double goalActivityDuration;
-    int goalCalorieBurn;
+public final class Activity {
+    private String name;
+    private double duration;
+    private double caloriesBurnt;
+    private Date dateTime;
     
-    Activity(){
-        //creates Activity type object utilising the activity template and the 
-        //users inputted data for the activityLogger
+    public Activity(User u, String nameIn, double durationIn){
+        this.name = nameIn;
+        ActivityTemplate a = getActivityTemplate(name);
+        if(u.getWeight()<70.3068){
+            caloriesBurnt = a.getWeightBand1Cals();
+        }
+        else if  (u.getWeight()<83.9146){
+            caloriesBurnt = a.getWeightBand2Cals();
+        }
+        else {
+            caloriesBurnt = a.getWeightBand3Cals();
+        }
+        this.caloriesBurnt = caloriesBurnt*durationIn;
+        this.duration = durationIn;
+        this.dateTime = new Date();
     }
     
-    int getHeartRate(){
-        return heartRate;
-        //return type int of average heart rate throughout activity
+    public List<ActivityTemplate> getActivityList(){
+        return new ArrayList();
+    }
+
+    public ActivityTemplate getActivityTemplate(String activityName){
+        List<ActivityTemplate> activitiesList = getActivityList();
+        for (ActivityTemplate a : activitiesList){
+            if(a.name.equals(activityName)){ 
+                return a;
+            }
+        }
+        return null;
     }
     
-    double getDuration(){
+    //Getters
+    public String getName(){
+        return name;
+    }    
+    
+    public double getDuration(){
         return duration;
-        //return type double of time for activity duration
     }
+
+    public double getCaloriesBurnt(){
+        return caloriesBurnt;
+    }
+
+    public Date getDateTime(){
+        return dateTime;
+    }    
     
-    void getActivityTemplate(){
-        //return type ActivityTemplate from Activity Template 
-    }
-    
-    void getWeight(){
-        //returns weight in double from User.healthData
-    }
-    
-    void calculateCalorieBurn(){
-        //returns and calculates calories burnt as a double utilises 
-        //ActivityTemplate
-    }
 }
+    
+
+

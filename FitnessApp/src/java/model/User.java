@@ -23,6 +23,9 @@ public class User {
     private boolean isTrackingActivity;
     private ActivityLevel activityLevel;
     
+    Activity activity;
+    ArrayList<Activity> activityLog; 
+    
     private Goal goal;
     private List<HealthData> dataList;
     
@@ -256,5 +259,28 @@ public class User {
      @Override
     public String toString(){
         return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + heightUnit+ "," + weightUnit + "," + isTrackingActivity + "," + admin + "," + activityLevel;
+    }
+    
+
+        
+    void getActivity(){
+        //returns Activity type object from activityLog list
+    }
+    
+    void addActivity(){
+        //adds Activity type object into activityLog list
+    }
+    
+    void removeActivity(){
+        //removes Activity type object from activityLog list
+        //returns Activity type object which was removed
+    }
+    
+    void clearActivityLog(){
+        /*clears the activityLog list of all Activity objects
+        *returns ArrayList<Activity> previousActivityLog containing the 
+        *list which was removed from the activityLog chosen to return this
+        *incase of archiving reasons
+        */
     }
 }
