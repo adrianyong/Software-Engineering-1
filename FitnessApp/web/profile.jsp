@@ -4,6 +4,7 @@
     Author     : 100021268
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.HealthScore"%>
 <%@page import="model.Calculations"%>
 <%@page import="model.HealthData"%>
@@ -53,7 +54,17 @@
             <%}
                 HealthScore healthScore = new HealthScore(user);
                 String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
-                
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String oldDate = null;
+                try{
+                    oldDate = formatter.format(PersistanceController.getMostRecentHealthScore(email).getDateTime());
+                }catch (Exception ex){
+                    oldDate = "";
+                }
+                String newDate = formatter.format(healthScore.getDateTime());
+                if(!oldDate.equals(newDate))
+                    PersistanceController.addHealthScore(healthScore, email);
+
                 name = (String) httpSession.getAttribute("name");
                 
                 Date date = new Date();

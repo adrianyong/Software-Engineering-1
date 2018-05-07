@@ -1,0 +1,16 @@
+{
+    "Activities": [
+        {
+            "name": "Weight Lifting: general",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Aerobics: water",
+            "caloriesBand1": "120",
+            "caloriesBand2": "149",
+            "caloriesBand3": "178"
+        }
+    ]
+}

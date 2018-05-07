@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="model.ActivityTemplate"%>
 <%@page import="model.Activity"%>
 <%@page import="controller.PersistanceController"%>
 <%@page import="model.User"%>
@@ -15,7 +16,26 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form class="form-inline" action="WebController">
+            <input type="hidden" name="formType" value="activity">
+            <div>
+            <p>
+                <label for="duration">Duration</label>
+                <input type="number" class="form-control" id="duration" value="" name="duration"> minutes
+            </p>
+            <p>
+                <label for="activity">Activity</label>
+                <select name="activity">
+                    <%for(ActivityTemplate at : Activity.getActivityList()){
+                        String name = at.getActivityName();
+                    %>
+                        <option value="<%=name%>"><%=name%></option>
+                    <%}%>
+                </select>
+            </p>
+            <p> <button type="submit" class="btn btn-primary">Submit</button> </p>
+            </div>
+        </form>
         <%
             HttpSession httpSession = request.getSession();
             String email = (String) httpSession.getAttribute("email");
@@ -25,13 +45,13 @@
             }
             
             User user = PersistanceController.getUser(email, password);
-            user.addActivity("Weight Lifting: general", 11);
-            user.addActivity("Aerobics: water", 10);
+
             for(Activity a: user.getActivityLog()){
                 String output = a.toString();%>
-                <p><%=output%></p>
+                <div><p><%=output%></p></div>
                 <%
             }
         %>
+        <p><a href="profile.jsp" class="btn btn-info" role="button">Back</a></p>
     </body>
 </html>

@@ -1,0 +1,90 @@
+body, html {
+    height: 100%;
+    color: rgba(255, 255, 255, 0.8);
+    
+}
+
+
+.bg{ 
+
+	background-image: url("img/Running.png");
+
+    height: 100%; 
+
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	
+	transition: ease all .5s;
+}     
+
+.loginbg{
+	background-image: url("img/Running.png");
+}
+
+.regbg{
+	background-image: url("img/ManRun.png");
+}
+
+.leftmid{
+	margin-left: 15vw;
+}
+
+.center_div{
+    margin: 0 auto;
+    width:30% /* value of your choice which suits your alignment */
+}
+
+.vertical-center {
+  height:100%;
+  width:100%;
+
+  text-align: center;  /* align the inline(-block) elements horizontally */
+  font: 0/0 a;         /* remove the gap between inline(-block) elements */
+}
+
+form {
+  text-align: center;
+
+}
+
+.form-control{
+  background-color: rgba(245,245,245, 0.0);
+}
+
+input::-webkit-input-placeholder {
+color: rgba(245,245,245, 0.7) !important;
+}
+
+.jumbotron{
+    height: 80vh;
+}
+
+
+.container {
+	max-width: 350px; 
+	}
+	
+.top1 { 
+	padding-top:1vh; 
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+.subt{
+	padding-top: 0;
+	margin-top: 0;
+}
+
+.padbot{
+	padding-bottom: 5vh;
+	padding-top: 10vh;
+}
+
+.bottom-but{
+	position: relative;
+	bottom: 0;
+	left: 0;
+}
+

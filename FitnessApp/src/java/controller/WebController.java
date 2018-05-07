@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Activity;
 import model.Conversions;
 import model.Goal;
 import model.HealthData;
@@ -64,6 +65,8 @@ public class WebController extends HttpServlet {
             break;
         case "goals":
             goals(request, response, httpSession);
+        case "activity":
+            activity(request, response, httpSession);
             break;
         }
     }
@@ -383,6 +386,23 @@ public class WebController extends HttpServlet {
             response.sendRedirect("goals.jsp");
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO RELOAD GOAL PAGE");
+        }
+    }
+    
+    void activity(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        String email = (String) httpSession.getAttribute("email");
+        String password = (String) httpSession.getAttribute("password");
+        User user = PersistanceController.getUser(email, password);
+        
+        String activity = request.getParameter("activity");
+        String duration = request.getParameter("duration");
+
+        PersistanceController.addActivity(new Activity(user, activity, Double.parseDouble(duration)), email);
+        
+        try {
+            response.sendRedirect("exerciseLog.jsp");
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
         }
     }
     

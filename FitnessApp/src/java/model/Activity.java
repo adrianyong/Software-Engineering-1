@@ -6,6 +6,7 @@ package model;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -39,7 +40,18 @@ public final class Activity {
         this.dateTime = new Date();
     }
     
-    public List<ActivityTemplate> getActivityList(){
+    public Activity(String name, String duration, String caloriesBurnt, String dateTimes) throws java.text.ParseException{
+        this.name = name;
+        
+        this.duration = Double.parseDouble(duration);
+        this.caloriesBurnt = Double.parseDouble(caloriesBurnt);
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date dateTime = formatter.parse(dateTimes);
+        this.dateTime = dateTime;
+    }
+    
+    public static List<ActivityTemplate> getActivityList(){
         List<ActivityTemplate> activityTemplates = new ArrayList();
         Object obj = null;
         
@@ -87,7 +99,7 @@ public final class Activity {
     public ActivityTemplate getActivityTemplate(String activityName){
         List<ActivityTemplate> activitiesList = getActivityList();
         for (ActivityTemplate a : activitiesList){
-            if(a.name.equals(activityName)){ 
+            if(a.getActivityName().equals(activityName)){ 
                 return a;
             }
         }

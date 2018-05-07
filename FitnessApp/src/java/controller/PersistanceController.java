@@ -17,8 +17,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import model.Activity;
 import model.Goal;
 import model.HealthData;
+import model.HealthScore;
 
 import model.User;
 
@@ -174,6 +176,7 @@ public class PersistanceController {
             } catch (Exception e){
                 user.setBodyFatPercentage(0);
             }
+            
             List<HealthData> healthData = null;
             try {
                 healthData = loadHealthData(email);
@@ -181,9 +184,26 @@ public class PersistanceController {
                 System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
                 healthData = new ArrayList();
             }
+            
+            List<Activity> activities = null;
+            try {
+                activities = loadActivities(email);
+            } catch (Exception ex){
+                System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
+                activities = new ArrayList();
+            }
+            
+            List<HealthScore> healthScores = null;
+            try {
+                healthScores = loadHealthScores(email);
+            } catch (Exception ex){
+                System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
+                healthScores = new ArrayList();
+            }
         
             user.setDataList(healthData);
-            user.setActivityLog(new ArrayList());
+            user.setActivityLog(activities);
+            user.setHealthScoreLog(healthScores);
             
             users.add(user);
            
@@ -250,7 +270,7 @@ public class PersistanceController {
         return null;
     }
     
-    public static void saveUserFile(List<HealthData> healthData, String email){
+    public static void saveUserFile(List<HealthData> healthData, List<Activity> activities, List<HealthScore> healthScores, String email){
         PrintWriter pw = null;
         try {
             new File("FitnessApp/users").mkdir();
@@ -280,9 +300,35 @@ public class PersistanceController {
         
         ja = new JSONArray();
         
+        for(Activity a : activities){
+            Map m = new LinkedHashMap();
+
+            m.put("name", a.getName());
+            m.put("duration", a.getDuration());
+            m.put("caloriesBurnt", a.getCaloriesBurnt());
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+            String dateTime = formatter.format(a.getDateTime());
+            m.put("dateTime", dateTime);
+
+            ja.add(m);
+        }
+        
         jo.put("activities", ja);
         
         ja = new JSONArray();
+        
+        for(HealthScore hs : healthScores){
+            Map m = new LinkedHashMap();
+
+            m.put("healthScore", hs.getHealthScore());
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+            String dateTime = formatter.format(hs.getDateTime());
+            m.put("dateTime", dateTime);
+
+            ja.add(m);
+        }
         
         jo.put("healthScores", ja);
 
@@ -360,7 +406,22 @@ public class PersistanceController {
             healthData = new ArrayList();
         }
         healthData.add(data);
-        saveUserFile(healthData, email);
+        
+        List<Activity> activities;
+        try {
+            activities = loadActivities(email);
+        } catch (Exception ex){
+            activities = new ArrayList();
+        }
+        
+        List<HealthScore> healthScores;
+        try {
+            healthScores = loadHealthScores(email);
+        } catch (Exception ex){
+            healthScores = new ArrayList();
+        }
+        
+        saveUserFile(healthData, activities, healthScores, email);
         
         System.out.println("New health data added");
     }
@@ -377,5 +438,199 @@ public class PersistanceController {
             return null;
         
         return healthData.get(healthData.size()-1);
+    }
+    
+    public static List<Activity> loadActivities(String email){
+        List<Activity> activities = new ArrayList();
+        Object obj = null;
+        
+        new File("FitnessApp/users").mkdir();
+        File userdata = new File("FitnessApp/users/" + email + ".json");
+        try {
+            userdata.createNewFile();
+        } catch (IOException ex) {
+            System.out.println("ERROR: with creating file");
+        }
+        try {
+            obj = new JSONParser().parse(new FileReader(userdata));
+        } catch (IOException ex) {
+            System.out.println("ERROR: with reading");
+        } catch (ParseException ex) {
+            System.out.println("ERROR: with parsing");
+        }
+        
+        JSONObject jo = (JSONObject) obj;
+        JSONArray ja = (JSONArray) jo.get("activities");
+
+        Iterator itr2 = ja.iterator();
+
+        String name = null;
+        String duration = null;
+        String caloriesBurnt = null;
+        String dateTime = null;
+
+        while (itr2.hasNext()) 
+        {
+            Iterator<Map.Entry> itr1 = ((Map) itr2.next()).entrySet().iterator();
+
+            while (itr1.hasNext()) {
+            Map.Entry pair = itr1.next();
+            if("name".equals(pair.getKey().toString()))
+                name = pair.getValue().toString();
+            else if("duration".equals(pair.getKey().toString()))
+                duration = pair.getValue().toString();
+            else if("caloriesBurnt".equals(pair.getKey().toString()))
+                caloriesBurnt = pair.getValue().toString();
+            else if("dateTime".equals(pair.getKey().toString()))
+                dateTime = pair.getValue().toString();
+        }
+            try {
+                activities.add(new Activity(name, duration, caloriesBurnt, dateTime));
+            } catch (java.text.ParseException ex) {
+                System.out.println("ERROR: UNABLE TO LOAD DATA ENTRY INTO LIST");
+            }
+        }
+
+        System.out.println("User \"" + email + "\" data loaded");
+        
+        return activities;
+    }
+    
+    public static void addActivity(Activity activity, String email){
+        System.out.println("Adding new data for " + email);
+        
+        List<HealthData> healthData;
+        try {
+            healthData = loadHealthData(email);
+        } catch (Exception ex){
+            healthData = new ArrayList();
+        }
+        
+        List<Activity> activities;
+        try {
+            activities = loadActivities(email);
+        } catch (Exception ex){
+            activities = new ArrayList();
+        }
+        activities.add(activity);
+        
+        List<HealthScore> healthScores;
+        try {
+            healthScores = loadHealthScores(email);
+        } catch (Exception ex){
+            healthScores = new ArrayList();
+        }
+        
+        saveUserFile(healthData, activities, healthScores, email);
+        
+        System.out.println("New activity added");
+    }
+    
+    public static Activity getMostRecentActivity(String email){
+        List<Activity> activites = null;
+        try {
+            activites = loadActivities(email);
+        } catch (Exception ex){
+            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
+            activites = new ArrayList();
+        }
+        if(activites.size()==0)
+            return null;
+        
+        return activites.get(activites.size()-1);
+    }
+    
+    public static List<HealthScore> loadHealthScores(String email){
+        List<HealthScore> healthScores = new ArrayList();
+        Object obj = null;
+        
+        new File("FitnessApp/users").mkdir();
+        File userdata = new File("FitnessApp/users/" + email + ".json");
+        try {
+            userdata.createNewFile();
+        } catch (IOException ex) {
+            System.out.println("ERROR: with creating file");
+        }
+        try {
+            obj = new JSONParser().parse(new FileReader(userdata));
+        } catch (IOException ex) {
+            System.out.println("ERROR: with reading");
+        } catch (ParseException ex) {
+            System.out.println("ERROR: with parsing");
+        }
+        
+        JSONObject jo = (JSONObject) obj;
+        JSONArray ja = (JSONArray) jo.get("healthScores");
+
+        Iterator itr2 = ja.iterator();
+
+        String healthScore = null;
+        String dateTime = null;
+
+        while (itr2.hasNext()) 
+        {
+            Iterator<Map.Entry> itr1 = ((Map) itr2.next()).entrySet().iterator();
+
+            while (itr1.hasNext()) {
+            Map.Entry pair = itr1.next();
+            if("healthScore".equals(pair.getKey().toString()))
+                healthScore = pair.getValue().toString();
+            else if("dateTime".equals(pair.getKey().toString()))
+                dateTime = pair.getValue().toString();
+        }
+            try {
+                healthScores.add(new HealthScore(healthScore, dateTime));
+            } catch (java.text.ParseException ex) {
+                System.out.println("ERROR: UNABLE TO LOAD DATA ENTRY INTO LIST");
+            }
+        }
+
+        System.out.println("User \"" + email + "\" data loaded");
+        
+        return healthScores;
+    }
+    
+    public static void addHealthScore(HealthScore healthScore, String email){
+        System.out.println("Adding new data for " + email);
+        
+        List<HealthData> healthData;
+        try {
+            healthData = loadHealthData(email);
+        } catch (Exception ex){
+            healthData = new ArrayList();
+        }
+        
+        List<Activity> activities;
+        try {
+            activities = loadActivities(email);
+        } catch (Exception ex){
+            activities = new ArrayList();
+        }
+        
+        List<HealthScore> healthScores;
+        try {
+            healthScores = loadHealthScores(email);
+        } catch (Exception ex){
+            healthScores = new ArrayList();
+        }
+        healthScores.add(healthScore);
+        
+        saveUserFile(healthData, activities, healthScores, email);
+        
+        System.out.println("New activity added");
+    }
+    
+    public static HealthScore getMostRecentHealthScore(String email){
+        List<HealthScore> healthScores = null;
+        try {
+            healthScores = loadHealthScores(email);
+        } catch (Exception ex){
+            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
+            healthScores = new ArrayList();
+        }
+        if(healthScores.size()==0)
+            return null;
+        
+        return healthScores.get(healthScores.size()-1);
     }
 }
