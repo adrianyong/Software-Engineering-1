@@ -22,12 +22,11 @@ public class User {
     private final WeightUnit weightUnit;
     private boolean isTrackingActivity;
     private ActivityLevel activityLevel;
-    
-    Activity activity;
-    ArrayList<Activity> activityLog; 
-    
+  
     private Goal goal;
     private List<HealthData> dataList;
+    private List<Activity> activityLog; 
+    private List<HealthScore> healthScoreLog; 
     
     private int restingHeartRate;
     private double bodyFatPercentage;
@@ -256,31 +255,45 @@ public class User {
         this.bodyFatPercentage = bodyFatPercentage;
     }
     
-     @Override
-    public String toString(){
-        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + heightUnit+ "," + weightUnit + "," + isTrackingActivity + "," + admin + "," + activityLevel;
+    public void addActivity(String name, double duration){
+        activityLog.add(new Activity(this, name, duration));
     }
     
-
-        
-    void getActivity(){
-        //returns Activity type object from activityLog list
+//    public void removeActivity(){
+//        //removes Activity type object from activityLog list
+//        //returns Activity type object which was removed
+//    }
+    
+    public List<Activity> getActivityLog(){
+        return activityLog;
     }
     
-    void addActivity(){
-        //adds Activity type object into activityLog list
+    public void setActivityLog(List<Activity> activityLog){
+        this.activityLog = activityLog;
     }
     
-    void removeActivity(){
-        //removes Activity type object from activityLog list
-        //returns Activity type object which was removed
-    }
-    
-    void clearActivityLog(){
+    public void clearActivityLog(){
         /*clears the activityLog list of all Activity objects
         *returns ArrayList<Activity> previousActivityLog containing the 
         *list which was removed from the activityLog chosen to return this
         *incase of archiving reasons
         */
+    }
+    
+    public void addHealthScore(){
+        healthScoreLog.add(new HealthScore(this));
+    }
+    
+    public List<HealthScore> getHealthScoreLog(){
+        return healthScoreLog;
+    }
+    
+    public void setHealthScoreLog(List<HealthScore> healthScoreLog){
+        this.healthScoreLog = healthScoreLog;
+    }
+    
+    @Override
+    public String toString(){
+        return email + "," + password + "," + firstName + "," + lastName + "," + getDobString() + "," + sex + "," + heightUnit+ "," + weightUnit + "," + isTrackingActivity + "," + admin + "," + activityLevel;
     }
 }

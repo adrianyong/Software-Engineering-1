@@ -4,6 +4,7 @@
     Author     : 100021268
 --%>
 
+<%@page import="model.HealthScore"%>
 <%@page import="model.Calculations"%>
 <%@page import="model.HealthData"%>
 <%@page import="controller.PersistanceController"%>
@@ -50,6 +51,9 @@
                     <strong><%= messageType%>!</strong> <%= message%>
                 </div>
             <%}
+                HealthScore healthScore = new HealthScore(user);
+                String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+                
                 name = (String) httpSession.getAttribute("name");
                 
                 Date date = new Date();
@@ -66,12 +70,14 @@
                 }
             %>
                 <p> Good <%= timeOfDay%>, <%= name%>!</p>
+                
+                <p> Health Score :  <%= healthScoreMsg%></p>
             <p><a href="profile.jsp" class="btn btn-info" role="button">Home</a></p>
             <p><a href="exerciseLog.jsp" class="btn btn-info" role="button">Exercise Log</a></p>
            <!--<p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>-->
             <p><a href="updateWeight.jsp" class="btn btn-info" role="button">Weight Log</a></p>
             <%
-                HealthData recentData = PersistanceController.getMostRecentData(email);
+                HealthData recentData = PersistanceController.getMostRecentHealthData(email);
                 if(recentData!=null){
                     String weight = Double.toString(recentData.getWeight());
                     String BMI = Double.toString(Calculations.BMI(recentData.getWeight(), recentData.getHeight()));

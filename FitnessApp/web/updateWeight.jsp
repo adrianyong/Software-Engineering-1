@@ -74,7 +74,7 @@
             }
             
             User user = PersistanceController.getUser(email, password);
-            HealthData recentData = PersistanceController.getMostRecentData(email);
+            HealthData recentData = PersistanceController.getMostRecentHealthData(email);
             
             String lastWeight = "";
             String lastWeight2 = "";

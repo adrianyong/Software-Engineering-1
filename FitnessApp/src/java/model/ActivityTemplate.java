@@ -10,29 +10,29 @@ package model;
 
 public class ActivityTemplate {
     String name = "";
-    int weightBand1Cals = 0;
-    int weightBand2Cals = 0;
-    int weightBand3Cals = 0;
+    int caloriesBand1 = 0;
+    int caloriesBand2 = 0;
+    int caloriesBand3 = 0;
 
 
     
     ActivityTemplate(String activityName, int weight1Cals, int weight2Cals, int weight3Cals){
-name = activityName;
-    weightBand1Cals = weight1Cals;
-    weightBand2Cals = weight2Cals;
-    weightBand3Cals = weight3Cals;
+        name = activityName;
+        caloriesBand1 = weight1Cals;
+        caloriesBand2 = weight2Cals;
+        caloriesBand3 = weight3Cals;
     }
     
     int getWeightBand1Cals(){
-        return weightBand1Cals;
+        return caloriesBand1;
     }  
     
     int getWeightBand2Cals(){
-        return weightBand2Cals;
+        return caloriesBand2;
     }  
     
     int getWeightBand3Cals(){
-        return weightBand3Cals;
+        return caloriesBand3;
     }
     
     String getActivityName(){

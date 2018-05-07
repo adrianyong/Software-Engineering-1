@@ -70,7 +70,7 @@ public class PersistanceController {
             m.put("goalType", u.getGoal().getType().toString());
             m.put("goalSpeed", u.getGoal().getGoalSpeed().toString());
             
-            m.put("restingHeartRate", Double.toString(u.getRestingHeartRate()));
+            m.put("restingHeartRate", Integer.toString(u.getRestingHeartRate()));
             m.put("bodyFatPercentage", Double.toString(u.getBodyFatPercentage()));
             
             ja.add(m);
@@ -164,9 +164,16 @@ public class PersistanceController {
                 System.out.println("ERROR: UNABLE TO LOAD AND INSTIANIATE NEW USER");
             }
             user.setGoal(new Goal(goalWeight, goalType, goalSpeed));
-//            user.setRestingHeartRate(Integer.parseInt(restingHeartRate));
-//            user.setBodyFatPercentage(Double.parseDouble(bodyFatPercentage));
-            
+            try {
+            user.setRestingHeartRate(Integer.parseInt(restingHeartRate));
+            } catch (Exception e){
+                user.setRestingHeartRate(0);
+            }
+            try {
+            user.setBodyFatPercentage(Double.parseDouble(bodyFatPercentage));
+            } catch (Exception e){
+                user.setBodyFatPercentage(0);
+            }
             List<HealthData> healthData = null;
             try {
                 healthData = loadHealthData(email);
@@ -176,7 +183,8 @@ public class PersistanceController {
             }
         
             user.setDataList(healthData);
-
+            user.setActivityLog(new ArrayList());
+            
             users.add(user);
            
             //System.out.println("User \"" + user.getFullName() + "\" loaded");
@@ -242,7 +250,7 @@ public class PersistanceController {
         return null;
     }
     
-    public static void saveHealthData(List<HealthData> healthData, String email){
+    public static void saveUserFile(List<HealthData> healthData, String email){
         PrintWriter pw = null;
         try {
             new File("FitnessApp/users").mkdir();
@@ -269,6 +277,14 @@ public class PersistanceController {
         }
 
         jo.put("healthData", ja);
+        
+        ja = new JSONArray();
+        
+        jo.put("activities", ja);
+        
+        ja = new JSONArray();
+        
+        jo.put("healthScores", ja);
 
         pw.write(jo.toJSONString());
 
@@ -344,12 +360,12 @@ public class PersistanceController {
             healthData = new ArrayList();
         }
         healthData.add(data);
-        saveHealthData(healthData, email);
+        saveUserFile(healthData, email);
         
         System.out.println("New health data added");
     }
     
-    public static HealthData getMostRecentData(String email){
+    public static HealthData getMostRecentHealthData(String email){
         List<HealthData> healthData = null;
         try {
             healthData = loadHealthData(email);

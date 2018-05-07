@@ -4,9 +4,17 @@
  */
 package model;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public final class Activity {
     private String name;
@@ -32,7 +40,48 @@ public final class Activity {
     }
     
     public List<ActivityTemplate> getActivityList(){
-        return new ArrayList();
+        List<ActivityTemplate> activityTemplates = new ArrayList();
+        Object obj = null;
+        
+        try {
+            obj = new JSONParser().parse(new FileReader("FitnessApp/ActivityTemplateList.json"));
+        } catch (IOException ex) {
+            System.out.println("ERROR: with reading");
+        } catch (ParseException ex) {
+            System.out.println("ERROR: with parsing");
+        }
+        
+        JSONObject jo = (JSONObject) obj;
+        JSONArray ja = (JSONArray) jo.get("Activities");
+
+        Iterator itr2 = ja.iterator();
+
+        String name = null;
+        String caloriesBand1 = null;
+        String caloriesBand2 = null;
+        String caloriesBand3 = null;
+
+        while (itr2.hasNext()) 
+        {
+            Iterator<Map.Entry> itr1 = ((Map) itr2.next()).entrySet().iterator();
+
+            while (itr1.hasNext()) {
+            Map.Entry pair = itr1.next();
+            if("name".equals(pair.getKey().toString()))
+                name = pair.getValue().toString();
+            else if("caloriesBand1".equals(pair.getKey().toString()))
+                caloriesBand1 = pair.getValue().toString();
+            else if("caloriesBand2".equals(pair.getKey().toString()))
+                caloriesBand2 = pair.getValue().toString();
+            else if("caloriesBand3".equals(pair.getKey().toString()))
+                caloriesBand3 = pair.getValue().toString();
+        }
+            activityTemplates.add(new ActivityTemplate(name, Integer.parseInt(caloriesBand1), Integer.parseInt(caloriesBand2), Integer.parseInt(caloriesBand3)));
+        }
+//
+//        System.out.println("User \"" + email + "\" data loaded");
+//        
+        return activityTemplates;
     }
 
     public ActivityTemplate getActivityTemplate(String activityName){
@@ -62,7 +111,9 @@ public final class Activity {
         return dateTime;
     }    
     
-}
+    @Override
+    public String toString(){
+        return name + "," + duration + "," + caloriesBurnt + "," + dateTime.toString();
+    }
     
-
-
+}
