@@ -95,12 +95,12 @@
 								</select>
 							</div>
 							<%}
-                			else{%>
+                                                        else{%>
 							<div class="form-group form-inline">
-								<label for="activityLevel" class="w-50 text-left">Activity Level (with tracking)</label>
+								<label for="activityLevel" class="w-50 text-left">Activity Level (outside exercise)</label>
 								<select name="activityLevel" class="form-control w-50 border-0 backgroundBlack">
 									<option value="NoExercise">Sedentary</option>
-									<option value="ModerateExercise">Active Lifestyle</option>
+									<option value="LightExercise">Active Lifestyle</option>
 								</select>
 							</div>
 							<%}%>

@@ -31,11 +31,15 @@
                 User.ActivityLevel activityLevel = user.getActivityLevel();
                 System.out.println(activityLevel);
                 String activityLevelString = activityLevel.toString();
+                
+
             %>
             <p>
                 <form class="form-inline" action="WebController">
                     <input type="hidden" name="formType" value="settings">
-
+                    <% boolean tracking = user.isTrackingActivity();
+                    if(!tracking){
+                        %>
                     <label for="activityLevel">Activity Level</label>
                     <select name="activityLevel">
                         <option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
@@ -54,6 +58,18 @@
                                 selected
                                 <%}%>>Very Hard Exercise</option>
                     </select>
+                    <%}
+                    else{%>
+                    <label for="activityLevel">Activity Level (outside exercise)</label>
+                    <select name="activityLevel">
+                        <option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
+                                selected
+                                <%}%>>No Exercise</option>
+                        <option value="LightExercise" <%if (activityLevelString.equals("LightExercise")){%>
+                                selected
+                                <%}%>>Light Exercise</option>
+                    </select>
+                    <%}%>
 
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>

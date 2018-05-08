@@ -93,7 +93,7 @@
                     String weight = Double.toString(recentData.getWeight());
                     String BMI = Double.toString(Calculations.BMI(recentData.getWeight(), recentData.getHeight()));
                     String BMIClass = Calculations.BMIClass(recentData.getWeight(), recentData.getHeight());
-                    String BMR = Double.toString(Calculations.BMR(recentData.getWeight(), recentData.getHeight(), user.getAge(), user.getSex()));%>
+                    String BMR = Double.toString(Calculations.BMR(user));%>
                     <p>Weight: <%= weight%>kg</p>
                     <p>BMI: <%= BMI%> | <%= BMIClass%></p>
                     <p>BMR: <%= BMR%></p>

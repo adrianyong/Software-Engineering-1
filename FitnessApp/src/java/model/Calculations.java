@@ -10,19 +10,39 @@ public class Calculations {
     
     
     
-    public static double BMR(double mass, double height, int age, User.Sex sex){
+    public static double BMR(User user){
         //For mass(kg), height(m), age(years)
         double BMR = 0;
 //        height = height / 100;
         
-        if(sex == User.Sex.Male){
-            BMR = (13.397 * mass) + (4.799 * height) - (5.677 * age) + 88.362;
+        if(user.getSex()== User.Sex.Male){
+            BMR = (13.397 * user.getWeight()) + (4.799 * user.getHeight()) - (5.677 * user.getAge()) + 88.362;
         }
         
-        if(sex == User.Sex.Female){
-            BMR = (9.247 * mass) + (3.098 * height) - (4.330 * age) + 447.593;
+        if(user.getSex() == User.Sex.Female){
+            BMR = (9.247 * user.getWeight()) + (3.098 * user.getHeight()) - (4.330 * user.getAge()) + 447.593;
         }
         
+        switch (user.getActivityLevel()) {
+        case NoExercise:
+            BMR *= 1.2;
+            break;
+        case LightExercise:
+            BMR *= 1.375;
+            break;
+        case ModerateExercise:
+            BMR *= 1.55;
+            break;
+        case HardExercise:
+            BMR *= 1.725;
+            break;
+        case VeryHardExercise:
+            BMR *= 1.9;
+            break;
+        default:
+            break;
+        }
+            
         return BMR;
     }
     
