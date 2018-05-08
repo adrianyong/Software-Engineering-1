@@ -368,7 +368,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 h1, .h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
 }
 
 h2, .h2 {
@@ -1961,7 +1961,7 @@ pre code {
   font-size: 1rem;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.75);
-  background-color: #fff;
+  background-color: rgba(4, 138, 114, 0.75);
   background-clip: padding-box;
   border: 4px solid #ced4da;
   border-radius: 0.25rem;
@@ -2536,9 +2536,9 @@ fieldset:disabled a.btn {
 }
 
 .btn-secondary {
+  border: 4px solid rgba(255, 255, 255, 0.5);
   color: rgba(255,255,255, 0.8);
   background-color: rgba(4, 138, 114, 0.0);
-  border-color: rgba(4, 138, 114, 0.8);
 }
 
 .btn-secondary:hover {
@@ -2550,6 +2550,10 @@ fieldset:disabled a.btn {
 .btn-secondary:focus, .btn-secondary.focus {
   box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
 }
+
+.btn-secondary:checked{
+	background-color: rgba(4, 138, 114, 0.8);
+}	
 
 .btn-secondary.disabled, .btn-secondary:disabled {
   color: #fff;
@@ -8731,6 +8735,7 @@ button.bg-dark:focus {
 
 .text-left {
   text-align: left !important;
+  justify-content: left !important;
 }
 
 .text-right {

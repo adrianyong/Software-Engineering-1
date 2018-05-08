@@ -16,7 +16,9 @@
     </head>
     <body>
         
-        <%response.sendRedirect("userLogin.jsp");%>
+        <%
+            session.invalidate();
+            response.sendRedirect("userLogin.jsp");%>
         
         <div class="jumbotron text-center bg-success">
         <h1>Front page</h1>

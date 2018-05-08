@@ -28,12 +28,14 @@
         %>
 		<div class="wrapper bg loginbg">
 		
-			<div class="container text-center">
-					<h1 class="top1">healthBot</h1>
-					<h4 class="subt"> your personal fitness assistant </h4>
+			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
+				<div class="container text-center">
+					<h1>healthBot</h1>
+					<h5>your personal fitness assistant </h5>
+				</div>
 			</div>
 			
-			<div style="background:transparent !important" class="jumbotron d-flex align-items-center">
+			<div style="background:transparent !important" class="jumbotron jumbomain d-flex align-items-center">
 				<div class="container">
 					
 					<form class="form mb-4" action="WebController">
@@ -52,30 +54,28 @@
 							<input type="password" class="form-control text-center border-right-0 border-left-0 border-bottom-0 rounded-0"
 							id="pwd" placeholder="Password" name="password">
 						</div>
-		
-<!--						<fieldset class="form-group">					
-							<div class="form-check">
-								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" name="remember"> Remember me
-								</label>
-							</div>
-						</fieldset>-->
 						
-						<button type="submit" class="btn btn-info btn-block ">Submit</button>
+						<button type="submit" class="btn btn-info btn-block">Submit</button>
 					</form>
 					
-					<%String message = (String)request.getAttribute("message"); 
+					<%
+					String message = (String)request.getAttribute("message"); 
 					
-					if(message != null){%>
+					if(message != null){
+					%>
 					
 					<div class="alert alert-danger text-center">
 						<strong>Error: </strong> <%= message%>
 					</div>
-                                        <%}%>
 					
+					<%}%>
+
 				</div>
 				
-				<div class="fixed-bottom text-center">
+			</div>
+			
+			<div style="background:transparent !important" class="jumbotron jumbobot d-flex align-items-center">
+				<div class="container text-center">
 					<p><a href="register.jsp" class="btn btn-info" role="button">Sign up</a></p>
 				</div>
 			</div>

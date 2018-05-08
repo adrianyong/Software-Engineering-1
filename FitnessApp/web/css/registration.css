@@ -1,13 +1,15 @@
 @media only screen and (max-width: 480px) {
 .leftmid{
-	margin-left: 7.5vw;
-	margin-right: 7.5vw;
+	margin-left: 7.5%;
+	margin-right: 7.5%;
+}
+
+.lefttitle{
+	margin-left: 7.5%;
+	margin-right: 7.5%;
 }
 
 .bg{
-
-	background-image: url("img/ManRun.png");
-
     height: 100%; 
 
 
@@ -17,6 +19,4 @@
 }    
 }
 
-.jumbotron{
-	height: 90%;
-}
+

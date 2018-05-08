@@ -17,91 +17,85 @@
     </head>
     <body height:100%; margin:0;padding:0>
 		<div class="wrapper bg regbg">
-	
-			<h2 class="container text-center">Registration</h2>
-			<div style="background:transparent !important" class="jumbotron d-flex align-items-center">
+		
+			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
+				<div class="container text-center leftmid">
+					<h1>healthBot</h1>
+					<h5>your personal fitness assistant </h5>
+				</div>
+			</div>
+			
+		
+			<div style="background:transparent !important" class="jumbotron jumbomain d-flex align-items-center">
 				<div class="container text-center leftmid">
 					<form class="form-mb4" action="WebController">
 						<input type="hidden" name="formType" value="register1">
-						<p><label for="email" class="sr-only">Email:</label>
-						<input type="email" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="email" placeholder="Enter email" name="email" required></p>
+						<label for="email" class="text-left w-100">Email</label>
+						<input type="email" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="email" placeholder="Enter email" name="email" required>
 						
-						<p><label for="password" class="sr-only">Password:</label>
-						<input type="password" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="password" placeholder="Enter password" name="password" required></p>
+						<label for="password" class="text-left w-100">Password</label>
+						<input type="password" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="password" placeholder="Enter password" name="password" required>
 						
-						<p><label for="firstName" class="sr-only">First Name: </label>
-						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="firstName" placeholder="Enter first name" name="firstName" required></p>
+						<label for="firstName" class="text-left w-100">First Name: </label>
+						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="firstName" placeholder="Enter first name" name="firstName" required>
 						
-						<p><label for="lastName" class="sr-only">Last Name: </label>
-						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="lastName" placeholder="Enter last name" name="lastName" required></p>
+						<label for="lastName" class="text-left w-100">Last Name: </label>
+						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="lastName" placeholder="Enter last name" name="lastName" required>
 						
-						<p><label for="dob" class="sr-only">Date of Birth: </label>
-						<input type="date" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="dob" placeholder="Enter date of birth" name="dob" required></p>
+						<label for="dob" class="text-left w-100">Date of Birth: </label>
+						<input type="date" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="dob" placeholder="Enter date of birth" name="dob" required>
 						
-						<h6>Sex </h6>
-						<div class="form-group">
-							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="sex">
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="sex" id="sex1" value="Male" autocomplete="off" checked required> Male
-							  </label>
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="sex" id="sex2" value="Female" autocomplete="off" checked required> Female
-							  </label>
-							</div>
+						<div class="form-group form-inline">
+								<label for="heightUnit" class="w-50 text-left">Height Preferences</label>
+								<select name="heightUnit" class="form-control w-50 border-0 backgroundBlack">
+									<option value="cm" id="heightpref1">Cm</option>
+									<option value="feetInches" id="heightpref2">Feet</option>
+								</select>
 						</div>
 						
-						<h6>Height Preferences </h6>
-						<div class="form-group">
-							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="heightUnit">
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="heightUnit" id="heightPref1" value="cm" autocomplete="off" checked required> Cm
-							  </label>
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="heightUnit" id="heightPref2" value="feetInches" autocomplete="off" checked required> Feet
-							  </label>
-							</div>
+						<div class="form-group form-inline">
+								<label for="weightUnit" class="w-50 text-left">Weight Preferences</label>
+								<select name="weightUnit" class="form-control w-50 border-0 backgroundBlack">
+									<option value="kg" id="weightpref1">Kg</option>
+									<option value="stonePound" id="weightpref2">Stone</option>
+								</select>
 						</div>
 						
-						<h6>Weight Preferences</h6>
-						<div class="form-group">
-							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="weightUnit">
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="weightUnit" id="weightPref1" value="kg" autocomplete="off" checked required> Kg
-							  </label>
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="weightUnit" id="weightPref2" value="stonePound" autocomplete="off" checked required> Stone
-							  </label>
-							</div>
+						<div class="form-group form-inline">
+								<label for="sex" class="w-50 text-left">Sex</label>
+								<select name="sex" class="form-control w-50 border-0 backgroundBlack">
+									<option value="Male" id="sex1">Male</option>
+									<option value="Female" id="sex2">Female</option>
+								</select>
 						</div>
 						
-						<h6>Would you like to Track Activity?</h6>
-						<div class="form-group">
-							<div class="o-switch btn-group d-flex" data-toggle="buttons" role="height">
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="tracking" id="tracking1" value="True" autocomplete="off" checked required> Yes
-							  </label>
-							  <label class="btn btn-secondary w-100">
-								<input type="radio" class= "form-control" name="tracking" id="tracking2" value="False" autocomplete="off" checked required> No
-							  </label>
-							</div>
+						
+						<div class="form-group form-inline">
+								<label for="tracking" class="w-50 text-left">Would you like to Track Activity?</label>
+								<select name="tracking" class="form-control w-50 border-0 backgroundBlack">
+									<option value="True" id="weightpref1">Yes</option>
+									<option value="False" id="weightpref2">No</option>
+								</select>
 						</div>
 						
 						<div class="form-check">
-						</div>
-						<button type="submit" class="btn btn-primary">Next</button>
+						</div></p>
+						<button type="submit" class="btn btn-info btn-block">Next</button></p>
 						
 					</form>
 					
 					<!--
 					<p><a href="index.jsp" class="btn btn-info" role="button">Back Home</a></p>
 					-->
-					<div class="bottom-but">
-						<p><a href="userLogin.jsp" class="btn btn-info" role="button">Back to User Login</a></p>
-					</div>
 					
+				</div>
+			</div>
+			
+			<div style="background:transparent !important" class="jumbotron jumbobot d-flex align-items-center">
+				<div class="container text-center leftmid">
+					<a href="userLogin.jsp" class="btn btn-info" role="button">Back to User Login</a>
 				</div>
 			</div>
 		
 		</div>
 </html>
-

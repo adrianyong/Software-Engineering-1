@@ -264,7 +264,7 @@ public class WebController extends HttpServlet {
     void logout(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
         httpSession.invalidate();
         try {
-            request.getRequestDispatcher("userLogin.jsp").forward(request, response);
+            response.sendRedirect("userLogin.jsp");
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO LOAD LOGIN PAGE AFTER LOGOUT");
         }

@@ -1,6 +1,6 @@
 body, html {
     height: 100%;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.99);
     
 }
 
@@ -27,8 +27,16 @@ body, html {
 	background-image: url("img/ManRun.png");
 }
 
+.regbg2{
+	background-image: url("img/WomanHair.png");
+}
+
 .leftmid{
-	margin-left: 15vw;
+	margin-left: 15%;
+}
+
+.lefttitle{
+	margin-left: 16.5%;
 }
 
 .center_div{
@@ -58,8 +66,26 @@ color: rgba(245,245,245, 0.7) !important;
 }
 
 .jumbotron{
-    height: 80vh;
+	margin-bottom: 0;
 }
+
+.jumbotitle{
+	height: 12.5%;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.jumbomain{
+	height: 80%;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.jumbobot{
+	height: 7.5%;
+	padding-top: 0;
+	padding-bottom: 0;
+}	
 
 
 .container {
@@ -67,7 +93,7 @@ color: rgba(245,245,245, 0.7) !important;
 	}
 	
 .top1 { 
-	padding-top:1vh; 
+	padding-top:1%; 
 	padding-bottom: 0;
 	margin-bottom: 0;
 }
@@ -78,13 +104,14 @@ color: rgba(245,245,245, 0.7) !important;
 }
 
 .padbot{
-	padding-bottom: 5vh;
-	padding-top: 10vh;
+	padding-bottom: 5%;
 }
 
-.bottom-but{
-	position: relative;
-	bottom: 0;
-	left: 0;
+select option {
+    background: rgba(4, 138, 114, 0.9);
+    color: rgba(255,255,255, 0.9);
 }
 
+.backgroundBlack{
+	background: rgba(0, 0, 0, 0.3);
+}
