@@ -31,6 +31,10 @@ body, html {
 	background-image: url("img/WomanHair.png");
 }
 
+.profbg{
+	background-image: url("img/LotsRun.png");
+}
+
 .leftmid{
 	margin-left: 15%;
 }
@@ -81,14 +85,36 @@ color: rgba(245,245,245, 0.7) !important;
 	padding-bottom: 0;
 }
 
+.jumbomainprof{
+	height: 87.5%;
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	}
+
 .jumbobot{
 	height: 7.5%;
 	padding-top: 0;
 	padding-bottom: 0;
 }	
 
+.jumboleft{
+	height: 100%;
+	width: 20%;
+	padding-right: 0;
+	padding-left: 0;
+}
 
-.container {
+.jumboright{
+	height: 100%;
+	width: 80%;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+
+.containermob {
 	max-width: 350px; 
 	}
 	
@@ -115,3 +141,68 @@ select option {
 .backgroundBlack{
 	background: rgba(0, 0, 0, 0.3);
 }
+
+.righty{
+	margin-right: 0;
+	margin-bottom: 3.5%;
+	display: flex; 
+	flex-direction: row-reverse;
+}
+
+.lefty{
+	margin-left: 0;
+	margin-bottom: 3.5%;
+	}
+
+.floatright{
+	float: right;
+}
+
+.floatleft{
+	float: left;
+	padding-left: 2%;
+}
+
+.nobg{
+	background: rgba(4, 138, 114, 0.0);
+}
+
+.sidebar{
+	width: 15%;
+}
+
+.currentpage{
+	margin-right: 15%;
+	width: 85%;
+	height: 5vh;
+	display: inline-flex;
+	align-items: center; 
+	overflow:  hidden;
+}
+
+.notpage{
+	margin-right: 25%;
+	background: rgba(0, 0, 0, 0.5);
+	width: 75%;
+	height: 5vh;
+	display: inline-flex;
+	align-items: center; 
+	overflow:  hidden;
+}
+
+.mainboxes{
+	max-width:100%;
+	height:100%;
+	padding-right: 12.5%;
+	padding-bottom: 5%;
+}
+
+.bigbox{
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 0.25rem;
+	margin-right: 2%;
+	margin-left: 2%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+

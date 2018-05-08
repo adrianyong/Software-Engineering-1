@@ -19,7 +19,7 @@
 		<div class="wrapper bg regbg">
 		
 			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
-				<div class="container text-center leftmid">
+				<div class="container containermob text-center leftmid">
 					<h1>healthBot</h1>
 					<h5>your personal fitness assistant </h5>
 				</div>
@@ -27,7 +27,7 @@
 			
 		
 			<div style="background:transparent !important" class="jumbotron jumbomain d-flex align-items-center">
-				<div class="container text-center leftmid">
+				<div class="container containermob text-center leftmid">
 					<form class="form-mb4" action="WebController">
 						<input type="hidden" name="formType" value="register1">
 						<label for="email" class="text-left w-100">Email</label>
@@ -92,7 +92,7 @@
 			</div>
 			
 			<div style="background:transparent !important" class="jumbotron jumbobot d-flex align-items-center">
-				<div class="container text-center leftmid">
+				<div class="container containermob text-center leftmid">
 					<a href="userLogin.jsp" class="btn btn-info" role="button">Back to User Login</a>
 				</div>
 			</div>

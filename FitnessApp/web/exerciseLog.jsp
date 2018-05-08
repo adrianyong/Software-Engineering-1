@@ -21,7 +21,7 @@
             <div>
             <p>
                 <label for="duration">Duration</label>
-                <input type="number" class="form-control" id="duration" value="" name="duration"> minutes
+                <input type="number" class="form-control" id="duration" value="" name="duration" required> minutes
             </p>
             <p>
                 <label for="activity">Activity</label>

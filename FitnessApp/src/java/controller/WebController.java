@@ -65,6 +65,7 @@ public class WebController extends HttpServlet {
             break;
         case "goals":
             goals(request, response, httpSession);
+            break;
         case "activity":
             activity(request, response, httpSession);
             break;

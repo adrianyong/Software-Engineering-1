@@ -19,14 +19,14 @@
 		<div class="wrapper bg regbg2">
 		
 			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
-				<div class="container text-center leftmid">
+				<div class="container containermob text-center leftmid">
 					<h1>healthBot</h1>
 					<h5>your personal fitness assistant </h5>
 				</div>
 			</div>
 		
 			<div style="background:transparent !important" class="jumbotron jumbomain d-flex align-items-center">
-				<div class="container text-center leftmid">
+				<div class="container containermob text-center leftmid">
 					<form class="form-mb4" action="WebController">
 							<input type="hidden" name="formType" value="register2">
 							<%
@@ -106,17 +106,17 @@
 							<%}%>
 
 							<div class="form-group form-inline">
-								<label for="goal" class="w-50 text-left">Goal</label>
-								<select name="goal" class="form-control w-50 border-0 backgroundBlack">
-									<option value="Gain">Gain Weight</option>
-									<option value="Lose">Lose Weight</option>
-									<option value="Maintain">Maintain Weight</option>
+								<label for="goalType" class="w-50 text-left">Goal</label>
+								<select name="goalType" class="form-control w-50 border-0 backgroundBlack">
+									<option value="GainWeight">Gain Weight</option>
+									<option value="LoseWeight">Lose Weight</option>
+									<option value="MaintainWeight">Maintain Weight</option>
 								</select>
 							</div>
 							
 							<div class="form-group form-inline">
-								<label for="activityLevel" class="w-50 text-left">Goal Speed</label>
-								<select name="activityLevel" class="form-control w-50 border-0 backgroundBlack">
+								<label for="goalSpeed" class="w-50 text-left">Goal Speed</label>
+								<select name="goalSpeed" class="form-control w-50 border-0 backgroundBlack">
 									<%if("kg".equals(weightUnit)){%>
 										<option value="Slow">Slow 0.225kg/week</option>
 										<option value="Average">Average 0.45kg/week</option>
@@ -136,7 +136,7 @@
 			</div>
 			
 			<div style="background:transparent !important" class="jumbotron jumbobot d-flex align-items-center">
-				<div class="container text-center leftmid">
+				<div class="container containermob text-center leftmid">
 					<a href="register.jsp" class="btn btn-info" role="button">Back</a></p>
 				</div>
 			</div>

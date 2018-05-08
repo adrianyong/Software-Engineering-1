@@ -1,16 +1,616 @@
 {
     "Activities": [
         {
+            "name": "Water Aerobics",
+            "caloriesBand1": "120",
+            "caloriesBand2": "149",
+            "caloriesBand3": "178"
+        },
+        {
             "name": "Weight Lifting: general",
             "caloriesBand1": "90",
             "caloriesBand2": "112",
             "caloriesBand3": "133"
         },
         {
-            "name": "Aerobics: water",
+            "name": "Yoga",
             "caloriesBand1": "120",
             "caloriesBand2": "149",
             "caloriesBand3": "178"
+        },
+        {
+            "name": "Calisthenics: moderate",
+            "caloriesBand1": "135",
+            "caloriesBand2": "167",
+            "caloriesBand3": "200"
+        },
+        {
+            "name": "Riders: general",
+            "caloriesBand1": "150",
+            "caloriesBand2": "186",
+            "caloriesBand3": "222"
+        },
+        {
+            "name": "Weight Lifting: general",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Aerobics: low impact",
+            "caloriesBand1": "165",
+            "caloriesBand2": "205",
+            "caloriesBand3": "244"
+        },
+        {
+            "name": "Weight Lifting: general",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Weight Lifting: general",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Stair Step Machine: general",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Weight Lifting: general",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Teaching aerobics",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Weight Lifting: vigorous",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Aerobics, Step: low impact",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Aerobics: high impact",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Bicycling, Stationary: moderate",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Rowing, Stationary: moderate",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Calisthenics: vigorous",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Circuit Training: general",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Rowing, Stationary: vigorous",
+            "caloriesBand1": "255",
+            "caloriesBand2": "316",
+            "caloriesBand3": "377"
+        },
+        {
+            "name": "Elliptical Trainer: general",
+            "caloriesBand1": "270",
+            "caloriesBand2": "335",
+            "caloriesBand3": "400"
+        },
+        {
+            "name": "Ski Machine: general",
+            "caloriesBand1": "285",
+            "caloriesBand2": "353",
+            "caloriesBand3": "422"
+        },
+        {
+            "name": "Aerobics: high impact",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Aerobics, Step: high impact",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Bicycling, Stationary: vigorous",
+            "caloriesBand1": "315",
+            "caloriesBand2": "391",
+            "caloriesBand3": "466"
+        },
+        {
+            "name": "Billiards",
+            "caloriesBand1": "75",
+            "caloriesBand2": "93",
+            "caloriesBand3": "111"
+        },
+        {
+            "name": "Bowling",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Dancing: slow, waltz, foxtrot",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Frisbee",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Volleyball: non-competitive, general play",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Water Volleyball",
+            "caloriesBand1": "90",
+            "caloriesBand2": "112",
+            "caloriesBand3": "133"
+        },
+        {
+            "name": "Archery: non-hunting",
+            "caloriesBand1": "105",
+            "caloriesBand2": "130",
+            "caloriesBand3": "155"
+        },
+        {
+            "name": "Golf: using cart",
+            "caloriesBand1": "105",
+            "caloriesBand2": "130",
+            "caloriesBand3": "155"
+        },
+        {
+            "name": "Hang Gliding",
+            "caloriesBand1": "105",
+            "caloriesBand2": "130",
+            "caloriesBand3": "155"
+        },
+        {
+            "name": "Curling",
+            "caloriesBand1": "120",
+            "caloriesBand2": "149",
+            "caloriesBand3": "178"
+        },
+        {
+            "name": "Gymnastics: general",
+            "caloriesBand1": "120",
+            "caloriesBand2": "149",
+            "caloriesBand3": "178"
+        },
+        {
+            "name": "Horseback Riding: general",
+            "caloriesBand1": "120",
+            "caloriesBand2": "149",
+            "caloriesBand3": "178"
+        },
+        {
+            "name": "Tai Chi",
+            "caloriesBand1": "120",
+            "caloriesBand2": "149",
+            "caloriesBand3": "178"
+        },
+        {
+            "name": "Volleyball: competitive, gymnasium play",
+            "caloriesBand1": "120",
+            "caloriesBand2": "149",
+            "caloriesBand3": "178"
+        },
+        {
+            "name": "Walking: 3.5 mph (17 min/mi)",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Badminton: general",
+            "caloriesBand1": "135",
+            "caloriesBand2": "167",
+            "caloriesBand3": "200"
+        },
+        {
+            "name": "Walking: 4 mph (15 min/mi)",
+            "caloriesBand1": "135",
+            "caloriesBand2": "167",
+            "caloriesBand3": "200"
+        },
+        {
+            "name": "Kayaking",
+            "caloriesBand1": "150",
+            "caloriesBand2": "186",
+            "caloriesBand3": "222"
+        },
+        {
+            "name": "Skateboarding",
+            "caloriesBand1": "150",
+            "caloriesBand2": "186",
+            "caloriesBand3": "222"
+        },
+        {
+            "name": "Snorkeling",
+            "caloriesBand1": "150",
+            "caloriesBand2": "186",
+            "caloriesBand3": "222"
+        },
+        {
+            "name": "Softball: general play",
+            "caloriesBand1": "150",
+            "caloriesBand2": "186",
+            "caloriesBand3": "222"
+        },
+        {
+            "name": "Walking: 4.5 mph (13 min/mi)",
+            "caloriesBand1": "150",
+            "caloriesBand2": "186",
+            "caloriesBand3": "222"
+        },
+        {
+            "name": "Whitewater: rafting, kayaking",
+            "caloriesBand1": "150",
+            "caloriesBand2": "186",
+            "caloriesBand3": "222"
+        },
+        {
+            "name": "Dancing: disco, ballroom, square",
+            "caloriesBand1": "165",
+            "caloriesBand2": "205",
+            "caloriesBand3": "244"
+        },
+        {
+            "name": "Golf: carrying clubs",
+            "caloriesBand1": "165",
+            "caloriesBand2": "205",
+            "caloriesBand3": "244"
+        },
+        {
+            "name": "Dancing: Fast, ballet, twist",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Fencing",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Hiking: cross-country",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Skiing: downhill",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Wrestling",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Swimming: general",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Walk/Jog: jog <10 min.",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Water Skiing",
+            "caloriesBand1": "180",
+            "caloriesBand2": "223",
+            "caloriesBand3": "266"
+        },
+        {
+            "name": "Basketball: wheelchair",
+            "caloriesBand1": "195",
+            "caloriesBand2": "242",
+            "caloriesBand3": "289"
+        },
+        {
+            "name": "Race Walking",
+            "caloriesBand1": "195",
+            "caloriesBand2": "242",
+            "caloriesBand3": "289"
+        },
+        {
+            "name": "Ice Skating: general",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Racquetball: casual, general",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Rollerblade Skating",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Scuba or skin diving",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Sledding, luge, toboggan",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Football: general",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Tennis: general",
+            "caloriesBand1": "210",
+            "caloriesBand2": "260",
+            "caloriesBand3": "311"
+        },
+        {
+            "name": "Basketball: playing a game",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Skiing: cross-country",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Bicycling: 12-13.9 mph",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "American Football: touch, flag, general",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Hockey: field & ice",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Rock Climbing: rappelling",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Snow Shoeing",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Running: 5 mph (12 min/mile)",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Running: pushing wheelchair, marathon wheeling",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Swimming: backstroke",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Volleyball: beach",
+            "caloriesBand1": "240",
+            "caloriesBand2": "298",
+            "caloriesBand3": "355"
+        },
+        {
+            "name": "Bicycling: BMX or mountain",
+            "caloriesBand1": "255",
+            "caloriesBand2": "316",
+            "caloriesBand3": "377"
+        },
+        {
+            "name": "Boxing: sparring",
+            "caloriesBand1": "270",
+            "caloriesBand2": "335",
+            "caloriesBand3": "400"
+        },
+        {
+            "name": "American Football: competitive",
+            "caloriesBand1": "270",
+            "caloriesBand2": "335",
+            "caloriesBand3": "400"
+        },
+        {
+            "name": "Orienteering",
+            "caloriesBand1": "270",
+            "caloriesBand2": "335",
+            "caloriesBand3": "400"
+        },
+        {
+            "name": "Running: 5.2 mph (11.5 min/mile)",
+            "caloriesBand1": "270",
+            "caloriesBand2": "335",
+            "caloriesBand3": "400"
+        },
+        {
+            "name": "Running: cross-country",
+            "caloriesBand1": "270",
+            "caloriesBand2": "335",
+            "caloriesBand3": "400"
+        },
+        {
+            "name": "Bicycling: 14-15.9 mph",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Martial Arts: judo, karate, kickbox",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Racquetball: competitive",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Rope Jumping",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Running: 6 mph (10 min/mile)",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Swimming: breaststroke",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Swimming: laps, vigorous",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Swimming: treading, vigorous",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Water Polo",
+            "caloriesBand1": "300",
+            "caloriesBand2": "372",
+            "caloriesBand3": "444"
+        },
+        {
+            "name": "Rock Climbing: ascending",
+            "caloriesBand1": "330",
+            "caloriesBand2": "409",
+            "caloriesBand3": "488"
+        },
+        {
+            "name": "Running: 6.7 mph (9 min/mile)",
+            "caloriesBand1": "330",
+            "caloriesBand2": "409",
+            "caloriesBand3": "488"
+        },
+        {
+            "name": "Swimming: butterfly",
+            "caloriesBand1": "330",
+            "caloriesBand2": "409",
+            "caloriesBand3": "488"
+        },
+        {
+            "name": "Swimming: crawl",
+            "caloriesBand1": "330",
+            "caloriesBand2": "409",
+            "caloriesBand3": "488"
+        },
+        {
+            "name": "Bicycling: 16-19 mph",
+            "caloriesBand1": "360",
+            "caloriesBand2": "446",
+            "caloriesBand3": "533"
+        },
+        {
+            "name": "Handball: general",
+            "caloriesBand1": "360",
+            "caloriesBand2": "446",
+            "caloriesBand3": "533"
+        },
+        {
+            "name": "Running: 7.5 mph (8 min/mile)",
+            "caloriesBand1": "435",
+            "caloriesBand2": "539",
+            "caloriesBand3": "644"
+        },
+        {
+            "name": "Bicycling: > 20 mph",
+            "caloriesBand1": "495",
+            "caloriesBand2": "614",
+            "caloriesBand3": "733"
+        },
+        {
+            "name": "Running: 10 mph (6 min/mile)",
+            "caloriesBand1": "495",
+            "caloriesBand2": "614",
+            "caloriesBand3": "733"
         }
     ]
 }

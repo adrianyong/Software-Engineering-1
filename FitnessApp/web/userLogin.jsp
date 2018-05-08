@@ -29,14 +29,14 @@
 		<div class="wrapper bg loginbg">
 		
 			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
-				<div class="container text-center">
+				<div class="container containermob text-center">
 					<h1>healthBot</h1>
 					<h5>your personal fitness assistant </h5>
 				</div>
 			</div>
 			
 			<div style="background:transparent !important" class="jumbotron jumbomain d-flex align-items-center">
-				<div class="container">
+				<div class="container containermob">
 					
 					<form class="form mb-4" action="WebController">
 						<div class="form-group">
@@ -75,7 +75,7 @@
 			</div>
 			
 			<div style="background:transparent !important" class="jumbotron jumbobot d-flex align-items-center">
-				<div class="container text-center">
+				<div class="container containermob text-center">
 					<p><a href="register.jsp" class="btn btn-info" role="button">Sign up</a></p>
 				</div>
 			</div>
