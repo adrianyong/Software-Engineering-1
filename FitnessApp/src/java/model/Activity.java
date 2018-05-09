@@ -18,12 +18,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public final class Activity {
-    private String name;
-    private double duration;
+    private final String name;
+    private final double duration;
     private double caloriesBurnt;
-    private Date dateTime;
+    private final Date dateTime;
     
     public Activity(User u, String nameIn, double durationIn){
+        durationIn /= 60;
         this.name = nameIn;
         ActivityTemplate a = getActivityTemplate(name);
         if(u.getWeight()<70.3068){
@@ -35,7 +36,7 @@ public final class Activity {
         else {
             caloriesBurnt = a.getWeightBand3Cals();
         }
-        this.caloriesBurnt = caloriesBurnt*durationIn;
+        this.caloriesBurnt = (caloriesBurnt*durationIn)*2;
         this.duration = durationIn;
         this.dateTime = new Date();
     }
@@ -56,7 +57,7 @@ public final class Activity {
         Object obj = null;
         
         try {
-            obj = new JSONParser().parse(new FileReader("FitnessApp/ActivityTemplateList.json"));
+            obj = new JSONParser().parse(new FileReader("FitnessApp/ActivityTemplates.json"));
         } catch (IOException ex) {
             System.out.println("ERROR: with reading");
         } catch (ParseException ex) {
@@ -90,9 +91,6 @@ public final class Activity {
         }
             activityTemplates.add(new ActivityTemplate(name, Integer.parseInt(caloriesBand1), Integer.parseInt(caloriesBand2), Integer.parseInt(caloriesBand3)));
         }
-//
-//        System.out.println("User \"" + email + "\" data loaded");
-//        
         return activityTemplates;
     }
 

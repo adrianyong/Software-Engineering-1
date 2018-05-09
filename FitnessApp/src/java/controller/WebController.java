@@ -88,7 +88,7 @@ public class WebController extends HttpServlet {
         } catch (ParseException ex) {
             System.out.println("ERROR: INCOMPATIBLE DATE FORMAT");
         }
-        formatter = new SimpleDateFormat("dd/MM/1997");
+        formatter = new SimpleDateFormat("dd/MM/yyyy");
         String dob = formatter.format(dobd);
 
         String sex = request.getParameter("sex");

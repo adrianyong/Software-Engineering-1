@@ -7,7 +7,6 @@ package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +26,7 @@ public class User {
     private List<HealthData> dataList;
     private List<Activity> activityLog; 
     private List<HealthScore> healthScoreLog; 
+    private List<Food> foodLog; 
     
     private int restingHeartRate;
     private double bodyFatPercentage;
@@ -51,8 +51,6 @@ public class User {
         this.activityLevel = activityLevel;
         
         this.admin = false;
-        
-        //this.dataList = new ArrayList();
     }
     
     public User(String email, String password, String firstName, String lastName, String dobs, String sexs, String heights, String weights, String isTrackingActivity, String activityLevel) throws ParseException{
@@ -71,25 +69,7 @@ public class User {
         this.isTrackingActivity = Boolean.parseBoolean(isTrackingActivity);
         
         this.activityLevel = ActivityLevel.valueOf(activityLevel);
-        
-        //this.dataList = new ArrayList();
     }
-    
-    /*public void updateData(double weight, double height, String activityLevel){
-        if(!isMetric){
-            weight = Conversions.weightLbsToKG(weight);
-            height = Conversions.heightToCM(height);
-        }
-        dataList.add(new HealthData(weight, height, activityLevel));
-    }
-    
-    public void updateData(double weight, double height, String activityLevel, String dateTime) throws ParseException{
-        if(!isMetric){
-            weight = Conversions.weightLbsToKG(weight);
-            height = Conversions.heightToCM(height);
-        }
-        dataList.add(new HealthData(weight, height, activityLevel, dateTime));
-    }*/
     
     public boolean login(String email, String password){
         return this.email.equals(email) && this.password.equals(password);
@@ -162,14 +142,6 @@ public class User {
     public Goal getGoal(){
         return goal;
     }
-    
-    /*public boolean isMetric(){
-        return isMetric;
-    }
-    
-    public void setMetricPreference(boolean isMetric){
-        this.isMetric = isMetric;
-    }*/
     
     public boolean isTrackingActivity(){
         return isTrackingActivity;
@@ -280,6 +252,7 @@ public class User {
         */
     }
     
+    //Health Score Methods
     public void addHealthScore(){
         healthScoreLog.add(new HealthScore(this));
     }
@@ -290,6 +263,19 @@ public class User {
     
     public void setHealthScoreLog(List<HealthScore> healthScoreLog){
         this.healthScoreLog = healthScoreLog;
+    } 
+    
+    //Food Methods
+    public void addFood(String nameIn, double caloriesIn, double portionIn, Food.Meal mealIn){
+        foodLog.add(new Food(nameIn, caloriesIn, portionIn, mealIn));
+    }
+    
+    public List<Food> getFoodLog(){
+        return foodLog;
+    }
+    
+    public void setFoodLog(List<Food> foodLog){
+        this.foodLog = foodLog;
     }
     
     @Override
