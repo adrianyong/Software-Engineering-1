@@ -4,6 +4,8 @@
  */
 package model;
 
+import static java.lang.Math.abs;
+
 public class Goal {
     public static enum GoalType{GainWeight, LoseWeight, MaintainWeight}
     public static enum GoalSpeed{Slow, Average, Aggressive}
@@ -69,7 +71,39 @@ public class Goal {
         }
         deltaWeight = goalWeight - u.getWeight();
         deltaWeight = deltaWeight/goalSpeedHere;
-        return (deltaWeight/7);
+        return abs(deltaWeight*7);
+    }
+    
+    public double getModifiedBMR(User u){
+        double BMR = u.getBMR();
+        if(goalType==GoalType.GainWeight){
+            if(null!=goalSpeed)
+                switch (goalSpeed) {
+                case Aggressive:
+                    return BMR + 1000;
+                case Average:
+                    return BMR + 500;
+                case Slow:
+                    return BMR + 250;
+                default:
+                    break;
+            }
+        }
+        else if(goalType==GoalType.LoseWeight){
+            if(null!=goalSpeed)
+                switch (goalSpeed) {
+                case Aggressive:
+                    return BMR - 1000;
+                case Average:
+                    return BMR - 500;
+                case Slow:
+                    return BMR - 250;
+                default:
+                    break;
+            }
+        }
+        
+        return BMR; 
     }
     
     @Override

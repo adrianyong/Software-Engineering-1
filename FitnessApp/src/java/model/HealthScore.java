@@ -127,11 +127,4 @@ public class HealthScore {
     public Date getDateTime() {
         return dateTime;
     }
-
-    /**
-     * @param dateTime the dateTime to set
-     */
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
-    }    
 }

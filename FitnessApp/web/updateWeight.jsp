@@ -202,10 +202,10 @@
 									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
 								</div><%}%>
 								<%if("stonePound".equals(weightUnit)){%>
-								<div class="form-group">
+								<div class="form-group form-inline">
 									<label for="weight" class=" w-100 text-left">Weight (st & lb)</label>
-									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
-									<input type="number" class="form-control" id="weight2" value="<%=lastWeight2%>" name="weight2">
+									<input type="number" class="form-control w-50" id="weight" value="<%=lastWeight%>" name="weight">
+									<input type="number" class="form-control w-50" id="weight2" value="<%=lastWeight2%>" name="weight2">
 								</div><%}%>
 
 								<%if("cm".equals(heightUnit)){%>
@@ -214,10 +214,10 @@
 									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">
 								</div><%}%>
 								<%if("feetInches".equals(heightUnit)){%>
-								<div class="form-group">
+								<div class="form-group form-inline">
 									<label for="height" class=" w-100 text-left">Height (ft & in)</label>
-									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">
-									<input type="number" class="form-control" id="height2" value="<%=lastHeight2%>" name="height2">
+									<input type="number" class="form-control w-50" id="height" value="<%=lastHeight%>" name="height">
+									<input type="number" class="form-control w-50" id="height2" value="<%=lastHeight2%>" name="height2">
 								</div><%}%>
 								<button type="submit" class="btn btn-info w-100">Submit</button>
 							</form>

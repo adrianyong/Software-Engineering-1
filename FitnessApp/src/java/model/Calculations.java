@@ -6,10 +6,6 @@ package model;
 
 
 public class Calculations {
-    
-    
-    
-    
     public static double BMR(User user){
         //For mass(kg), height(m), age(years)
         double BMR = 0;

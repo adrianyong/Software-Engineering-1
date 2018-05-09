@@ -4,6 +4,8 @@
     Author     : Bento
 --%>
 
+<%@page import="model.FoodTemplate"%>
+<%@page import="model.Food"%>
 <%@page import="model.HealthScore"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
@@ -72,7 +74,7 @@
                     if(dateTimeDisplay.equals(oldDate))
                         break;
                     %>
-                    ['<%=dateTimeDisplay%>', <%=weightDisplay%>],
+                    ['', ''],
                     <%
                     oldDate = dateTimeDisplay;
                 }
@@ -190,34 +192,30 @@
 						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
 							<form class="form-mb4 w-100" action="WebController">
 								<input type="hidden" name="formType" value="weightHeight">
-								<%if("kg".equals(weightUnit)){%>
 								<div class="form-group">
-									<label for="weight" class=" w-100 text-left">Weight (kg)</label>
-									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
-								</div><%}%>
-								<%if("pound".equals(weightUnit)){%>
-								<div class="form-group">
-									<label for="weight" class=" w-100 text-left">Weight (lb)</label>
-									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
-								</div><%}%>
-								<%if("stonePound".equals(weightUnit)){%>
-								<div class="form-group">
-									<label for="weight" class=" w-100 text-left">Weight (st & lb)</label>
-									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
-									<input type="number" class="form-control" id="weight2" value="<%=lastWeight2%>" name="weight2">
-								</div><%}%>
-
-								<%if("cm".equals(heightUnit)){%>
-								<div class="form-group">
-									<label for="height" class=" w-100 text-left">Height (cm) </label>
-									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">
-								</div><%}%>
-								<%if("feetInches".equals(heightUnit)){%>
-								<div class="form-group">
-									<label for="height" class=" w-100 text-left">Height (ft & in)</label>
-									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">
-									<input type="number" class="form-control" id="height2" value="<%=lastHeight2%>" name="height2">
-								</div><%}%>
+                                                                    <label for="duration" class=" w-100 text-left">Quantity (g)</label>
+                                                                    <input type="number" class="form-control " id="duration" value="" name="duration" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="activity" class=" w-100 text-left">Food</label>
+                                                                    <select name="activity" class="form-control w-100 border-0 backgroundBlack">
+                                                                        <%for(FoodTemplate ft : Food.getFoodList()){
+                                                                            String activityName = ft.getFoodName();
+                                                                        %>
+                                                                            <option value="<%=activityName%>"><%=activityName%></option>
+                                                                        <%}%>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="meal" class=" w-100 text-left">Meal</label>
+                                                                    <select name="meal" class="form-control w-100 border-0 backgroundBlack">
+                                                                        <%for(Food.Meal f : Food.Meal.values()){
+                                                                            String meal = f.toString();
+                                                                        %>
+                                                                            <option value="<%=meal%>"><%=meal%></option>
+                                                                        <%}%>
+                                                                    </select>
+                                                                </div>
 								<button type="submit" class="btn btn-info w-100">Submit</button>
 							</form>
 						</div>
@@ -234,34 +232,14 @@
                                                     <div class="container section-act">
 							<%
 								try {
-									//List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
-									Collections.reverse(healthDatas);;
-									for(HealthData hd : healthDatas){
-										String weightDisplay = "";
-										String heightDisplay = "";
+									List<Food> foods = PersistanceController.loadFoods(email);
+									Collections.reverse(foods);;
+									for(Food f : foods){
 										SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-                                                                                String dateTime = formatter.format(hd.getDateTime());
-										
-										if("kg".equals(weightUnit)){
-											weightDisplay = Double.toString(hd.getWeight()) + "kg";
-										}
-										else if("pound".equals(weightUnit)){
-											weightDisplay = Double.toString(Conversions.weightKgToPounds(hd.getWeight())) + "lb";
-										}
-										else if("stonePound".equals(weightUnit)){
-											weightDisplay = Double.toString((int) Conversions.weightKgToStonePart(hd.getWeight())) + "st " + Double.toString((int) Conversions.weightKgToPoundsPart(hd.getWeight())) + "lb";
-										}
-										
-										if("cm".equals(heightUnit)){
-											heightDisplay = Double.toString(hd.getHeight()) + "cm";
-										}
-										else if("feetInches".equals(heightUnit)){
-											heightDisplay = Double.toString((int) Conversions.heightCMToFeetPart(hd.getHeight())) + "ft " + Double.toString((int) Conversions.heightCMToInchesPart(hd.getHeight())) + "in";
-										}%>
+                                                                                String dateTime = formatter.format(f.getDateTime());%>
+
 										<div class="container">
 											<div class="row border-bottom2 flex-row">
-													<div class="p-2 w33 text-truncate"><%=weightDisplay%></div>
-													<div class="p-2 w33 text-truncate"><%=heightDisplay%></div>
 													<div class="p-2 w33 text-truncate"><%=dateTime%></div>
 											</div>
 										</div>

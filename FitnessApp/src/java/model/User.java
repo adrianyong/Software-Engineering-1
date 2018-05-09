@@ -184,6 +184,10 @@ public class User {
         double height = getHeight();
         return Calculations.BMI(weight, height);
     }
+    
+    public double getBMR(){
+        return Calculations.BMR(this);
+    }
 
     /**
      * @return the height
@@ -266,8 +270,8 @@ public class User {
     } 
     
     //Food Methods
-    public void addFood(String nameIn, double caloriesIn, double portionIn, Food.Meal mealIn){
-        foodLog.add(new Food(nameIn, caloriesIn, portionIn, mealIn));
+    public void addFood(String nameIn, double portionIn, Food.Meal mealIn){
+        foodLog.add(new Food(nameIn, portionIn, mealIn));
     }
     
     public List<Food> getFoodLog(){

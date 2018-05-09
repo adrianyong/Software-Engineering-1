@@ -21,21 +21,120 @@
         <title>Welcome</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+        
+        <%
+            //Redirect to login page if user session is invalid
+            HttpSession httpSession = request.getSession();
+            String email = (String) httpSession.getAttribute("email");
+            String password = (String) httpSession.getAttribute("password");
+            if(email == null){
+                    response.sendRedirect("userLogin.jsp");
+            }
+
+            User user = PersistanceController.getUser(email, password);
+            
+            HealthData recentData = PersistanceController.getMostRecentHealthData(email);
+
+            int BMR = (int) Calculations.BMR(user);
+            int modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
+            String totalCals = Integer.toString(BMR);
+            
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            int caloriesBurnt = (int) ((hour/24.0f)*BMR);
+            int caloriesNotBurnt = (int) BMR - caloriesBurnt;
+            
+            int caloriesConsumed = 0;
+            int caloriesLeft = modifiedBMR - caloriesConsumed;
+        %>
+       <!--Calories remaining Chart-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load("current", {packages:["corechart"]});
+          google.charts.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Type', 'Calories'],
+              ['Consumed', <%=caloriesConsumed%>],
+              ['Not yet consumed', <%=caloriesLeft%>],
+            ]);
+
+            var options = {
+                pieSliceBorderColor : "transparent",
+                slices: {
+                    0: {
+                        color: 'transparent',
+                        enableInteractivity: false
+                    }
+                },
+                pieHole: 0.8,
+                pieSliceText: "none",
+                animation: {"startup": true},
+                legend: { position: 'bottom' },
+                colors: ['#048a72','#97BEB8'],
+                backgroundColor: { fill:'transparent' },
+                chartArea: {'width': '95%', 'height': '95%'},
+                legend: {position: 'none'},
+                'tooltip' : {
+                    trigger: 'none'
+                }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('caloriesRemaining'));
+            chart.draw(data, options);
+          }
+        </script>
+        <%
+            double startingWeight = user.getDataList().get(0).getWeight();
+            double currentWeight = user.getWeight();
+            double goalWeight = user.getGoal().getGoalWeight();
+        %>
+        <!--Goal days-->
+        <script type="text/javascript">
+            google.charts.load("current", {packages:["corechart"]});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable([
+                ['Type', 'startingWeight', 'currentWeight', 'goalWeight', { role: 'annotation' } ],
+                ['2010', <%=startingWeight%>, <%=currentWeight%>, <%=goalWeight%>, '']
+              ]);
+
+              var view = new google.visualization.DataView(data);
+              view.setColumns([0, 1,
+                               { calc: "stringify",
+                                 sourceColumn: 1,
+                                 type: "string",
+                                 role: "annotation" },
+                               2]);
+
+              var options = {
+                bar: {groupWidth: "95%"},
+                legend: { position: "none" },
+                isStacked: true,
+                animation: {"startup": true},
+                colors: ['#048a72','#97BEB8'],
+                backgroundColor: { fill:'transparent' },
+                chartArea: {'width': '90%', 'height': '80%'},
+                legend: {position: 'none'},
+                'tooltip' : {
+                    trigger: 'none'
+                },
+                hAxis: { textPosition: 'none', gridlines: { count: 0 } },
+                vAxis: { textPosition: 'none', gridlines: { count: 0 } },
+
+              };
+              var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+              chart.draw(view, options);
+          }
+      </script>
+      
+        <!--Weight chart-->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
           google.charts.load('current', {'packages':['corechart']});
           google.charts.setOnLoadCallback(drawChart);
-          <%
-              //Redirect to login page if user session is invalid
-                HttpSession httpSession = request.getSession();
-                String email = (String) httpSession.getAttribute("email");
-                String password = (String) httpSession.getAttribute("password");
-                if(email == null){
-                        response.sendRedirect("userLogin.jsp");
-                }
-
-                User user = PersistanceController.getUser(email, password);
-          %>
           function drawChart() {
             var data = google.visualization.arrayToDataTable([
               ['Date', 'Weight'],
@@ -71,6 +170,46 @@
 
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
+            chart.draw(data, options);
+          }
+        </script>
+        
+        <!--Calories Burnt Chart-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load("current", {packages:["corechart"]});
+          google.charts.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Type', 'Calories'],
+              ['', <%=BMR%>],
+              ['Burnt', <%=caloriesBurnt%>],
+              ['Not yet burnt', <%=caloriesNotBurnt%>],
+            ]);
+
+            var options = {
+                pieSliceBorderColor : "transparent",
+                slices: {
+                    0: {
+                        color: 'transparent',
+                        enableInteractivity: false
+                    }
+                },
+                pieHole: 0.8,
+                pieStartAngle: 90,
+                pieSliceText: "none",
+                animation: {"startup": true},
+                legend: { position: 'bottom' },
+                colors: ['#97BEB8','#048a72'],
+                backgroundColor: { fill:'transparent' },
+                chartArea: {'width': '95%', 'height': '95%'},
+                legend: {position: 'none'},
+                'tooltip' : {
+                    trigger: 'none'
+                }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
             chart.draw(data, options);
           }
         </script>
@@ -116,11 +255,7 @@
 
 					name = (String) httpSession.getAttribute("name");
 					
-					Date date = new Date();
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(date);
 					String timeOfDay = "morning";
-					int hour = cal.get(Calendar.HOUR_OF_DAY);
 
 					if (hour >= 12 && hour < 17) {
 						timeOfDay = "afternoon";
@@ -184,13 +319,29 @@
 				<div class="container mainboxes">
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25 align-items-center text-center">
-                                                    <br>
-                                                    <h4>Calories remaining today</h4>
+                                                    <div class="container w-100 h-100">
+                                                        <div class="row h-100">
+                                                            <h4>Calories remaining today</h4>
+                                                            <div id="caloriesRemaining" class="col-md-12">
+                                                                <h1><%=modifiedBMR%></h1>
+                                                            </div>
+                                                            <div class="col-md-12 item-front">
+                                                                <h1><%=modifiedBMR%></h1>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
 						</div>
 						
 						<div class="col-xl bigbox rounded-0.25 align-items-center text-center">
+                                                    <%
+                                                        int days = (int) user.getGoal().getGoalCompletion(user);
+                                                    %>
                                                     <br>
                                                     <h4>You'll reach your goal in</h4>
+                                                    <h1><%=days%> Days</h1>
+                                                    <div id="barchart_values" style="width: 100%; height: 20%;"></div>
+                                                    <h4>Good Job Keep it up!</h4>
 						</div>
 					</div>
 					
@@ -204,6 +355,8 @@
                                             <div class="col-xl bigbox rounded-0.25 align-items-center text-center">
                                                 <br>
                                                 <h4>Calories burnt today</h4>
+                                                <div id="donutchart" style="width: 100%; height: 50%;"></div>
+                                                <h1><%=caloriesBurnt%></h1>
                                             </div>
 					</div>
 				</div>

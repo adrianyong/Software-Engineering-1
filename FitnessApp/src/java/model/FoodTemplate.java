@@ -6,8 +6,12 @@
 package model;
 
 public class FoodTemplate {
-    String name;
-    double calories;
+    private String name;
+    private double calories;
+    
+    private double carbs;
+    private double protein;
+    private double fat;
     
     public FoodTemplate(String nameIn, int caloriesIn){//, double portionSizeIn){
         name = nameIn;

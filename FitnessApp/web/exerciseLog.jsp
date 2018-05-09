@@ -20,8 +20,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Activity Log</title>
 		
@@ -52,6 +52,55 @@
                 HealthScore healthScore = new HealthScore(user);
 		String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
 		%>
+                
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Date', 'CaloriesBurnt'],
+              <%
+                List<Activity> activities = PersistanceController.loadActivities(email);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                String oldDate = formatter.format(activities.get(0).getDateTime());
+                double totalCalories = 0;
+                
+                for(Activity a : activities){
+                    String dateTime = formatter.format(a.getDateTime());
+                    if(dateTime.equals(oldDate)){
+                        totalCalories += a.getCaloriesBurnt();
+                    }
+                    else{
+                        %>
+                        ['<%=oldDate%>', <%=totalCalories%>],
+                        <%
+                        totalCalories = 0;
+                        oldDate = dateTime;
+                    }
+                }
+              %>
+            ]);
+
+            var options = {
+              curveType: 'function',
+              animation: {"startup": true},
+              legend: { position: 'bottom' },
+              colors: ['#048a72'],
+              series: {0: { lineWidth: 5 } },
+              backgroundColor: { fill:'transparent' },
+              hAxis: {textStyle:{color: '#FFF'}},
+              vAxis: {textStyle:{color: '#FFF'}},
+              chartArea: {'width': '90%', 'height': '80%'},
+              legend: {position: 'none'}
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+          }
+        </script>
 		
     </head>
     <body height:100%; margin:0;padding:0>
@@ -113,7 +162,7 @@
 							<form class="form-mb4 w-100" action="WebController">
 								<input type="hidden" name="formType" value="activity">
                                 <div class="form-group">
-                                    <label for="duration" class=" w-100 text-left">Duration(Minutes)</label>
+                                    <label for="duration" class=" w-100 text-left">Duration (Minutes)</label>
                                     <input type="number" class="form-control " id="duration" value="" name="duration" required>
                                 </div>
                                 <div class="form-group">
@@ -133,7 +182,7 @@
                             </div>
                             
                             <div class="col-xl bigbox rounded-0.25">
-                                
+                                <div id="curve_chart" style="width: 100%; height: 100%"></div>
                             </div>
                         </div>
                     
@@ -148,7 +197,7 @@
                                     for(Activity a: user.getActivityLog()){
                                         String activity = a.getName();
                                         String duration = df.format(a.getDuration());
-                                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+
                                         String caloriesBurnt = df.format(a.getCaloriesBurnt());
                                         String dateTime = formatter.format(a.getDateTime());
                                         

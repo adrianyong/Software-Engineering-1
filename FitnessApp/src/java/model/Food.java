@@ -23,15 +23,18 @@ public class Food {
     private double portion;
     private final Date dateTime;
     
-    public static enum Meal{breakfast, lunch, dinner, snack};
+    public static enum Meal{Breakfast, Lunch, Dinner, Snack};
     private Meal meal;
         
-    public Food(String nameIn, double caloriesIn, double portionIn, Meal mealIn){
+    public Food(String nameIn, double portionIn, Meal mealIn){
         this.name = nameIn;
-        this.calories = caloriesIn*portion;
-        this.portion = (portionIn*100);
-        this.dateTime = new Date();
+        this.portion = portionIn;
+        
+        FoodTemplate ft = getFoodTemplate(name);
+        this.calories = (ft.getCalories()/100)*portionIn;
+        
         this.meal = mealIn;
+        this.dateTime = new Date();
     }
     
     public Food(String nameIn, String caloriesIn, String portionIn, String dateTimes, String meal) throws java.text.ParseException{
