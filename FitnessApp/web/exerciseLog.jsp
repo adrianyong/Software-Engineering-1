@@ -4,6 +4,10 @@
     Author     : Bento
 --%>
 
+<%@page import="java.util.GregorianCalendar"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.HealthScore"%>
 <%@page import="java.util.Calendar"%>
@@ -19,7 +23,7 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Activity Log</title>
 		
 		<%
                 //Redirect to login page if user session is invalid
@@ -85,7 +89,9 @@
 							<a href="exerciseLog.jsp" class="btn btn-info currentpage" role="button">Exercise Log</a>
 						</div>
 						
-					   <!--<p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>-->
+                                                <div class="form-group">
+                                                        <a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
+                                                </div>
 					   
 						<div class="form-group">
 							<a href="updateWeight.jsp" class="btn btn-info notpage" role="button">Weight Log</a>
@@ -106,20 +112,20 @@
 						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
 							<form class="form-mb4 w-100" action="WebController">
 								<input type="hidden" name="formType" value="activity">
-                                    <div class="form-group">
-                                        <label for="duration" class=" w-100 text-left">Duration(Minutes)</label>
-                                        <input type="number" class="form-control " id="duration" value="" name="duration" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="activity" class=" w-100 text-left">Activity</label>
-                                        <select name="activity" class="form-control w-100 border-0 backgroundBlack">
-                                            <%for(ActivityTemplate at : Activity.getActivityList()){
-                                                String activityName = at.getActivityName();
-                                            %>
-                                                <option value="<%=activityName%>"><%=activityName%></option>
-                                            <%}%>
-                                        </select>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="duration" class=" w-100 text-left">Duration(Minutes)</label>
+                                    <input type="number" class="form-control " id="duration" value="" name="duration" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="activity" class=" w-100 text-left">Activity</label>
+                                    <select name="activity" class="form-control w-100 border-0 backgroundBlack">
+                                        <%for(ActivityTemplate at : Activity.getActivityList()){
+                                            String activityName = at.getActivityName();
+                                        %>
+                                            <option value="<%=activityName%>"><%=activityName%></option>
+                                        <%}%>
+                                    </select>
+                                </div>
                                     
 								<button type="submit" class="btn btn-info w-100">Submit</button>
 
@@ -135,20 +141,38 @@
 						<div class="col-xl bigbox rounded-0.25 no-pad">
 						<div class="container section-act">
                                 <%
+                                    List<Activity> activityLog = user.getActivityLog();
+                                    Collections.reverse(activityLog);
+                                    DecimalFormat df = new DecimalFormat("#.##");
+                                    if(activityLog.size()>0){
                                     for(Activity a: user.getActivityLog()){
                                         String activity = a.getName();
-                                        String duration = Double.toString(a.getDuration());
+                                        String duration = df.format(a.getDuration());
                                         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                                        String caloriesBurnt = df.format(a.getCaloriesBurnt());
                                         String dateTime = formatter.format(a.getDateTime());
-                                        String caloriesBurnt = Double.toString(a.getCaloriesBurnt());
+                                        
+                                        int days = (int)( (new Date().getTime() - a.getDateTime().getTime()) / (1000 * 60 * 60 * 24));
+                                        
+                                        if(days == 0)
+                                            dateTime = "Today";
+                                        else if(days == 1 )
+                                            dateTime = days + " day ago";
+                                        else if(days < 7 )
+                                            dateTime = days + " days ago";
                                 %>
                                 
-                                <div class="form-group d-flex align-items-center">
-                                    <div class="form-control w-25 border-right-0 text-truncate"><%=activity%></div>
-                                    <div class="form-control w-25 border-left-0 border-right-0 text-truncate"><%=duration%></div>
-                                    <div class="form-control w-25 border-left-0 text-truncate"><%=caloriesBurnt%></div>
-                                    <div class="form-control w-25 border-left-0 text-truncate"><%=dateTime%></div>
+                                <div class="container">
+                                    <div class="row border-bottom2 flex-row">
+                                        <div class="p-2 w40 text-truncate"><%=activity%></div>
+                                        <div class="p-2 w20 text-truncate"><%=duration%> mins</div>
+                                        <div class="p-2 w20 text-truncate"><%=caloriesBurnt%> kcal</div>
+                                        <div class="p-2 w20 text-truncate"><%=dateTime%></div>
+                                    </div>
                                 </div>
+                                <%}}
+                                else{%>
+                                    <p>No existing activities</p>
                                 <%}%>
                             </div>
                         </div>

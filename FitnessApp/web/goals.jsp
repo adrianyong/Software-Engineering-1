@@ -1,14 +1,17 @@
-<!--<%-- 
+<%-- 
     Document   : goals
     Created on : 20-Apr-2018, 17:46:42
     Author     : Bento
 --%>
 
+<%@page import="model.HealthScore"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
 <%@page import="model.Conversions"%>
 <%@page import="model.Goal"%>
 <%@page import="controller.PersistanceController"%>
 <%@page import="model.User"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>-->
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,39 +19,56 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<title>Goals</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!--        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
 		
-		<!--<%
-                //Redirect to login page if user session is invalid
-                HttpSession httpSession = request.getSession();
-                String email = (String) httpSession.getAttribute("email");
-                String password = (String) httpSession.getAttribute("password");
-                if(email == null){
-                    response.sendRedirect("userLogin.jsp");
-                }
+        <%
+            //Redirect to login page if user session is invalid
+            HttpSession httpSession = request.getSession();
+            String email = (String) httpSession.getAttribute("email");
+            String password = (String) httpSession.getAttribute("password");
+            if(email == null){
+                response.sendRedirect("userLogin.jsp");
+            }
+            
+            String name = (String) httpSession.getAttribute("name");
+            User user = PersistanceController.getUser(email, password);
 
-                User user = PersistanceController.getUser(email, password);
-                Goal goal = user.getGoal();
-                double goalWeightDouble = user.getGoal().getGoalWeight();
-                String goalWeight = "";
-                String goalWeight2 = "";
-                String goalType = goal.getType().toString();
-                String goalSpeed = goal.getGoalSpeed().toString();
-                
-                String weightUnit = user.getWeightUnit().toString();
-                
-                if("kg".equals(weightUnit)){
-                    goalWeight = Double.toString(goalWeightDouble);
-                }
-                else if("pound".equals(weightUnit)){
-                    goalWeight = Double.toString(Conversions.weightKgToPounds(goalWeightDouble));
-                }
-                else if("stonePound".equals(weightUnit)){
-                    goalWeight = Double.toString((int) Conversions.weightKgToStonePart(goalWeightDouble));
-                    goalWeight2 = Double.toString((int) Conversions.weightKgToPoundsPart(goalWeightDouble));
-                }
-                
-            %>-->
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            String timeOfDay = "morning";
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+            if (hour >= 12 && hour < 17) {
+                timeOfDay = "afternoon";
+            }
+            else if (hour >= 17) {
+                timeOfDay = "evening";
+            }
+
+            HealthScore healthScore = new HealthScore(user);
+            String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+            
+            Goal goal = user.getGoal();
+            double goalWeightDouble = user.getGoal().getGoalWeight();
+            String goalWeight = "";
+            String goalWeight2 = "";
+            String goalType = goal.getType().toString();
+            String goalSpeed = goal.getGoalSpeed().toString();
+
+            String weightUnit = user.getWeightUnit().toString();
+
+            if("kg".equals(weightUnit)){
+                goalWeight = Double.toString(goalWeightDouble);
+            }
+            else if("pound".equals(weightUnit)){
+                goalWeight = Double.toString(Conversions.weightKgToPounds(goalWeightDouble));
+            }
+            else if("stonePound".equals(weightUnit)){
+                goalWeight = Double.toString((int) Conversions.weightKgToStonePart(goalWeightDouble));
+                goalWeight2 = Double.toString((int) Conversions.weightKgToPoundsPart(goalWeightDouble));
+            }
+
+            %>
 
     </head>
     <body height:100%; margin:0;padding:0>
@@ -86,9 +106,11 @@
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
 					
-				   <!--<p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>-->
-				   
-				   <div class="form-group">
+					<div class="form-group">
+							<a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
+					</div>
+
+					<div class="form-group">
 						<a href="updateWeight.jsp" class="btn btn-info notpage" role="button">Weight Log</a>
 					</div>
 						
@@ -106,15 +128,15 @@
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25">
 								<h2>Current Goal</h2>
-								<!--<%if("kg".equals(weightUnit)){%>-->
+								<%if("kg".equals(weightUnit)){%>
 								<p>Goal Weight: <%=goalWeight%>kg</p>
-								<!--<%}
+								<%}
 								else if("pound".equals(weightUnit)){%>
 								<p>Goal Weight: <%=goalWeight%>lb</p>
 								<%}
 								else if("stonePound".equals(weightUnit)){%>
 								<p>Goal Weight: <%=goalWeight%>st <%=goalWeight2%>lb</p>
-								<%}%>-->
+								<%}%>
 								<p>Goal Type: <%=goalType%></p>
 								<p>Goal Speed: <%=goalSpeed%></p>
 								<br>
@@ -131,12 +153,12 @@
 									<option value="MaintainWeight">Maintain Weight</option>
 								</select></p>
 
-								<!--<%
+								<%
 								if("kg".equals(weightUnit)){%>-->
 								<p>
 									<label for="goalWeight">Weight</label>
 									<input type="number" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">kg
-								</p><!--<%}
+								</p><%}
 								else if("pound".equals(weightUnit)){%>
 								<p>
 									<label for="goalWeight">Weight</label>
@@ -147,20 +169,20 @@
 									<label for="goalWeight">Weight</label>
 									<input type="number" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">st
 									<input type="number" id="goalWeight2" value="<%=goalWeight2%>" name="goalWeight2">lbs
-								</p><%}%>-->
+								</p><%}%>
 
 								<p><label for="goalSpeed">Goal Speed</label>
 								<select name="goalSpeed">
-									<!--<%if("kg".equals(weightUnit)){%>-->
+									<%if("kg".equals(weightUnit)){%>-->
 										<option value="Slow">Slow 0.225kg/week</option>
 										<option value="Average">Average 0.45kg/week</option>
 										<option value="Aggressive">Aggressive 0.9kg/week</option>
-									<!--<%}
+									<%}
 									else{%>
 										<option value="Slow">Slow 0.5lb/week</option>
 										<option value="Average">Average 1.0lb/week</option>
 										<option value="Aggressive">Aggressive 2.0lb/week</option>
-									<%}%>-->
+									<%}%>
 								</select></p>
 								<button type="submit" class="btn btn-primary">Save</button></p>
 							</form>

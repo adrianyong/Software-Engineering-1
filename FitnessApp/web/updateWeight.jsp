@@ -4,6 +4,10 @@
     Author     : Bento
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="model.HealthScore"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Collections"%>
 <%@page import="model.Conversions"%>
@@ -17,7 +21,7 @@
     <head>
 		
 	
-        <!--<%
+        <%
             //Redirect to login page if user session is invalid
             HttpSession httpSession = request.getSession();
             String email = (String) httpSession.getAttribute("email");
@@ -25,7 +29,26 @@
             if(email == null){
                 response.sendRedirect("userLogin.jsp");
             }
-        %>-->
+            
+            String name = (String) httpSession.getAttribute("name");
+            User user = PersistanceController.getUser(email, password);
+
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            String timeOfDay = "morning";
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+            if (hour >= 12 && hour < 17) {
+                timeOfDay = "afternoon";
+            }
+            else if (hour >= 17) {
+                timeOfDay = "evening";
+            }
+
+            HealthScore healthScore = new HealthScore(user);
+            String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+        %>
         
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -39,19 +62,18 @@
 
           function drawChart() {
             var data = google.visualization.arrayToDataTable([
-              ['Date', 'Weight', 'Height'],
+              ['Date', 'Weight'],
               <%
                 List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
                 String oldDate = "";
                 for(HealthData hd : healthDatas){
                     String weightDisplay = Double.toString(hd.getWeight());
-                    String heightDisplay = Double.toString(hd.getHeight());
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
                     String dateTimeDisplay = formatter.format(hd.getDateTime());
                     if(dateTimeDisplay.equals(oldDate))
                         break;
                     %>
-                    ['<%=dateTimeDisplay%>', <%=weightDisplay%>, <%=heightDisplay%>],
+                    ['<%=dateTimeDisplay%>', <%=weightDisplay%>],
                     <%
                     oldDate = dateTimeDisplay;
                 }
@@ -60,7 +82,15 @@
 
             var options = {
               curveType: 'function',
-              legend: { position: 'bottom' }
+              animation: {"startup": true},
+              legend: { position: 'bottom' },
+              colors: ['#048a72'],
+              series: {0: { lineWidth: 5 } },
+              backgroundColor: { fill:'transparent' },
+              hAxis: {textStyle:{color: '#FFF'}},
+              vAxis: {textStyle:{color: '#FFF'}},
+              chartArea: {'width': '90%', 'height': '80%'},
+              legend: {position: 'none'}
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -75,12 +105,6 @@
 			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
 			
 			<%
-				//Redirect to login page if user session is invalid
-				if(email == null){
-					response.sendRedirect("userLogin.jsp");
-				}
-				
-				User user = PersistanceController.getUser(email, password);
 				HealthData recentData = PersistanceController.getMostRecentHealthData(email);
 				
 				String lastWeight = "";
@@ -144,7 +168,9 @@
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
 					
-				   <!--<p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>-->
+                                        <div class="form-group">
+                                                <a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
+                                        </div>
 				   
 					<div class="form-group">
 						<a href="updateWeight.jsp" class="btn btn-info currentpage" role="button">Weight Log</a>
@@ -162,85 +188,100 @@
 				
 				<div class="container mainboxes">
 					<div class="row h-50">
-						<div class="col-xl bigbox rounded-0.25">
-							<form class="form-inline" action="WebController">
+						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
+							<form class="form-mb4 w-100" action="WebController">
 								<input type="hidden" name="formType" value="weightHeight">
 								<%if("kg".equals(weightUnit)){%>
-								<p>
-									<label for="weight">Weight</label>
-									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">kg
-								</p><%}%>
+								<div class="form-group">
+									<label for="weight" class=" w-100 text-left">Weight (kg)</label>
+									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
+								</div><%}%>
 								<%if("pound".equals(weightUnit)){%>
-								<p>
-									<label for="weight">Weight</label>
-									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">lbs
-								</p><%}%>
+								<div class="form-group">
+									<label for="weight" class=" w-100 text-left">Weight (lb)</label>
+									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
+								</div><%}%>
 								<%if("stonePound".equals(weightUnit)){%>
-								<p>
-									<label for="weight">Weight</label>
-									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">st
-									<input type="number" class="form-control" id="weight2" value="<%=lastWeight2%>" name="weight2">lbs
-								</p><%}%>
+								<div class="form-group">
+									<label for="weight" class=" w-100 text-left">Weight (st & lb)</label>
+									<input type="number" class="form-control" id="weight" value="<%=lastWeight%>" name="weight">
+									<input type="number" class="form-control" id="weight2" value="<%=lastWeight2%>" name="weight2">
+								</div><%}%>
 
 								<%if("cm".equals(heightUnit)){%>
-								<p>
-									<label for="height">Height:</label>
-									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">cm
-								</p><<%}%>
+								<div class="form-group">
+									<label for="height" class=" w-100 text-left">Height (cm) </label>
+									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">
+								</div><%}%>
 								<%if("feetInches".equals(heightUnit)){%>
-								<p>
-									<label for="height">Height:</label>
-									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">ft
-									<input type="number" class="form-control" id="height2" value="<%=lastHeight2%>" name="height2">in
-								</p><%}%>
-								<p> <button type="submit" class="btn btn-primary">Submit</button> </p>
+								<div class="form-group">
+									<label for="height" class=" w-100 text-left">Height (ft & in)</label>
+									<input type="number" class="form-control" id="height" value="<%=lastHeight%>" name="height">
+									<input type="number" class="form-control" id="height2" value="<%=lastHeight2%>" name="height2">
+								</div><%}%>
+								<button type="submit" class="btn btn-info w-100">Submit</button>
 							</form>
 						</div>
 						
-						<div class="col-xl bigbox rounded-0.25">
+                                                <div class="col-xl bigbox rounded-0.25">
+                                                    <div id="curve_chart" style="width: 100%; height: 100%"></div>
+						</div>
+                                                                
+						
+					</div>
+					
+					<div class="row h-50">
+						<div class="col-xl bigbox rounded-0.25 no-pad">
+                                                    <div class="container section-act">
 							<%
 								try {
 									//List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
 									Collections.reverse(healthDatas);;
+                                                                        DecimalFormat df = new DecimalFormat("#.##");
 									for(HealthData hd : healthDatas){
 										String weightDisplay = "";
 										String heightDisplay = "";
-										String dateTimeDisplay = hd.getDateTime().toString();
+										SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                                                                                String dateTime = formatter.format(hd.getDateTime());
+                                                                                
+                                                                                int days = (int)( (new Date().getTime() - hd.getDateTime().getTime()) / (1000 * 60 * 60 * 24));
+                                        
+                                                                                if(days == 0)
+                                                                                    dateTime = "Today";
+                                                                                else if(days == 1 || days == -1)
+                                                                                    dateTime = days + " day ago";
+                                                                                else if(days < 7 )
+                                                                                    dateTime = days + " days ago";
 										
 										if("kg".equals(weightUnit)){
-											weightDisplay = Double.toString(hd.getWeight()) + "kg";
+											weightDisplay = df.format(hd.getWeight()) + "kg";
 										}
 										else if("pound".equals(weightUnit)){
-											weightDisplay = Double.toString(Conversions.weightKgToPounds(hd.getWeight())) + "lb";
+											weightDisplay = df.format(Conversions.weightKgToPounds(hd.getWeight())) + "lb";
 										}
 										else if("stonePound".equals(weightUnit)){
 											weightDisplay = Double.toString((int) Conversions.weightKgToStonePart(hd.getWeight())) + "st " + Double.toString((int) Conversions.weightKgToPoundsPart(hd.getWeight())) + "lb";
 										}
 										
 										if("cm".equals(heightUnit)){
-											heightDisplay = Double.toString(hd.getHeight()) + "cm";
+											heightDisplay = df.format(hd.getHeight()) + "cm";
 										}
 										else if("feetInches".equals(heightUnit)){
 											heightDisplay = Double.toString((int) Conversions.heightCMToFeetPart(hd.getHeight())) + "ft " + Double.toString((int) Conversions.heightCMToInchesPart(hd.getHeight())) + "in";
 										}%>
-										
-										<div>
-											<p>Weight: <%=weightDisplay%></p>
-											<p>Height: <%=heightDisplay%></p>
-											<p>Time Taken: <%=dateTimeDisplay%></p>
-											<br>
+										<div class="container">
+											<div class="row border-bottom2 flex-row">
+													<div class="p-2 w33 text-truncate"><%=weightDisplay%></div>
+													<div class="p-2 w33 text-truncate"><%=heightDisplay%></div>
+													<div class="p-2 w33 text-truncate"><%=dateTime%></div>
+											</div>
 										</div>
 									<%}
 								}catch (Exception ex) { %>
 									<p>No existing entries found</p>
 								<%}
 							%>
-						</div>
-					</div>
-					
-					<div class="row h-50">
-						<div class="col-xl bigbox rounded-0.25">
-							<div id="curve_chart" style="width: 100%; height: 100%"></div>
+                                                    </div>
 						</div>
 					</div>
 				</div>

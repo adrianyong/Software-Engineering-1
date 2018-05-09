@@ -1,6 +1,8 @@
 body, html {
     height: 100%;
-    color: rgba(255, 255, 255, 0.99);
+	color: rgba(255, 255, 255, 0.99);
+	min-width: 500px;
+	min-height: 901px;
     
 }
 
@@ -49,6 +51,10 @@ body, html {
 
 .setbg{
 	background-image: url("img/BeachSun.png");
+}
+
+.fbg{
+	background-image: url("img/Foody.png");
 }
 
 .leftmid{
@@ -220,6 +226,8 @@ select option {
 
 .section-act {
   height: 100%;
+  width: 100%;
+  max-width: 100% !important;
   overflow-y:scroll;
   padding-left: 0;
   padding-right: 0;
@@ -236,17 +244,35 @@ select option {
 	margin-left: 2%;
 	margin-top: 2%;
 	margin-bottom: 2%;
+
+	max-height: 100%;
 }
 
 .overflow-hidden{
     overflow:  hidden;
 }
 
+.w33{
+    width:33%;
+}
+
 .w25{
     width:25%;
+}
+
+.w20{
+    width:20%;
+}
+
+.w40{
+    width:40%;
 }
 
 .no-pad{
     padding: 0;
     padding-left: 0;
+}
+
+.border-bottom2{
+	border-bottom: 1px solid rgba(255,255,255, 0.9) !important;
 }

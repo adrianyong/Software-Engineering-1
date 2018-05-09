@@ -4,6 +4,9 @@
     Author     : dad15gwu
 --%>
 
+<%@page import="model.HealthScore"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
 <%@page import="model.User"%>
 <%@page import="controller.PersistanceController"%>
 <%@page import="model.HealthData"%>
@@ -17,6 +20,35 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Settings</title>
 		
+        <%
+            //Redirect to login page if user session is invalid
+            HttpSession httpSession = request.getSession();
+            String email = (String) httpSession.getAttribute("email");
+            String password = (String) httpSession.getAttribute("password");
+            if(email == null){
+                response.sendRedirect("userLogin.jsp");
+            }
+            
+            String name = (String) httpSession.getAttribute("name");
+            User user = PersistanceController.getUser(email, password);
+
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            String timeOfDay = "morning";
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+            if (hour >= 12 && hour < 17) {
+                timeOfDay = "afternoon";
+            }
+            else if (hour >= 17) {
+                timeOfDay = "evening";
+            }
+
+            HealthScore healthScore = new HealthScore(user);
+            String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+        %>
+        
     </head>
 	
     <body height:100%; margin:0;padding:0>
@@ -25,24 +57,6 @@
         <div class="wrapper bg setbg">
 		
 			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
-			
-				<%
-					//Redirect to login page if user session is invalid
-					HttpSession httpSession = request.getSession();
-					String email = (String) httpSession.getAttribute("email");
-					String password = (String) httpSession.getAttribute("password");
-					if(email == null){
-						response.sendRedirect("userLogin.jsp");
-					}
-
-					User user = PersistanceController.getUser(email, password);
-					System.out.println(user);
-					User.ActivityLevel activityLevel = user.getActivityLevel();
-					System.out.println(activityLevel);
-					String activityLevelString = activityLevel.toString();
-					
-
-				%>
 				
 				<div class="container text-center h-100 d-flex align-items-center lefty">
 					<h4>Good <%= timeOfDay%>, <%= name%>!</h4>
@@ -74,7 +88,9 @@
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
 					
-				   <!--<p><a href="foodLog.jsp" class="btn btn-info" role="button">Food Log</a></p>-->
+					<div class="form-group">
+							<a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
+					</div>
 				   
 					<div class="form-group">
 						<a href="updateWeight.jsp" class="btn btn-info notpage" role="button">Weight Log</a>
@@ -89,7 +105,10 @@
 					</div>
 					
 				</form>
-				
+				<%
+                                    User.ActivityLevel activityLevel = user.getActivityLevel();
+                                    String activityLevelString = activityLevel.toString();
+				%>
 				<div class="container mainboxes">
 					<div class="row h-100">
 						<div class="col-xl bigbox rounded-0.25">

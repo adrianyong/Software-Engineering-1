@@ -24,7 +24,6 @@ public final class Activity {
     private final Date dateTime;
     
     public Activity(User u, String nameIn, double durationIn){
-        durationIn /= 60;
         this.name = nameIn;
         ActivityTemplate a = getActivityTemplate(name);
         if(u.getWeight()<70.3068){
@@ -36,7 +35,7 @@ public final class Activity {
         else {
             caloriesBurnt = a.getWeightBand3Cals();
         }
-        this.caloriesBurnt = (caloriesBurnt*durationIn)*2;
+        this.caloriesBurnt = (caloriesBurnt*(durationIn/60))*2;
         this.duration = durationIn;
         this.dateTime = new Date();
     }
