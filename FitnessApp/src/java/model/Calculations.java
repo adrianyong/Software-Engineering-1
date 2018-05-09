@@ -13,7 +13,6 @@ public class Calculations {
     public static double BMR(User user){
         //For mass(kg), height(m), age(years)
         double BMR = 0;
-//        height = height / 100;
         
         if(user.getSex()== User.Sex.Male){
             BMR = (13.397 * user.getWeight()) + (4.799 * user.getHeight()) - (5.677 * user.getAge()) + 88.362;
@@ -47,15 +46,6 @@ public class Calculations {
     }
     
     public static double BMI(double mass, double height){
-//        double BMI = 0;
-//        
-//        //When mass(kg) height(m)
-//        BMI = mass / (height * height);
-//
-//        /** BMI for lbs and inches
-//        BMI = (mass / (height * height)) * 703
-//        **/
-            
         return mass / (height/100 * height/100);
     }
     

@@ -50,6 +50,28 @@ public class Goal {
         //return int of time span allowed
     }
     
+    //returns the amount of days left to reach goal with current goalSpeed
+    public double getGoalCompletion(User u){
+        double deltaWeight;
+        double goalSpeedHere = 0;
+        if(null != goalSpeed)switch (goalSpeed) {
+            case Aggressive:
+                goalSpeedHere = 0.9;
+                break;
+            case Average:
+                goalSpeedHere = 0.45;
+                break;
+            case Slow:
+                goalSpeedHere = 0.225;
+                break;
+            default:
+                break;
+        }
+        deltaWeight = goalWeight - u.getWeight();
+        deltaWeight = deltaWeight/goalSpeedHere;
+        return (deltaWeight/7);
+    }
+    
     @Override
     public String toString(){
         return goalWeight + goalType.toString() + goalSpeed.toString();
