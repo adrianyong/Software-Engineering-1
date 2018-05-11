@@ -46,7 +46,7 @@
             int caloriesBurnt = (int) ((hour/24.0f)*BMR);
             int caloriesNotBurnt = (int) BMR - caloriesBurnt;
             
-            int caloriesConsumed = 0;
+            int caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
             int caloriesLeft = modifiedBMR - caloriesConsumed;
         %>
        <!--Calories remaining Chart-->
@@ -63,12 +63,6 @@
 
             var options = {
                 pieSliceBorderColor : "transparent",
-                slices: {
-                    0: {
-                        color: 'transparent',
-                        enableInteractivity: false
-                    }
-                },
                 pieHole: 0.8,
                 pieSliceText: "none",
                 animation: {"startup": true},
@@ -319,16 +313,13 @@
 				<div class="container mainboxes">
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25 align-items-center text-center">
+                                                    <h4>Calories remaining today</h4>
                                                     <div class="container w-100 h-100">
-                                                        <div class="row h-100">
-                                                            <h4>Calories remaining today</h4>
-                                                            <div id="caloriesRemaining" class="col-md-12">
-                                                                <h1><%=modifiedBMR%></h1>
+                                                        <div class="row h80">
+                                                            <div id="caloriesRemaining" class="col-md-12"></div>
+                                                            <div class="item-front">
+                                                                <h1><%=caloriesLeft%></h1>
                                                             </div>
-                                                            <div class="col-md-12 item-front">
-                                                                <h1><%=modifiedBMR%></h1>
-                                                            </div>
-                                                            
                                                         </div>
                                                     </div>
 						</div>
@@ -355,9 +346,14 @@
                                             <div class="col-xl bigbox rounded-0.25 align-items-center text-center">
                                                 <br>
                                                 <h4>Calories burnt today</h4>
-                                                <div id="donutchart" style="width: 100%; height: 50%;"></div>
-                                                <h1><%=caloriesBurnt%></h1>
-                                            </div>
+                                                <div class="container w-100 h-100">
+                                                    <div class="row h80">
+                                                        <div id="donutchart" class="col-md-12"></div>
+                                                        <div class="item-front">
+                                                            <h1><%=caloriesBurnt%></h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
 					</div>
 				</div>
 			

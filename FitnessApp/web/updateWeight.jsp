@@ -232,7 +232,7 @@
 					
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25 no-pad">
-                                                    <div class="container section-act">
+                            <div class="container section-act">
 							<%
 								try {
 									//List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
@@ -242,16 +242,16 @@
 										String weightDisplay = "";
 										String heightDisplay = "";
 										SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-                                                                                String dateTime = formatter.format(hd.getDateTime());
-                                                                                
-                                                                                int days = (int)( (new Date().getTime() - hd.getDateTime().getTime()) / (1000 * 60 * 60 * 24));
-                                        
-                                                                                if(days == 0)
-                                                                                    dateTime = "Today";
-                                                                                else if(days == 1 || days == -1)
-                                                                                    dateTime = days + " day ago";
-                                                                                else if(days < 7 )
-                                                                                    dateTime = days + " days ago";
+										String dateTime = formatter.format(hd.getDateTime());
+										
+										int days = (int)( (new Date().getTime() - hd.getDateTime().getTime()) / (1000 * 60 * 60 * 24));
+
+										if(days == 0)
+											dateTime = "Today";
+										else if(days == 1 || days == -1)
+											dateTime = days + " day ago";
+										else if(days < 7 )
+											dateTime = days + " days ago";
 										
 										if("kg".equals(weightUnit)){
 											weightDisplay = df.format(hd.getWeight()) + "kg";
@@ -270,7 +270,7 @@
 											heightDisplay = Double.toString((int) Conversions.heightCMToFeetPart(hd.getHeight())) + "ft " + Double.toString((int) Conversions.heightCMToInchesPart(hd.getHeight())) + "in";
 										}%>
 										<div class="container">
-											<div class="row border-bottom2 flex-row">
+											<div class="row border-bottom2 flex-row flex-start">
 													<div class="p-2 w33 text-truncate"><%=weightDisplay%></div>
 													<div class="p-2 w33 text-truncate"><%=heightDisplay%></div>
 													<div class="p-2 w33 text-truncate"><%=dateTime%></div>

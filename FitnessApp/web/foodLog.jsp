@@ -50,6 +50,10 @@
 
             HealthScore healthScore = new HealthScore(user);
             String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+            
+            int modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
+            int caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
+            int caloriesLeft = modifiedBMR - caloriesConsumed;
         %>
         
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -111,37 +115,26 @@
 				</form>
 				
 				<div class="container mainboxes">
-					<div class="row h-50">
-						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
-							<form class="form-mb4 w-100" action="WebController">
-								<input type="hidden" name="formType" value="food">
-                                                                <div class="form-group">
-                                                                    <label for="food" class=" w-100 text-left">Food</label>
-                                                                    <select name="food" class="form-control w-100 border-0 backgroundBlack">
-                                                                        <%for(FoodTemplate ft : Food.getFoodList()){
-                                                                            String activityName = ft.getFoodName();
-                                                                        %>
-                                                                            <option value="<%=activityName%>"><%=activityName%></option>
-                                                                        <%}%>
-                                                                    </select>
-                                                                </div>
-								<div class="form-group">
-                                                                    <label for="quantity" class=" w-100 text-left">Quantity (g)</label>
-                                                                    <input type="number" class="form-control " id="quantity" value="" name="quantity" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="meal" class=" w-100 text-left">Meal</label>
-                                                                    <select name="meal" class="form-control w-100 border-0 backgroundBlack">
-                                                                        <%for(Food.Meal f : Food.Meal.values()){
-                                                                            String meal = f.toString();
-                                                                        %>
-                                                                            <option value="<%=meal%>"><%=meal%></option>
-                                                                        <%}%>
-                                                                    </select>
-                                                                </div>
-								<button type="submit" class="btn btn-info w-100">Submit</button>
-							</form>
-						</div>
+                    <div class="row h-50">
+                            <div class="col-xl bigbox rounded-0.25 text-center align-items-center d-flex">
+                                    <div class="container w-100">
+                                        <div class="row w-100 vertical-align">
+                                        </div>
+                                        <div class="row w-100 vertical-align">
+                                            <h2 class="w-100 no-margin">Calories remaining today</h2>
+                                        </div>
+                                        <div class="row w-100 vertical-align">
+                                            <h2 class="w-100 no-margin"><%=caloriesLeft%></h2>
+                                        </div>
+                                        <div class="row w-100 vertical-align">
+                                            <h2 class="w-100 no-margin">Daily calorie allowance</h2>
+                                        </div>
+                                        <div class="row w-100 vertical-align">
+                                            <h2 class="w-100 no-margin"><%=modifiedBMR%></h2>
+                                        </div>
+                                    </div>
+                                </div>
+						
 						
                                                 <div class="col-xl bigbox rounded-0.25">
                                                     <div id="curve_chart" style="width: 100%; height: 100%"></div>
@@ -149,10 +142,41 @@
                                                                 
 						
 					</div>
-					
+
 					<div class="row h-50">
-						<div class="col-xl bigbox rounded-0.25 no-pad">
-                                                    <div class="container section-act">
+                            <div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
+                                    <form class="form-mb4 w-100" action="WebController">
+                                        <input type="hidden" name="formType" value="food">
+                                                                        <div class="form-group">
+                                                                            <label for="food" class=" w-100 text-left">Food</label>
+                                                                            <select name="food" class="form-control w-100 border-0 backgroundBlack">
+                                                                                <%for(FoodTemplate ft : Food.getFoodList()){
+                                                                                    String activityName = ft.getFoodName();
+                                                                                %>
+                                                                                    <option value="<%=activityName%>"><%=activityName%></option>
+                                                                                <%}%>
+                                                                            </select>
+                                                                        </div>
+                                        <div class="form-group">
+                                                                            <label for="quantity" class=" w-100 text-left">Quantity (g)</label>
+                                                                            <input type="number" class="form-control " id="quantity" value="" name="quantity" step="0.01" min="0.01" required>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="meal" class=" w-100 text-left">Meal</label>
+                                                                            <select name="meal" class="form-control w-100 border-0 backgroundBlack">
+                                                                                <%for(Food.Meal f : Food.Meal.values()){
+                                                                                    String meal = f.toString();
+                                                                                %>
+                                                                                    <option value="<%=meal%>"><%=meal%></option>
+                                                                                <%}%>
+                                                                            </select>
+                                                                        </div>
+                                        <button type="submit" class="btn btn-info w-100">Submit</button>
+                                    </form>
+                                </div>
+                                            
+						<div class="col-xl bigbox rounded-0.25">
+                            <div class="container section-act">
 							<%
 								try {
 									List<Food> foods = PersistanceController.loadFoods(email);
@@ -176,12 +200,12 @@
                                                                                     dateTime = days + " days ago";%>
 
 										<div class="container">
-											<div class="row border-bottom2 flex-row">
-                                                                                                <div class="p-2 w20 text-truncate"><%=meal%></div>
-                                                                                                <div class="p-2 w20 text-truncate"><%=food%></div>
-                                                                                                <div class="p-2 w20 text-truncate"><%=portion%> g</div>
-                                                                                                <div class="p-2 w20 text-truncate"><%=calories%> kcal</div>
-                                                                                                <div class="p-2 w20 text-truncate"><%=dateTime%></div>
+											<div class="row border-bottom2 flex-row h-100 flex-start">
+                                                <div class="p-2 w20 text-truncate"><%=meal%></div>
+                                                <div class="p-2 w20 text-truncate"><%=food%></div>
+                                                <div class="p-2 w20 text-truncate"><%=portion%> g</div>
+                                                <div class="p-2 w20 text-truncate"><%=calories%> kcal</div>
+                                                <div class="p-2 w20 text-truncate"><%=dateTime%></div>
 											</div>
 										</div>
 									<%}
@@ -192,6 +216,7 @@
                                                     </div>
 						</div>
 					</div>
+                    
 				</div>
 			</div>
                 

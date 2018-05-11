@@ -400,7 +400,9 @@ public class WebController extends HttpServlet {
         String activity = request.getParameter("activity");
         String duration = request.getParameter("duration");
 
-        PersistanceController.addActivity(new Activity(user, activity, Double.parseDouble(duration)), email);
+        Activity a = new Activity(user, activity, Double.parseDouble(duration));
+        PersistanceController.addActivity(a, email);
+        PersistanceController.addCalories(a.getCaloriesBurnt(), 0, email);
         
         try {
             response.sendRedirect("exerciseLog.jsp");
@@ -418,7 +420,9 @@ public class WebController extends HttpServlet {
         String quantity = request.getParameter("quantity");
         String meal = request.getParameter("meal");
 
-        PersistanceController.addFood(new Food(food,Double.parseDouble(quantity),Food.Meal.valueOf(meal)), email);
+        Food f = new Food(food,Double.parseDouble(quantity),Food.Meal.valueOf(meal));
+        PersistanceController.addFood(f, email);
+        PersistanceController.addCalories(0, f.getCalories(), email);
         
         try {
             response.sendRedirect("foodLog.jsp");

@@ -261,6 +261,14 @@ public class User {
         healthScoreLog.add(new HealthScore(this));
     }
     
+    public void addCaloriesBurnt(){
+        
+    }
+    
+    public void addCaloriesConsumed(){
+        
+    }
+    
     public List<HealthScore> getHealthScoreLog(){
         return healthScoreLog;
     }

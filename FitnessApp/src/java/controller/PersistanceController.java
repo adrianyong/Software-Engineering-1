@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -333,6 +335,9 @@ public class PersistanceController {
             Map m = new LinkedHashMap();
 
             m.put("healthScore", hs.getHealthScore());
+            
+            m.put("caloriesBurnt", hs.getCaloriesBurnt());
+            m.put("caloriesConsumed", hs.getCaloriesConsumed());
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
             String dateTime = formatter.format(hs.getDateTime());
@@ -612,6 +617,8 @@ public class PersistanceController {
         Iterator itr2 = ja.iterator();
 
         String healthScore = null;
+        String caloriesBurnt = null;
+        String caloriesConsumed = null;
         String dateTime = null;
 
         while (itr2.hasNext()) 
@@ -622,11 +629,15 @@ public class PersistanceController {
             Map.Entry pair = itr1.next();
             if("healthScore".equals(pair.getKey().toString()))
                 healthScore = pair.getValue().toString();
+            else if("caloriesBurnt".equals(pair.getKey().toString()))
+                caloriesBurnt = pair.getValue().toString();
+            else if("caloriesConsumed".equals(pair.getKey().toString()))
+                caloriesConsumed = pair.getValue().toString();
             else if("dateTime".equals(pair.getKey().toString()))
                 dateTime = pair.getValue().toString();
         }
             try {
-                healthScores.add(new HealthScore(healthScore, dateTime));
+                healthScores.add(new HealthScore(healthScore, caloriesBurnt, caloriesConsumed, dateTime));
             } catch (java.text.ParseException ex) {
                 System.out.println("ERROR: UNABLE TO LOAD DATA ENTRY INTO LIST");
             }
@@ -661,6 +672,52 @@ public class PersistanceController {
             healthScores = new ArrayList();
         }
         healthScores.add(healthScore);
+        
+        List<Food> foods;
+        try {
+            foods = loadFoods(email);
+        } catch (Exception ex){
+            foods = new ArrayList();
+        }
+        
+        saveUserFile(healthData, activities, healthScores, foods, email);
+        
+        System.out.println("New activity added");
+    }
+    
+    public static void addCalories(double caloriesBurnt, double caloriesConsumed, String email){
+        System.out.println("Adding new data for " + email);
+        
+        List<HealthData> healthData;
+        try {
+            healthData = loadHealthData(email);
+        } catch (Exception ex){
+            healthData = new ArrayList();
+        }
+        
+        List<Activity> activities;
+        try {
+            activities = loadActivities(email);
+        } catch (Exception ex){
+            activities = new ArrayList();
+        }
+        
+        List<HealthScore> healthScores;
+        try {
+            healthScores = loadHealthScores(email);
+        } catch (Exception ex){
+            healthScores = new ArrayList();
+        }
+        Collections.reverse(healthScores);
+        for(HealthScore hs : healthScores){
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String oldDate = formatter.format(hs.getDateTime());
+            String currentDate = formatter.format(new Date());
+            if(oldDate.equals(currentDate)){
+                hs.setCaloriesBurnt(hs.getCaloriesBurnt() + (int) caloriesBurnt);
+                hs.setCaloriesConsumed(hs.getCaloriesConsumed() + (int) caloriesConsumed);
+            }
+        }
         
         List<Food> foods;
         try {

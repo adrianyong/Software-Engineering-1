@@ -11,6 +11,10 @@ import java.util.Date;
 
 public class HealthScore {
     int healthScore;
+    
+    private int caloriesBurnt;
+    private int caloriesConsumed;
+    
     private Date dateTime;
    
     /*
@@ -24,14 +28,20 @@ public class HealthScore {
         healthScore += addRestingHeartRate(u.getRestingHeartRate());
         healthScore += addBodyFatPercentage(u.getBodyFatPercentage(), u.getSex());
         this.dateTime = new Date();
+        
+        caloriesBurnt = 0;
+        caloriesConsumed = 0;
     }
     
-    public HealthScore(String healthScore, String dateTimes) throws ParseException{
+    public HealthScore(String healthScore, String caloriesBurnt, String caloriesConsumed, String dateTimes) throws ParseException{
         this.healthScore = Integer.parseInt(healthScore);
          
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date dateTime = formatter.parse(dateTimes);
         this.dateTime = dateTime;
+        
+        this.caloriesBurnt = (int) Double.parseDouble(caloriesBurnt);
+        this.caloriesConsumed = (int) Double.parseDouble(caloriesConsumed);
     }
     
     /*
@@ -126,5 +136,33 @@ public class HealthScore {
      */
     public Date getDateTime() {
         return dateTime;
+    }
+
+    /**
+     * @return the caloriesBurnt
+     */
+    public int getCaloriesBurnt() {
+        return caloriesBurnt;
+    }
+
+    /**
+     * @param caloriesBurnt the caloriesBurnt to set
+     */
+    public void setCaloriesBurnt(int caloriesBurnt) {
+        this.caloriesBurnt = caloriesBurnt;
+    }
+
+    /**
+     * @return the caloriesConsumed
+     */
+    public int getCaloriesConsumed() {
+        return caloriesConsumed;
+    }
+
+    /**
+     * @param caloriesConsumed the caloriesConsumed to set
+     */
+    public void setCaloriesConsumed(int caloriesConsumed) {
+        this.caloriesConsumed = caloriesConsumed;
     }
 }
