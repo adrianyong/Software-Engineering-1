@@ -111,44 +111,48 @@
 				%>
 				<div class="container mainboxes">
 					<div class="row h-100">
-						<div class="col-xl bigbox rounded-0.25">
-							<form class="form-inline" action="WebController">
+						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
+							<form class="form-mb4 w-100 side-pad-25" action="WebController">
 								<input type="hidden" name="formType" value="settings">
 								<% boolean tracking = user.isTrackingActivity();
 								if(!tracking){
 									%>
-								<label for="activityLevel">Activity Level</label>
-								<select name="activityLevel">
-									<option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
-											selected
-											<%}%>>No Exercise</option>
-									<option value="LightExercise" <%if (activityLevelString.equals("LightExercise")){%>
-											selected
-											<%}%>>Light Exercise</option>
-									<option value="ModerateExercise" <%if (activityLevelString.equals("ModerateExercise")){%>
-											selected
-											<%}%>>Moderate Exercise</option>
-									<option value="HardExercise" <%if (activityLevelString.equals("HardExercise")){%>
-											selected
-											<%}%>>Hard Exercise</option>
-									<option value="VeryHardExercise"<%if (activityLevelString.equals("VeryHardExercise")){%>
-											selected
-											<%}%>>Very Hard Exercise</option>
-								</select>
+								<div class="form-group form-inline w-100">
+									<label for="activityLevel" class="w-50">Activity Level</label>
+									<select name="activityLevel" class="form-control w-50 border-0 backgroundBlack">
+										<option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
+												selected
+												<%}%>>No Exercise</option>
+										<option value="LightExercise" <%if (activityLevelString.equals("LightExercise")){%>
+												selected
+												<%}%>>Light Exercise</option>
+										<option value="ModerateExercise" <%if (activityLevelString.equals("ModerateExercise")){%>
+												selected
+												<%}%>>Moderate Exercise</option>
+										<option value="HardExercise" <%if (activityLevelString.equals("HardExercise")){%>
+												selected
+												<%}%>>Hard Exercise</option>
+										<option value="VeryHardExercise"<%if (activityLevelString.equals("VeryHardExercise")){%>
+												selected
+												<%}%>>Very Hard Exercise</option>
+									</select>
+								</div>
 								<%}
 								else{%>
-								<label for="activityLevel">Activity Level (outside exercise)</label>
-								<select name="activityLevel">
-									<option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
-											selected
-											<%}%>>No Exercise</option>
-									<option value="LightExercise" <%if (activityLevelString.equals("LightExercise")){%>
-											selected
-											<%}%>>Light Exercise</option>
-								</select>
+								<div class="form-group form-inline w-100">
+									<label for="activityLevel" class="w-50">Activity Level (outside exercise)</label>
+									<select name="activityLevel" class="form-control w-50 border-0 backgroundBlack2">
+										<option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
+												selected
+												<%}%>>No Exercise</option>
+										<option value="LightExercise" <%if (activityLevelString.equals("LightExercise")){%>
+												selected
+												<%}%>>Light Exercise</option>
+									</select>
+								</div>
 								<%}%>
 
-								<button type="submit" class="btn btn-primary">Save</button>
+								<button type="submit" class="btn btn-info w20">Save</button>
 							</form>
 						</div>
 						

@@ -109,15 +109,15 @@
 				<div class="container mainboxes">
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
-							<form class="form-mb4 w-100" action="WebController">
+							<form class="form-mb4 w-100 side-pad-5" action="WebController">
 								<input type="hidden" name="formType" value="activity">
                                 <div class="form-group">
                                     <label for="duration" class=" w-100 text-left">Duration (Minutes)</label>
-                                    <input type="number" class="form-control " id="duration" value="" name="duration" required>
+                                    <input type="number" class="form-control border-0 backgroundBlack2" id="duration" value="" name="duration" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="activity" class=" w-100 text-left">Activity</label>
-                                    <select name="activity" class="form-control w-100 border-0 backgroundBlack">
+                                    <select name="activity" class="form-control w-100 border-0 backgroundBlack2">
                                         <%for(ActivityTemplate at : Activity.getActivityList()){
                                             String activityName = at.getActivityName();
                                         %>

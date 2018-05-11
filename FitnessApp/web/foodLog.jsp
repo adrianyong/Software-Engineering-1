@@ -120,63 +120,80 @@
                                     <div class="container w-100">
                                         <div class="row w-100 vertical-align">
                                         </div>
-                                        <div class="row w-100 vertical-align">
+                                        <p><div class="row w-100 vertical-align">
                                             <h2 class="w-100 no-margin">Calories remaining today</h2>
-                                        </div>
-                                        <div class="row w-100 vertical-align">
-                                            <h2 class="w-100 no-margin"><%=caloriesLeft%></h2>
-                                        </div>
-                                        <div class="row w-100 vertical-align">
+                                        </div></p>
+                                        <p><div class="row w-100 vertical-align">
+                                            <h1 class="w-100 no-margin"><%=caloriesLeft%></h1>
+                                        </div></p>
+                                        <p><div class="row w-100 vertical-align">
                                             <h2 class="w-100 no-margin">Daily calorie allowance</h2>
-                                        </div>
-                                        <div class="row w-100 vertical-align">
-                                            <h2 class="w-100 no-margin"><%=modifiedBMR%></h2>
-                                        </div>
+                                        </div></p>
+                                        <p><div class="row w-100 vertical-align">
+                                            <h1 class="w-100 no-margin"><%=modifiedBMR%></h1>
+                                        </div></p>
                                     </div>
                                 </div>
 						
 						
-                                                <div class="col-xl bigbox rounded-0.25">
-                                                    <div id="curve_chart" style="width: 100%; height: 100%"></div>
+                        <div class="col-xl bigbox rounded-0.25 d-flex align-items-center ">
+                                <form class="form-mb4 w-100 side-pad-5" action="WebController">
+                                        <p><h4>Add Food Consumed</h4></p>
+                                        <br>
+                                        <input type="hidden" name="formType" value="food">
+                                        <div class="form-group form-inline">
+                                            <label for="food" class=" w-50 text-left">Food</label>
+                                            <select name="food" class="form-control w-50 border-0 backgroundBlack2">
+                                                <%for(FoodTemplate ft : Food.getFoodList()){
+                                                    String activityName = ft.getFoodName();
+                                                %>
+                                                    <option value="<%=activityName%>"><%=activityName%></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="quantity" class=" w-50 text-left">Quantity (g)</label>
+                                            <input type="number" class="form-control w-50 border-0 backgroundBlack2" id="quantity" value="" name="quantity" step="0.01" min="0.01" required>
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="meal" class=" w-50 text-left">Meal</label>
+                                            <select name="meal" class="form-control w-50 border-0 backgroundBlack2">
+                                                <%for(Food.Meal f : Food.Meal.values()){
+                                                    String meal = f.toString();
+                                                %>
+                                                    <option value="<%=meal%>"><%=meal%></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                        <p><button type="submit" class="btn btn-info w-100">Submit</button></p>
+                                    </form>
 						</div>
-                                                                
-						
 					</div>
 
 					<div class="row h-50">
                             <div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
-                                    <form class="form-mb4 w-100" action="WebController">
+                                <form class="form-mb4 w-100 side-pad-5" action="WebController">
+                                        <p><h4>Add Food to Database</h4></p>
+                                        <br>
                                         <input type="hidden" name="formType" value="food">
-                                                                        <div class="form-group">
-                                                                            <label for="food" class=" w-100 text-left">Food</label>
-                                                                            <select name="food" class="form-control w-100 border-0 backgroundBlack">
-                                                                                <%for(FoodTemplate ft : Food.getFoodList()){
-                                                                                    String activityName = ft.getFoodName();
-                                                                                %>
-                                                                                    <option value="<%=activityName%>"><%=activityName%></option>
-                                                                                <%}%>
-                                                                            </select>
-                                                                        </div>
-                                        <div class="form-group">
-                                                                            <label for="quantity" class=" w-100 text-left">Quantity (g)</label>
-                                                                            <input type="number" class="form-control " id="quantity" value="" name="quantity" step="0.01" min="0.01" required>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="meal" class=" w-100 text-left">Meal</label>
-                                                                            <select name="meal" class="form-control w-100 border-0 backgroundBlack">
-                                                                                <%for(Food.Meal f : Food.Meal.values()){
-                                                                                    String meal = f.toString();
-                                                                                %>
-                                                                                    <option value="<%=meal%>"><%=meal%></option>
-                                                                                <%}%>
-                                                                            </select>
-                                                                        </div>
-                                        <button type="submit" class="btn btn-info w-100">Submit</button>
-                                    </form>
-                                </div>
+                                            <div class="form-group form-inline">
+                                                <label for="food" class=" w-50 text-left">Food</label>
+                                                <input type="input" class="form-control w-50 border-0 backgroundBlack2" id="food" value="" name="food" required>
+                                            </div>
+                                        <div class="form-group form-inline">
+                                                <label for="calories" class=" w-50 text-left">Calories (kcal)</label>
+                                                <input type="number" class="form-control w-50 border-0 backgroundBlack2" id="calories" value="" name="calories" step="0.01" min="0.01" required>
+                                        </div>
+                                        <div class="form-group form-inline">
+                                                <label for="quantity" class=" w-50 text-left">Quantity (g)</label>
+                                                <input type="number" class="form-control w-50 border-0 backgroundBlack2" id="quantity" value="" name="quantity" step="0.01" min="0.01" required>
+                                        </div>
+                                        <p><button type="submit" class="btn btn-info w-100">Add Food</button></p>
+                                </form>
+                            </div>
                                             
 						<div class="col-xl bigbox rounded-0.25">
-                            <div class="container section-act">
+                            <div class="container section-act pad-5">
 							<%
 								try {
 									List<Food> foods = PersistanceController.loadFoods(email);
@@ -184,36 +201,36 @@
                                                                         DecimalFormat df = new DecimalFormat("#.##");
 									for(Food f : foods){
 										SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-                                                                                String dateTime = formatter.format(f.getDateTime());
-                                                                                String meal = f.getMeal().toString();
-                                                                                String food = f.getName();
-                                                                                String portion = df.format(f.getPortion());
-                                                                                String calories = df.format(f.getCalories());
-                                                                                
-                                                                                int days = (int)( (new Date().getTime() - f.getDateTime().getTime()) / (1000 * 60 * 60 * 24));
+                                        String dateTime = formatter.format(f.getDateTime());
+                                        String meal = f.getMeal().toString();
+                                        String food = f.getName();
+                                        String portion = df.format(f.getPortion());
+                                        String calories = df.format(f.getCalories());
+                                        
+                                        int days = (int)( (new Date().getTime() - f.getDateTime().getTime()) / (1000 * 60 * 60 * 24));
 
-                                                                                if(days == 0)
-                                                                                    dateTime = "Today";
-                                                                                else if(days == 1 )
-                                                                                    dateTime = days + " day ago";
-                                                                                else if(days < 7 )
-                                                                                    dateTime = days + " days ago";%>
+                                        if(days == 0)
+                                            dateTime = "Today";
+                                        else if(days == 1 )
+                                            dateTime = days + " day ago";
+                                        else if(days < 7 )
+                                            dateTime = days + " days ago";%>
 
 										<div class="container">
 											<div class="row border-bottom2 flex-row h-100 flex-start">
                                                 <div class="p-2 w20 text-truncate"><%=meal%></div>
                                                 <div class="p-2 w20 text-truncate"><%=food%></div>
-                                                <div class="p-2 w20 text-truncate"><%=portion%> g</div>
-                                                <div class="p-2 w20 text-truncate"><%=calories%> kcal</div>
-                                                <div class="p-2 w20 text-truncate"><%=dateTime%></div>
-											</div>
+                                                <div class="p-2 w20 text-center text-truncate"><%=portion%> g</div>
+                                                <div class="p-2 w20 text-center text-truncate"><%=calories%> kcal</div>
+                                                <div class="p-2 w20 text-center text-truncate"><%=dateTime%></div>
+											</div> 
 										</div>
 									<%}
 								}catch (Exception ex) { %>
 									<p>No existing entries found</p>
 								<%}
 							%>
-                                                    </div>
+                            </div>
 						</div>
 					</div>
                     

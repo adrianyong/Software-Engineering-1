@@ -313,15 +313,17 @@
 				<div class="container mainboxes">
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25 align-items-center text-center">
-                                                    <h4>Calories remaining today</h4>
-                                                    <div class="container w-100 h-100">
-                                                        <div class="row h80">
-                                                            <div id="caloriesRemaining" class="col-md-12"></div>
-                                                            <div class="item-front">
-                                                                <h1><%=caloriesLeft%></h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                            <p><h4>Calories remaining today</h4></p>
+                            <div class="container w-100 h80">
+                                <div class="row h80">
+                                    <div id="caloriesRemaining" class="col-md-12"></div>
+                                    <div class="item-front">
+                                        <h1><%=caloriesLeft%></h1>
+                                    </div>
+                                </div>
+                                <p><a href="foodLog.jsp"><h4>Add Consumption</h4></a>
+                            </div>
+                            
 						</div>
 						
 						<div class="col-xl bigbox rounded-0.25 align-items-center text-center">
@@ -345,14 +347,15 @@
 
                                             <div class="col-xl bigbox rounded-0.25 align-items-center text-center">
                                                 <br>
-                                                <h4>Calories burnt today</h4>
-                                                <div class="container w-100 h-100">
+                                                <p><h4>Calories burnt today</h4></p>
+                                                <div class="container w-100 h-80">
                                                     <div class="row h80">
                                                         <div id="donutchart" class="col-md-12"></div>
-                                                        <div class="item-front">
+                                                        <div class="item-front2">
                                                             <h1><%=caloriesBurnt%></h1>
                                                         </div>
                                                     </div>
+                                                    <p><a href="exerciseLog.jsp"><h4>Add Activity</h4></a>
                                                 </div>
 					</div>
 				</div>

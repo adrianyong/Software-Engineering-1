@@ -126,65 +126,77 @@
 				
 				<div class="container mainboxes">
 					<div class="row h-50">
-						<div class="col-xl bigbox rounded-0.25">
-								<h2>Current Goal</h2>
-								<%if("kg".equals(weightUnit)){%>
-								<p>Goal Weight: <%=goalWeight%>kg</p>
-								<%}
-								else if("pound".equals(weightUnit)){%>
-								<p>Goal Weight: <%=goalWeight%>lb</p>
-								<%}
-								else if("stonePound".equals(weightUnit)){%>
-								<p>Goal Weight: <%=goalWeight%>st <%=goalWeight2%>lb</p>
-								<%}%>
-								<p>Goal Type: <%=goalType%></p>
-								<p>Goal Speed: <%=goalSpeed%></p>
-								<br>
-						</div>
+						<div class="col-xl bigbox rounded-0.25 text-center align-items-center d-flex">
+								<div class="container w-100 left-pad">
+									<div class="form-group form-inline">
+										<h2 class="w-50 no-margin text-left text-truncate">Goal Weight:</h2>
+										<%if("kg".equals(weightUnit)){%>
+											<h3 class="w-50 no-margin text-left text-truncate"><%=goalWeight%>kg</h3>
+										<%}
+										else if("pound".equals(weightUnit)){%>
+											<h3 class="w-50 no-margin text-left text-truncate"><%=goalWeight%>lb</h3>
+										<%}
+										else if("stonePound".equals(weightUnit)){%>
+											<h3 class="w-50 no-margin text-left text-truncate"><%=goalWeight%>st <%=goalWeight2%>lb</h3>
+										<%}%>
+									</div>
+									<div class="form-group form-inline">
+										<h2 class="w-50 no-margin text-left text-truncate">Goal Type</h2>
+										<h3 class="w-50 no-margin text-left text-truncate"><%=goalType%></h3>
+									</div>
+									<div class="form-group form-inline">
+										<h2 class="w-50 no-margin text-left text-truncate">Goal Speed</h2>
+										<h3 class="w-50 no-margin text-left text-truncate"><%=goalSpeed%></h3>
+									</div>
+								</div>
+							</div>
 						
-						<div class="col-xl bigbox rounded-0.25">
-							<h2>Change Goal</h2>
-							<form class="form-inline" action="WebController">
+						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
+							<form class="form-mb4 w-100 side-pad-5" action="WebController">
 								<input type="hidden" name="formType" value="goals">
-								<p><label for="goalType">Goal</label>
-								<select name="goalType">
-									<option value="GainWeight">Gain Weight</option>
-									<option value="LoseWeight">Lose Weight</option>
-									<option value="MaintainWeight">Maintain Weight</option>
-								</select></p>
+								<div class="form-group">
+									<label for="goalType" class="w-100 text-left">Goal:</label>
+									<select name="goalType" class="form-control w-100 border-0 backgroundBlack2">
+										<option value="GainWeight">Gain Weight</option>
+										<option value="LoseWeight">Lose Weight</option>
+										<option value="MaintainWeight">Maintain Weight</option>
+									</select>
+								</div>
 
 								<%
-								if("kg".equals(weightUnit)){%>-->
-								<p>
-									<label for="goalWeight">Weight</label>
-									<input type="number" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">kg
-								</p><%}
+								if("kg".equals(weightUnit)){%>
+								<div class="form-group">
+									<label for="goalWeight" class=" w-100 text-left">Weight (kg) </label>
+									<input type="number" class="form-control border-0 backgroundBlack2" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">
+								</div><%}
 								else if("pound".equals(weightUnit)){%>
-								<p>
-									<label for="goalWeight">Weight</label>
-									<input type="number" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">lbs
-								</p><%}
+								<div class="form-group">
+									<label for="goalWeight" class="w-100 text-left">Weight (lb)</label>
+									<input type="number" class="form-control border-0 backgroundBlack2" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">
+								</div><%}
 								else if("stonePound".equals(weightUnit)){%>
-								<p>
-									<label for="goalWeight">Weight</label>
-									<input type="number" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">st
-									<input type="number" id="goalWeight2" value="<%=goalWeight2%>" name="goalWeight2">lbs
-								</p><%}%>
+								<div class="form-group form-inline">
+									<label for="goalWeight" class=" w-100 text-left">Weight (st & lbs)</label>
+									<input type="number" class="form-control w-50 border-0 backgroundBlack2" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">
+									<input type="number" class="form-control w-50 border-0 backgroundBlack2" id="goalWeight2" value="<%=goalWeight2%>" name="goalWeight2">
+								</div><%}%>
 
-								<p><label for="goalSpeed">Goal Speed</label>
-								<select name="goalSpeed">
-									<%if("kg".equals(weightUnit)){%>-->
-										<option value="Slow">Slow 0.225kg/week</option>
-										<option value="Average">Average 0.45kg/week</option>
-										<option value="Aggressive">Aggressive 0.9kg/week</option>
-									<%}
-									else{%>
-										<option value="Slow">Slow 0.5lb/week</option>
-										<option value="Average">Average 1.0lb/week</option>
-										<option value="Aggressive">Aggressive 2.0lb/week</option>
-									<%}%>
-								</select></p>
-								<button type="submit" class="btn btn-primary">Save</button></p>
+								<div class="form-group">
+									<label for="goalSpeed" class=" w-100 text-left">Goal Speed:</label>
+									<select name="goalSpeed" class="form-control w-100 border-0 backgroundBlack2">
+										<%if("kg".equals(weightUnit)){%>-->
+											<option value="Slow">Slow 0.225kg/week</option>
+											<option value="Average">Average 0.45kg/week</option>
+											<option value="Aggressive">Aggressive 0.9kg/week</option>
+										<%}
+										else{%>
+											<option value="Slow">Slow 0.5lb/week</option>
+											<option value="Average">Average 1.0lb/week</option>
+											<option value="Aggressive">Aggressive 2.0lb/week</option>
+										<%}%>
+									</select>
+								</div>
+								<button type="submit" class="btn btn-info w-100" onclick="return confirm('Are you sure?')">Update Goal</button></p>
 							</form>
 						
 						</div>
