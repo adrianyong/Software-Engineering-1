@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="model.FoodTemplate"%>
 <%@page import="model.Food"%>
 <%@page import="model.HealthScore"%>
@@ -55,89 +56,11 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<title>Add Data</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-          google.charts.load('current', {'packages':['corechart']});
-          google.charts.setOnLoadCallback(drawChart);
-
-          function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-              ['Date', 'Weight'],
-              <%
-                List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
-                String oldDate = "";
-                for(HealthData hd : healthDatas){
-                    String weightDisplay = Double.toString(hd.getWeight());
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-                    String dateTimeDisplay = formatter.format(hd.getDateTime());
-                    if(dateTimeDisplay.equals(oldDate))
-                        break;
-                    %>
-                    ['', ''],
-                    <%
-                    oldDate = dateTimeDisplay;
-                }
-              %>
-            ]);
-
-            var options = {
-              curveType: 'function',
-              animation: {"startup": true},
-              legend: { position: 'bottom' },
-              colors: ['#048a72'],
-              series: {0: { lineWidth: 5 } },
-              backgroundColor: { fill:'transparent' },
-              hAxis: {textStyle:{color: '#FFF'}},
-              vAxis: {textStyle:{color: '#FFF'}},
-              chartArea: {'width': '90%', 'height': '80%'},
-              legend: {position: 'none'}
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-            chart.draw(data, options);
-          }
-        </script>
     </head>
     <body height:100%; margin:0;padding:0>
 		<div class="wrapper bg fbg">
 		
 			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
-			
-			<%
-				HealthData recentData = PersistanceController.getMostRecentHealthData(email);
-				
-				String lastWeight = "";
-				String lastWeight2 = "";
-				String lastHeight = "";
-				String lastHeight2 = "";
-				
-				
-				String weightUnit = user.getWeightUnit().toString();
-				String heightUnit = user.getHeightUnit().toString();
-				
-				if(recentData!=null){
-					if("kg".equals(weightUnit)){
-						lastWeight = Double.toString(recentData.getWeight());
-					}
-					else if("pound".equals(weightUnit)){
-						lastWeight = Double.toString(Conversions.weightKgToPounds(recentData.getWeight()));
-					}
-					else if("stonePound".equals(weightUnit)){
-						lastWeight = Double.toString((int) Conversions.weightKgToStonePart(recentData.getWeight()));
-						lastWeight2 = Double.toString((int) Conversions.weightKgToPoundsPart(recentData.getWeight()));
-					}
-
-					if("cm".equals(heightUnit)){
-						lastHeight = Double.toString(recentData.getHeight());
-					}
-					else if("feetInches".equals(heightUnit)){
-						lastHeight = Double.toString((int) Conversions.heightCMToFeetPart(recentData.getHeight()));
-						lastHeight2 = Double.toString((int) Conversions.heightCMToInchesPart(recentData.getHeight()));
-					}
-				}
-			%>
 			
 				<div class="container text-center h-100 d-flex align-items-center lefty">
 					<h4>Good <%= timeOfDay%>, <%= name%>!</h4>
@@ -191,20 +114,20 @@
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
 							<form class="form-mb4 w-100" action="WebController">
-								<input type="hidden" name="formType" value="weightHeight">
-								<div class="form-group">
-                                                                    <label for="duration" class=" w-100 text-left">Quantity (g)</label>
-                                                                    <input type="number" class="form-control " id="duration" value="" name="duration" required>
-                                                                </div>
+								<input type="hidden" name="formType" value="food">
                                                                 <div class="form-group">
-                                                                    <label for="activity" class=" w-100 text-left">Food</label>
-                                                                    <select name="activity" class="form-control w-100 border-0 backgroundBlack">
+                                                                    <label for="food" class=" w-100 text-left">Food</label>
+                                                                    <select name="food" class="form-control w-100 border-0 backgroundBlack">
                                                                         <%for(FoodTemplate ft : Food.getFoodList()){
                                                                             String activityName = ft.getFoodName();
                                                                         %>
                                                                             <option value="<%=activityName%>"><%=activityName%></option>
                                                                         <%}%>
                                                                     </select>
+                                                                </div>
+								<div class="form-group">
+                                                                    <label for="quantity" class=" w-100 text-left">Quantity (g)</label>
+                                                                    <input type="number" class="form-control " id="quantity" value="" name="quantity" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="meal" class=" w-100 text-left">Meal</label>
@@ -234,13 +157,31 @@
 								try {
 									List<Food> foods = PersistanceController.loadFoods(email);
 									Collections.reverse(foods);;
+                                                                        DecimalFormat df = new DecimalFormat("#.##");
 									for(Food f : foods){
 										SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-                                                                                String dateTime = formatter.format(f.getDateTime());%>
+                                                                                String dateTime = formatter.format(f.getDateTime());
+                                                                                String meal = f.getMeal().toString();
+                                                                                String food = f.getName();
+                                                                                String portion = df.format(f.getPortion());
+                                                                                String calories = df.format(f.getCalories());
+                                                                                
+                                                                                int days = (int)( (new Date().getTime() - f.getDateTime().getTime()) / (1000 * 60 * 60 * 24));
+
+                                                                                if(days == 0)
+                                                                                    dateTime = "Today";
+                                                                                else if(days == 1 )
+                                                                                    dateTime = days + " day ago";
+                                                                                else if(days < 7 )
+                                                                                    dateTime = days + " days ago";%>
 
 										<div class="container">
 											<div class="row border-bottom2 flex-row">
-													<div class="p-2 w33 text-truncate"><%=dateTime%></div>
+                                                                                                <div class="p-2 w20 text-truncate"><%=meal%></div>
+                                                                                                <div class="p-2 w20 text-truncate"><%=food%></div>
+                                                                                                <div class="p-2 w20 text-truncate"><%=portion%> g</div>
+                                                                                                <div class="p-2 w20 text-truncate"><%=calories%> kcal</div>
+                                                                                                <div class="p-2 w20 text-truncate"><%=dateTime%></div>
 											</div>
 										</div>
 									<%}

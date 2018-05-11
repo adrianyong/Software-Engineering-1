@@ -709,7 +709,7 @@ public class PersistanceController {
         }
         
         JSONObject jo = (JSONObject) obj;
-        JSONArray ja = (JSONArray) jo.get("activities");
+        JSONArray ja = (JSONArray) jo.get("foods");
 
         Iterator itr2 = ja.iterator();
 
@@ -729,7 +729,7 @@ public class PersistanceController {
                 name = pair.getValue().toString();
             else if("calories".equals(pair.getKey().toString()))
                 calories = pair.getValue().toString();
-            else if("caloriesBurnt".equals(pair.getKey().toString()))
+            else if("portion".equals(pair.getKey().toString()))
                 portion = pair.getValue().toString();
             else if("dateTime".equals(pair.getKey().toString()))
                 dateTime = pair.getValue().toString();

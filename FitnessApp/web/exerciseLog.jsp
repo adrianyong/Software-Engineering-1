@@ -51,57 +51,7 @@
                 
                 HealthScore healthScore = new HealthScore(user);
 		String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
-		%>
-                
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-          google.charts.load('current', {'packages':['corechart']});
-          google.charts.setOnLoadCallback(drawChart);
-
-          function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-              ['Date', 'CaloriesBurnt'],
-              <%
-                List<Activity> activities = PersistanceController.loadActivities(email);
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-                String oldDate = formatter.format(activities.get(0).getDateTime());
-                double totalCalories = 0;
-                
-                for(Activity a : activities){
-                    String dateTime = formatter.format(a.getDateTime());
-                    if(dateTime.equals(oldDate)){
-                        totalCalories += a.getCaloriesBurnt();
-                    }
-                    else{
-                        %>
-                        ['<%=oldDate%>', <%=totalCalories%>],
-                        <%
-                        totalCalories = 0;
-                        oldDate = dateTime;
-                    }
-                }
-              %>
-            ]);
-
-            var options = {
-              curveType: 'function',
-              animation: {"startup": true},
-              legend: { position: 'bottom' },
-              colors: ['#048a72'],
-              series: {0: { lineWidth: 5 } },
-              backgroundColor: { fill:'transparent' },
-              hAxis: {textStyle:{color: '#FFF'}},
-              vAxis: {textStyle:{color: '#FFF'}},
-              chartArea: {'width': '90%', 'height': '80%'},
-              legend: {position: 'none'}
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-            chart.draw(data, options);
-          }
-        </script>
-		
+		%>	
     </head>
     <body height:100%; margin:0;padding:0>
 		<div class="wrapper bg alogbg overflow-hidden">
@@ -199,6 +149,7 @@
                                         String duration = df.format(a.getDuration());
 
                                         String caloriesBurnt = df.format(a.getCaloriesBurnt());
+                                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
                                         String dateTime = formatter.format(a.getDateTime());
                                         
                                         int days = (int)( (new Date().getTime() - a.getDateTime().getTime()) / (1000 * 60 * 60 * 24));

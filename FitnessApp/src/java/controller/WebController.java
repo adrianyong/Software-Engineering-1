@@ -6,10 +6,8 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Activity;
 import model.Conversions;
+import model.Food;
 import model.Goal;
 import model.HealthData;
 import model.User;
@@ -68,6 +67,9 @@ public class WebController extends HttpServlet {
             break;
         case "activity":
             activity(request, response, httpSession);
+            break;
+        case "food":
+            food(request, response, httpSession);
             break;
         }
     }
@@ -402,6 +404,24 @@ public class WebController extends HttpServlet {
         
         try {
             response.sendRedirect("exerciseLog.jsp");
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
+        }
+    }
+    
+    void food(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        String email = (String) httpSession.getAttribute("email");
+        String password = (String) httpSession.getAttribute("password");
+        User user = PersistanceController.getUser(email, password);
+        
+        String food = request.getParameter("food");
+        String quantity = request.getParameter("quantity");
+        String meal = request.getParameter("meal");
+
+        PersistanceController.addFood(new Food(food,Double.parseDouble(quantity),Food.Meal.valueOf(meal)), email);
+        
+        try {
+            response.sendRedirect("foodLog.jsp");
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
         }

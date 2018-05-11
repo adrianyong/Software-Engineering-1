@@ -235,9 +235,9 @@
 					}
 					%>
 					
-					<div class="<%= messageCSS%>">
+					<!--<div class="<%= messageCSS%>">
 						<strong><%= messageType%>!</strong> <%= message%>
-					</div>
+					</div>-->
 					
 				<%}
 					HealthScore healthScore = new HealthScore(user);
