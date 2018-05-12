@@ -21,33 +21,46 @@
         <title>Welcome</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-        
         <%
-            //Redirect to login page if user session is invalid
             HttpSession httpSession = request.getSession();
-            String email = (String) httpSession.getAttribute("email");
-            String password = (String) httpSession.getAttribute("password");
-            if(email == null){
-                    response.sendRedirect("userLogin.jsp");
+            
+            String email = "";
+            String password = "";
+            User user = null;
+            
+            int BMR = 0;
+            int modifiedBMR = 0;
+            
+            int hour = 0;
+            int caloriesBurnt = 0;
+            int caloriesNotBurnt = 0;
+            
+            int caloriesConsumed = 0;
+            int caloriesLeft = 0;
+            
+            //Redirect to login page if user session is invalid
+            try{
+                email = (String) httpSession.getAttribute("email");
+                password = (String) httpSession.getAttribute("password");
+
+                user = PersistanceController.getUser(email, password);
+                BMR = (int) Calculations.BMR(user);
+                modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
+
+                Date date = new Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                hour = cal.get(Calendar.HOUR_OF_DAY);
+                caloriesBurnt = (int) ((hour/24.0f)*BMR);
+                caloriesNotBurnt = (int) BMR - caloriesBurnt;
+
+                caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
+                caloriesLeft = modifiedBMR - caloriesConsumed;
+            } catch(Exception e){
+                request.setAttribute("message","Invalid session, please log in");
+                request.getRequestDispatcher("userLogin.jsp").forward(request, response);
             }
-
-            User user = PersistanceController.getUser(email, password);
             
-            HealthData recentData = PersistanceController.getMostRecentHealthData(email);
-
-            int BMR = (int) Calculations.BMR(user);
-            int modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
-            String totalCals = Integer.toString(BMR);
-            
-            Date date = new Date();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            int hour = cal.get(Calendar.HOUR_OF_DAY);
-            int caloriesBurnt = (int) ((hour/24.0f)*BMR);
-            int caloriesNotBurnt = (int) BMR - caloriesBurnt;
-            
-            int caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
-            int caloriesLeft = modifiedBMR - caloriesConsumed;
         %>
        <!--Calories remaining Chart-->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

@@ -21,39 +21,49 @@
 <!DOCTYPE html>
 <html>
     <head>
-		
-	
         <%
             //Redirect to login page if user session is invalid
             HttpSession httpSession = request.getSession();
-            String email = (String) httpSession.getAttribute("email");
-            String password = (String) httpSession.getAttribute("password");
-            if(email == null){
-                response.sendRedirect("userLogin.jsp");
-            }
             
-            String name = (String) httpSession.getAttribute("name");
-            User user = PersistanceController.getUser(email, password);
-
-            Date date = new Date();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            String timeOfDay = "morning";
-            int hour = cal.get(Calendar.HOUR_OF_DAY);
-
-            if (hour >= 12 && hour < 17) {
-                timeOfDay = "afternoon";
-            }
-            else if (hour >= 17) {
-                timeOfDay = "evening";
-            }
-
-            HealthScore healthScore = new HealthScore(user);
-            String healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+            String email = "";
+            String password = "";
+            User user = null;
+            String name = "";
+            String timeOfDay = "";
+            String healthScoreMsg = "";
+            int caloriesLeft = 0;
+            int modifiedBMR = 0;
             
-            int modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
-            int caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
-            int caloriesLeft = modifiedBMR - caloriesConsumed;
+            try{
+                email = (String) httpSession.getAttribute("email");
+                password = (String) httpSession.getAttribute("password");
+
+                user = PersistanceController.getUser(email, password);
+                name = (String) httpSession.getAttribute("name");
+                
+                Date date = new Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                timeOfDay = "morning";
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+                if (hour >= 12 && hour < 17) {
+                    timeOfDay = "afternoon";
+                }
+                else if (hour >= 17) {
+                    timeOfDay = "evening";
+                }
+
+                HealthScore healthScore = new HealthScore(user);
+                healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+
+                modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
+                int caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
+                caloriesLeft = modifiedBMR - caloriesConsumed;
+            } catch(Exception e){
+                request.setAttribute("message","Invalid session, please log in");
+                request.getRequestDispatcher("userLogin.jsp").forward(request, response);
+            }
         %>
         
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
