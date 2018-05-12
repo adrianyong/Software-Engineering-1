@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.HealthScore"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
@@ -79,7 +80,57 @@
             }
 
             %>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
 
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Date', 'Weight'],
+              <%
+                double startingW = user.getWeight();
+                double goalW = user.getGoal().getGoalWeight();
+                double goalS = 0;
+                if(user.getGoal().getGoalSpeed()==Goal.GoalSpeed.Aggressive)
+                    goalS = 0.9;
+                else if(user.getGoal().getGoalSpeed()==Goal.GoalSpeed.Average)
+                    goalS = 0.45;
+                else if(user.getGoal().getGoalSpeed()==Goal.GoalSpeed.Slow)
+                    goalS = 0.225;
+                Date date = new Date();
+                for(double i = startingW; i < goalW; i += goalS){
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                    String dateTime = formatter.format(date);
+                    %>
+                    ['<%=dateTime%>', <%=i%>],
+                    <%
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    cal.add(Calendar.DATE, 1);
+                    date = cal.getTime();
+                }
+              %>
+            ]);
+
+            var options = {
+              curveType: 'function',
+              animation: {"startup": true},
+              legend: { position: 'bottom' },
+              colors: ['#048a72'],
+              series: {0: { lineWidth: 5 } },
+              backgroundColor: { fill:'transparent' },
+              hAxis: {textStyle:{color: '#FFF'}},
+              vAxis: {textStyle:{color: '#FFF'}},
+              chartArea: {'width': '90%', 'height': '80%'},
+              legend: {position: 'none'}
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+          }
+        </script>
     </head>
     <body height:100%; margin:0;padding:0>
         <div class="wrapper bg golbg">
@@ -213,7 +264,7 @@
 					</div>
 					<div class="row h-50">
 						<div class="col-xl bigbox rounded-0.25">
-							
+							<div id="curve_chart" style="width: 100%; height: 100%"></div>
 						</div>
 					</div>
 				</div>

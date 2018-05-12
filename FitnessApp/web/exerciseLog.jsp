@@ -25,42 +25,85 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Activity Log</title>
 		
-		<%
-                HttpSession httpSession = request.getSession();
-            
-                String email = "";
-                String password = "";
-                User user = null;
-                String name = "";
-                String timeOfDay = "";
-                String healthScoreMsg = "";
-                //Redirect to login page if user session is invalid
-                try{
-                    email = (String) httpSession.getAttribute("email");
-                    password = (String) httpSession.getAttribute("password");
-                    name = (String) httpSession.getAttribute("name");
-                    user = PersistanceController.getUser(email, password);
+        <%
+            HttpSession httpSession = request.getSession();
 
-                    Date date = new Date();
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    timeOfDay = "morning";
-                    int hour = cal.get(Calendar.HOUR_OF_DAY);
+            String email = "";
+            String password = "";
+            User user = null;
+            String name = "";
+            String timeOfDay = "";
+            String healthScoreMsg = "";
+            //Redirect to login page if user session is invalid
+            try{
+                email = (String) httpSession.getAttribute("email");
+                password = (String) httpSession.getAttribute("password");
+                name = (String) httpSession.getAttribute("name");
+                user = PersistanceController.getUser(email, password);
 
-                    if (hour >= 12 && hour < 17) {
-                        timeOfDay = "afternoon";
-                    }
-                    else if (hour >= 17) {
-                        timeOfDay = "evening";
-                    }
+                Date date = new Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                timeOfDay = "morning";
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
 
-                    HealthScore healthScore = new HealthScore(user);
-                    healthScoreMsg = Integer.toString(healthScore.getHealthScore());
-                } catch(Exception e){
-                    request.setAttribute("message","Invalid session, please log in");
-                    request.getRequestDispatcher("userLogin.jsp").forward(request, response);
+                if (hour >= 12 && hour < 17) {
+                    timeOfDay = "afternoon";
                 }
-		%>	
+                else if (hour >= 17) {
+                    timeOfDay = "evening";
+                }
+
+                HealthScore healthScore = new HealthScore(user);
+                healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+            } catch(Exception e){
+                request.setAttribute("message","Invalid session, please log in");
+                request.getRequestDispatcher("userLogin.jsp").forward(request, response);
+            }
+        %>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Date', 'Calories Burnt'],
+              <%
+                List<HealthScore> healthScores = PersistanceController.loadHealthScores(email);
+                String oldDate = "";
+                for(HealthScore hs : healthScores){
+                    String calorieDisplay = Double.toString(hs.getCaloriesBurnt());
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                    String dateTimeDisplay = formatter.format(hs.getDateTime());
+                    if(dateTimeDisplay.equals(oldDate))
+                        break;
+                    %>
+                    ['<%=dateTimeDisplay%>', <%=calorieDisplay%>],
+                    <%
+                    oldDate = dateTimeDisplay;
+                }
+              %>
+            ]);
+
+            var options = {
+              curveType: 'function',
+              animation: {"startup": true},
+              legend: { position: 'bottom' },
+              colors: ['#048a72'],
+              series: {0: { lineWidth: 5 } },
+              backgroundColor: { fill:'transparent' },
+              hAxis: {textStyle:{color: '#FFF'}},
+              vAxis: {textStyle:{color: '#FFF'}},
+              chartArea: {'width': '90%', 'height': '80%'},
+              legend: {position: 'none'}
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+          }
+        </script>
     </head>
     <body height:100%; margin:0;padding:0>
 		<div class="wrapper bg alogbg overflow-hidden">
