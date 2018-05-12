@@ -57,7 +57,7 @@
 								<p><label for="weight" class="text-left w-100">Height (ft & in)</label>
 								<div class="form-group form-inline">
 									<input type="number" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0 w-50" id="height" placeholder="Enter height (ft)" name="height" required></p>
-									<input type="number" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0 w-50" id="height2" placeholder="Enter height (in)" name="height2 required"></p>
+									<input type="number" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0 w-50" id="height2" placeholder="Enter height (in)" name="height2" required"></p>
 								</div>
 							<%}%>
 

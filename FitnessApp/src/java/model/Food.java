@@ -4,12 +4,16 @@
  */
 package model;
 
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
@@ -84,6 +88,47 @@ public class Food {
             FoodTemplates.add(new FoodTemplate(name, Integer.parseInt(calories)));
         }
         return FoodTemplates;
+    }
+    
+    public static void addToFoodList(String food, int calories, int avgWeight){
+        List<FoodTemplate> FoodTemplates = null;
+        try{
+            FoodTemplates = getFoodList();
+        }catch(Exception e){
+            FoodTemplates = new ArrayList();
+        }
+        
+        food = food + " (avg. weight " + Integer.toString(avgWeight) + "g)";
+        
+        FoodTemplates.add(new FoodTemplate(food, calories));
+        
+        PrintWriter pw = null;
+        try {
+            new File("FitnessApp/").mkdir();
+            File foodFile = new File("FitnessApp/FoodTemplates.json");
+            foodFile.createNewFile();
+            pw = new PrintWriter(new FileWriter(foodFile));
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO OPEN \"FoodTemplates.json\" FILE TO FOOD USERS");
+        }
+        JSONObject jo = new JSONObject();
+        JSONArray ja = new JSONArray();
+
+        for(FoodTemplate ft : FoodTemplates){
+            Map m = new LinkedHashMap();
+            
+            m.put("name", ft.getFoodName());
+            m.put("calories", ft.getCalories());
+            
+            ja.add(m);
+        }
+        
+        jo.put("Foods", ja);
+        
+        pw.write(jo.toJSONString());
+        
+        pw.flush();
+        pw.close();
     }
 
     //Getters

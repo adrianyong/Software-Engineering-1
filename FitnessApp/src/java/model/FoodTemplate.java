@@ -7,7 +7,7 @@ package model;
 
 public class FoodTemplate {
     private String name;
-    private double calories;
+    private int calories;
     
     public FoodTemplate(String nameIn, int caloriesIn){//, double portionSizeIn){
         name = nameIn;
@@ -18,7 +18,7 @@ public class FoodTemplate {
         return name;
     }
     
-    public double getCalories(){
+    public int getCalories(){
         return calories;
     }
 }

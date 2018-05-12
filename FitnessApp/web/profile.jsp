@@ -363,7 +363,7 @@
                                                 <p><h4>Calories burnt today</h4></p>
                                                 <div class="container w-100 h-80">
                                                     <div class="row h80">
-                                                        <div id="donutchart" class="col-md-12"></div>
+                                                        <div id="donutchart" class="col-md-12" style="height: 200%; width: 100%"></div>
                                                         <div class="item-front2">
                                                             <h1><%=caloriesBurnt%></h1>
                                                         </div>

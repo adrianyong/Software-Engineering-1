@@ -185,17 +185,17 @@
                                 <form class="form-mb4 w-100 side-pad-5" action="WebController">
                                         <p><h4>Add Food to Database</h4></p>
                                         <br>
-                                        <input type="hidden" name="formType" value="food">
+                                        <input type="hidden" name="formType" value="newFood">
                                             <div class="form-group form-inline">
                                                 <label for="food" class=" w-50 text-left">Food</label>
                                                 <input type="input" class="form-control w-50 border-0 backgroundBlack2" id="food" value="" name="food" required>
                                             </div>
                                         <div class="form-group form-inline">
-                                                <label for="calories" class=" w-50 text-left">Calories (kcal)</label>
+                                                <label for="calories" class=" w-50 text-left">Calories (kcal per 100g)</label>
                                                 <input type="number" class="form-control w-50 border-0 backgroundBlack2" id="calories" value="" name="calories" step="0.01" min="0.01" required>
                                         </div>
                                         <div class="form-group form-inline">
-                                                <label for="quantity" class=" w-50 text-left">Quantity (g)</label>
+                                                <label for="quantity" class=" w-50 text-left">Avg weight (g)</label>
                                                 <input type="number" class="form-control w-50 border-0 backgroundBlack2" id="quantity" value="" name="quantity" step="0.01" min="0.01" required>
                                         </div>
                                         <p><button type="submit" class="btn btn-info w-100">Add Food</button></p>

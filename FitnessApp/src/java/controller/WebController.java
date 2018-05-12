@@ -71,6 +71,9 @@ public class WebController extends HttpServlet {
         case "food":
             food(request, response, httpSession);
             break;
+        case "newFood":
+            newFood(request, response, httpSession);
+            break;
         }
     }
     
@@ -429,6 +432,20 @@ public class WebController extends HttpServlet {
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
         }
+    }
+
+    void newFood(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        String food = request.getParameter("food");
+        String calories = request.getParameter("calories");
+        String quantity = request.getParameter("quantity");
+
+        try {
+            response.sendRedirect("foodLog.jsp");
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO RELOAD WEIGHT PAGE");
+        }
+        
+        Food.addToFoodList(food, (int) Double.parseDouble(calories), (int) Double.parseDouble(quantity));
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
