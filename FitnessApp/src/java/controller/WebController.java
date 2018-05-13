@@ -324,6 +324,11 @@ public class WebController extends HttpServlet {
         String email = (String) httpSession.getAttribute("email");
         
         String activityLevel = request.getParameter("activityLevel");
+        String tracking = request.getParameter("tracking");
+        String heightUnit = request.getParameter("heightUnit");
+        String weightUnit = request.getParameter("weightUnit");
+        String restingHeartRate = request.getParameter("restingHeartRate");
+        String bodyFatPercentage = request.getParameter("bodyFatPercentage");
         
         List<User> users = null;
         try {
@@ -335,6 +340,11 @@ public class WebController extends HttpServlet {
         for(User u : users){
             if (u.getEmail().equals(email)){
                 u.setActivityLevel(activityLevel);
+                u.setTrackingPreference(Boolean.parseBoolean(tracking));
+                u.setHeightUnit(User.HeightUnit.valueOf(heightUnit));
+                u.setWeightUnit(User.WeightUnit.valueOf(weightUnit));
+                u.setRestingHeartRate((int) Double.parseDouble(restingHeartRate));
+                u.setBodyFatPercentage((int) Double.parseDouble(bodyFatPercentage));
             }
         }
         

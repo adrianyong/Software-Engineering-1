@@ -38,6 +38,8 @@
             int caloriesConsumed = 0;
             int caloriesLeft = 0;
             
+            boolean isTracking = true;
+            
             //Redirect to login page if user session is invalid
             try{
                 email = (String) httpSession.getAttribute("email");
@@ -51,11 +53,13 @@
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
                 hour = cal.get(Calendar.HOUR_OF_DAY);
-                caloriesBurnt = (int) ((hour/24.0f)*BMR);
+                caloriesBurnt = (int) ((hour/24.0f)*BMR) + PersistanceController.getMostRecentHealthScore(email).getCaloriesBurnt();
                 caloriesNotBurnt = (int) BMR - caloriesBurnt;
 
                 caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
                 caloriesLeft = modifiedBMR - caloriesConsumed;
+                
+                isTracking = user.isTrackingActivity();
             } catch(Exception e){
                 request.setAttribute("message","Invalid session, please log in");
                 request.getRequestDispatcher("userLogin.jsp").forward(request, response);
@@ -97,6 +101,8 @@
             double startingWeight = user.getDataList().get(0).getWeight();
             double currentWeight = user.getWeight();
             double goalWeight = user.getGoal().getGoalWeight();
+            
+            double currentWeightPercent = ((currentWeight - startingWeight) * 100) / (goalWeight - startingWeight);
         %>
         <!--Goal days-->
         <script type="text/javascript">
@@ -317,11 +323,13 @@
 					<div class="form-group">
 						<a href="profile.jsp" class="btn btn-info currentpage" role="button">Home</a>
 					</div>
-					
+                                        
+					<%if(isTracking){%>
 					<div class="form-group">
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
-					
+					<%}%>
+                                        
                                         <div class="form-group">
                                                 <a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
                                         </div>
@@ -357,40 +365,49 @@
 						</div>
 						
 						<div class="col-xl bigbox rounded-0.25 align-items-center text-center">
-                                                    <%
-                                                        int days = (int) user.getGoal().getGoalCompletion(user);
-                                                    %>
-                                                    <br>
-                                                    <h4>You'll reach your goal in</h4>
-                                                    <h1><%=days%> Days</h1>
-                                                    <div id="barchart_values" style="width: 100%; height: 20%;"></div>
-                                                    <h4>Good Job Keep it up!</h4>
+                            <%
+                                int days = (int) user.getGoal().getGoalCompletion(user);
+                            %>
+                            <br>
+                            <h4>You'll reach your goal in</h4>
+                            <br>
+                            <h1><%=days%> Days</h1>
+                            <br>
+                            <div class="custom-progress">
+                                <div class="custom-progress-bar" role="progressbar" aria-valuenow="<%=currentWeightPercent%>" aria-valuemin="0" aria-valuemax="100" style="width:<%=currentWeightPercent%>%"></div>
+                            </div>
+                            <br>
+                            <br>
+                            <h4>Good Job Keep it up!</h4>
 						</div>
 					</div>
 					
 					<div class="row h-50">
-                                            <div class="col-xl bigbox rounded-0.25 align-items-center text-center">
-                                                <br>
-                                                <h4>Weight over time</h4>
-                                                <div id="curve_chart" style="width: 100%; height: 80%"></div>
-                                            </div>
+                        <div class="col-xl bigbox rounded-0.25 align-items-center text-center">
+                            <br>
+                            <h4>Weight over time</h4>
+                            <div id="curve_chart" style="width: 100%; height: 80%"></div>
+                        </div>
 
-                                            <div class="col-xl bigbox rounded-0.25 align-items-center text-center">
-                                                <br>
-                                                <p><h4>Calories burnt today</h4></p>
-                                                <div class="container w-100 h-80">
-                                                    <div class="row h80">
-                                                        <div id="donutchart" class="col-md-12" style="height: 200%; width: 100%;"></div>
-                                                        <div class="item-front2">
-                                                            <h1><%=caloriesBurnt%></h1>
-                                                        </div>
-                                                    </div>
-                                                    <p><a href="exerciseLog.jsp"><h4>Add Activity</h4></a>
-                                                </div>
-					</div>
-				</div>
-			
-			</div>
+                        <div class="col-xl bigbox rounded-0.25 align-items-center text-center">
+                            <br>
+                            <p><h4>Calories burnt today</h4></p>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="container w-100 h-80">
+                                <div class="row h80">
+                                    <div id="donutchart" class="col-md-12"></div>
+                                    <div class="item-front2">
+                                        <h1><%=caloriesBurnt%></h1>
+                                        <br>
+                                        <p><a href="exerciseLog.jsp"><h4>Add Activity</h4></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
         </div>
     </body>
 </html>

@@ -34,6 +34,8 @@
             int caloriesLeft = 0;
             int modifiedBMR = 0;
             
+            boolean isTracking = true;
+            
             try{
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
@@ -60,6 +62,8 @@
                 modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
                 int caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
                 caloriesLeft = modifiedBMR - caloriesConsumed;
+                
+                isTracking = user.isTrackingActivity();
             } catch(Exception e){
                 request.setAttribute("message","Invalid session, please log in");
                 request.getRequestDispatcher("userLogin.jsp").forward(request, response);
@@ -102,9 +106,11 @@
 						<a href="profile.jsp" class="btn btn-info notpage" role="button">Home</a>
 					</div>
 					
+					<%if(isTracking){%>
 					<div class="form-group">
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
+					<%}%>
 					
                     <div class="form-group">
                         <a href="foodLog.jsp" class="btn btn-info currentpage" role="button">Food Log</a>

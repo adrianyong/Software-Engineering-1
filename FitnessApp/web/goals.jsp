@@ -4,6 +4,9 @@
     Author     : Bento
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="model.HealthData"%>
+<%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.HealthScore"%>
 <%@page import="java.util.Calendar"%>
@@ -32,6 +35,8 @@
             String timeOfDay = "";
             String healthScoreMsg = "";
             
+            boolean isTracking = true;
+            
             try{
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
@@ -54,6 +59,8 @@
 
                 HealthScore healthScore = new HealthScore(user);
                 healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+                
+                isTracking = user.isTrackingActivity();
             } catch(Exception e){
                 request.setAttribute("message","Invalid session, please log in");
                 request.getRequestDispatcher("userLogin.jsp").forward(request, response);
@@ -68,15 +75,17 @@
 
             String weightUnit = user.getWeightUnit().toString();
 
+            DecimalFormat df = new DecimalFormat("#.##");
+            
             if("kg".equals(weightUnit)){
-                goalWeight = Double.toString(goalWeightDouble);
+                goalWeight = df.format((int) goalWeightDouble);
             }
             else if("pound".equals(weightUnit)){
-                goalWeight = Double.toString(Conversions.weightKgToPounds(goalWeightDouble));
+                goalWeight = df.format((int) Conversions.weightKgToPounds(goalWeightDouble));
             }
             else if("stonePound".equals(weightUnit)){
-                goalWeight = Double.toString((int) Conversions.weightKgToStonePart(goalWeightDouble));
-                goalWeight2 = Double.toString((int) Conversions.weightKgToPoundsPart(goalWeightDouble));
+                goalWeight = df.format((int) Conversions.weightKgToStonePart(goalWeightDouble));
+                goalWeight2 = df.format((int) Conversions.weightKgToPoundsPart(goalWeightDouble));
             }
 
             %>
@@ -87,23 +96,44 @@
 
           function drawChart() {
             var data = google.visualization.arrayToDataTable([
-              ['Date', 'Weight'],
+              ['Date', 'Input Weight', 'Trend Weight'],
               <%
+                List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
+                String oldDate = "";
+                int count = 0;
+                String weightDisplay = "";
+                String dateTimeDisplay = "";
+                
                 double startingW = user.getWeight();
+                for(HealthData hd : healthDatas){
+                    weightDisplay = Double.toString(hd.getWeight());
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                    dateTimeDisplay = formatter.format(hd.getDateTime());
+                    if(dateTimeDisplay.equals(oldDate) || count >= healthDatas.size()-1)
+                        break;
+                    %>
+                    ['<%=dateTimeDisplay%>', <%=weightDisplay%>, null],
+                    <%
+                    oldDate = dateTimeDisplay;
+                }
+                %>
+                ['<%=dateTimeDisplay%>', <%=weightDisplay%>, <%=startingW%>],
+                <%
+                
                 double goalW = user.getGoal().getGoalWeight();
                 double goalS = 0;
                 if(user.getGoal().getGoalSpeed()==Goal.GoalSpeed.Aggressive)
-                    goalS = 0.9;
+                    goalS = 0.9/7;
                 else if(user.getGoal().getGoalSpeed()==Goal.GoalSpeed.Average)
-                    goalS = 0.45;
+                    goalS = 0.45/7;
                 else if(user.getGoal().getGoalSpeed()==Goal.GoalSpeed.Slow)
-                    goalS = 0.225;
+                    goalS = 0.225/7;
                 Date date = new Date();
-                for(double i = startingW; i < goalW; i += goalS){
+                for(double i = startingW + goalS; i < goalW; i += goalS){
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
                     String dateTime = formatter.format(date);
                     %>
-                    ['<%=dateTime%>', <%=i%>],
+                    ['<%=dateTime%>', null,  <%=i%>],
                     <%
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
@@ -117,8 +147,14 @@
               curveType: 'function',
               animation: {"startup": true},
               legend: { position: 'bottom' },
-              colors: ['#048a72'],
-              series: {0: { lineWidth: 5 } },
+              colors: ['#048a72','#97BEB8'],
+              series: {0: { 
+                      lineWidth: 5 
+                  },
+                  1: { 
+                      lineWidth: 5 
+                  } 
+              },
               backgroundColor: { fill:'transparent' },
               hAxis: {textStyle:{color: '#FFF'}},
               vAxis: {textStyle:{color: '#FFF'}},
@@ -163,9 +199,11 @@
 						<a href="profile.jsp" class="btn btn-info notpage" role="button">Home</a>
 					</div>
 						
+					<%if(isTracking){%>
 					<div class="form-group">
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
+					<%}%>
 					
 					<div class="form-group">
 							<a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
@@ -209,6 +247,12 @@
 										<h2 class="w-50 no-margin text-left text-truncate">Goal Speed</h2>
 										<h3 class="w-50 no-margin text-left text-truncate"><%=goalSpeed%></h3>
 									</div>
+                                                                        <%int days = (int) user.getGoal().getGoalCompletion(user);%>
+                                                                        <br>
+                                                                        <div class="form-group form-inline">
+										<h2 class="w-50 no-margin text-left text-truncate">Days Remaining</h2>
+										<h3 class="w-50 no-margin text-left text-truncate"><%=days%></h3>
+									</div>
 								</div>
 							</div>
 						
@@ -218,9 +262,15 @@
 								<div class="form-group">
 									<label for="goalType" class="w-100 text-left">Goal:</label>
 									<select name="goalType" class="form-control w-100 border-0 backgroundBlack2">
-										<option value="GainWeight">Gain Weight</option>
-										<option value="LoseWeight">Lose Weight</option>
-										<option value="MaintainWeight">Maintain Weight</option>
+										<option value="GainWeight"<%if (goalType.equals("GainWeight")){%>
+                                                                                    selected
+                                                                                    <%}%>>Gain Weight</option>
+										<option value="LoseWeight"<%if (goalType.equals("LoseWeight")){%>
+                                                                                    selected
+                                                                                    <%}%>>Lose Weight</option>
+										<option value="MaintainWeight"<%if (goalType.equals("MaintainWeight")){%>
+                                                                                    selected
+                                                                                    <%}%>>Maintain Weight</option>
 									</select>
 								</div>
 
@@ -246,14 +296,26 @@
 									<label for="goalSpeed" class=" w-100 text-left">Goal Speed:</label>
 									<select name="goalSpeed" class="form-control w-100 border-0 backgroundBlack2">
 										<%if("kg".equals(weightUnit)){%>-->
-											<option value="Slow">Slow 0.225kg/week</option>
-											<option value="Average">Average 0.45kg/week</option>
-											<option value="Aggressive">Aggressive 0.9kg/week</option>
+                                                                                        <option value="Slow"<%if (goalSpeed.equals("Slow")){%>
+                                                                                            selected
+                                                                                            <%}%>>Slow 0.225kg/week</option>
+                                                                                        <option value="Average"<%if (goalSpeed.equals("Average")){%>
+                                                                                            selected
+                                                                                            <%}%>>Average 0.45kg/week</option>
+                                                                                        <option value="Aggressive"<%if (goalSpeed.equals("Aggressive")){%>
+                                                                                            selected
+                                                                                            <%}%>>Aggressive 0.9kg/week</option>
 										<%}
 										else{%>
-											<option value="Slow">Slow 0.5lb/week</option>
-											<option value="Average">Average 1.0lb/week</option>
-											<option value="Aggressive">Aggressive 2.0lb/week</option>
+											<option value="Slow"<%if (goalSpeed.equals("Slow")){%>
+                                                                                            selected
+                                                                                            <%}%>>Slow 0.5lb/week</option>
+                                                                                        <option value="Average"<%if (goalSpeed.equals("Average")){%>
+                                                                                            selected
+                                                                                            <%}%>>Average 1.0lb/week</option>
+                                                                                        <option value="Aggressive"<%if (goalSpeed.equals("Aggressive")){%>
+                                                                                            selected
+                                                                                            <%}%>>Aggressive 2.0lb/week</option>
 										<%}%>
 									</select>
 								</div>

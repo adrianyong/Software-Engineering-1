@@ -57,7 +57,8 @@
 								<label for="weightUnit" class="w-50 text-left">Weight Preferences</label>
 								<select name="weightUnit" class="form-control w-50 border-0 backgroundBlack">
 									<option value="kg" id="weightpref1">Kg</option>
-									<option value="stonePound" id="weightpref2">Stone</option>
+                                                                        <option value="pound" id="weightpref2">Pound</option>
+									<option value="stonePound" id="weightpref3">Stone</option>
 								</select>
 						</div>
 						

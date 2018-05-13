@@ -17,8 +17,8 @@ public class User {
     private String lastName;
     private Date dob;
     private final Sex sex;
-    private final HeightUnit heightUnit;
-    private final WeightUnit weightUnit;
+    private HeightUnit heightUnit;
+    private WeightUnit weightUnit;
     private boolean isTrackingActivity;
     private ActivityLevel activityLevel;
   
@@ -197,10 +197,24 @@ public class User {
     }
 
     /**
+     * @param heightUnit the heightUnit to set
+     */
+    public void setHeightUnit(HeightUnit heightUnit) {
+        this.heightUnit = heightUnit;
+    }
+    
+    /**
      * @return the weight
      */
     public WeightUnit getWeightUnit() {
         return weightUnit;
+    }
+
+    /**
+     * @param weightUnit the weightUnit to set
+     */
+    public void setWeightUnit(WeightUnit weightUnit) {
+        this.weightUnit = weightUnit;
     }
     
     /**

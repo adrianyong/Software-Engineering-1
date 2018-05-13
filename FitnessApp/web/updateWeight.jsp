@@ -30,6 +30,8 @@
             String timeOfDay = "";
             String healthScoreMsg = "";
             
+            boolean isTracking = true;
+            
             try{
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
@@ -52,6 +54,8 @@
 
                 HealthScore healthScore = new HealthScore(user);
                 healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+                
+                isTracking = user.isTrackingActivity();
             } catch(Exception e){
                 request.setAttribute("message","Invalid session, please log in");
                 request.getRequestDispatcher("userLogin.jsp").forward(request, response);
@@ -120,28 +124,28 @@
 				String lastHeight = "";
 				String lastHeight2 = "";
 				
-				
 				String weightUnit = user.getWeightUnit().toString();
 				String heightUnit = user.getHeightUnit().toString();
 				
+                                DecimalFormat df = new DecimalFormat("#.##");
 				if(recentData!=null){
 					if("kg".equals(weightUnit)){
-						lastWeight = Double.toString(recentData.getWeight());
+						lastWeight = df.format(recentData.getWeight());
 					}
 					else if("pound".equals(weightUnit)){
-						lastWeight = Double.toString(Conversions.weightKgToPounds(recentData.getWeight()));
+						lastWeight = df.format(Conversions.weightKgToPounds(recentData.getWeight()));
 					}
 					else if("stonePound".equals(weightUnit)){
-						lastWeight = Double.toString((int) Conversions.weightKgToStonePart(recentData.getWeight()));
-						lastWeight2 = Double.toString((int) Conversions.weightKgToPoundsPart(recentData.getWeight()));
+						lastWeight = df.format((int) Conversions.weightKgToStonePart(recentData.getWeight()));
+						lastWeight2 = df.format((int) Conversions.weightKgToPoundsPart(recentData.getWeight()));
 					}
 
 					if("cm".equals(heightUnit)){
-						lastHeight = Double.toString(recentData.getHeight());
+						lastHeight = df.format(recentData.getHeight());
 					}
 					else if("feetInches".equals(heightUnit)){
-						lastHeight = Double.toString((int) Conversions.heightCMToFeetPart(recentData.getHeight()));
-						lastHeight2 = Double.toString((int) Conversions.heightCMToInchesPart(recentData.getHeight()));
+						lastHeight = df.format((int) Conversions.heightCMToFeetPart(recentData.getHeight()));
+						lastHeight2 = df.format((int) Conversions.heightCMToInchesPart(recentData.getHeight()));
 					}
 				}
 			%>
@@ -172,9 +176,11 @@
 						<a href="profile.jsp" class="btn btn-info notpage" role="button">Home</a>
 					</div>
 					
+					<%if(isTracking){%>
 					<div class="form-group">
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
+					<%}%>
 					
                                         <div class="form-group">
                                                 <a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
@@ -244,8 +250,6 @@
 							<%
 								try {
 									//List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
-									Collections.reverse(healthDatas);;
-                                                                        DecimalFormat df = new DecimalFormat("#.##");
 									for(HealthData hd : healthDatas){
 										String weightDisplay = "";
 										String heightDisplay = "";

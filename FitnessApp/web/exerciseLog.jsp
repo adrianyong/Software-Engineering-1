@@ -34,6 +34,8 @@
             String name = "";
             String timeOfDay = "";
             String healthScoreMsg = "";
+            
+            boolean isTracking = true;
             //Redirect to login page if user session is invalid
             try{
                 email = (String) httpSession.getAttribute("email");
@@ -56,6 +58,8 @@
 
                 HealthScore healthScore = new HealthScore(user);
                 healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+                
+                isTracking = user.isTrackingActivity();
             } catch(Exception e){
                 request.setAttribute("message","Invalid session, please log in");
                 request.getRequestDispatcher("userLogin.jsp").forward(request, response);
@@ -136,9 +140,11 @@
 							<a href="profile.jsp" class="btn btn-info notpage" role="button">Home</a>
 						</div>
 						
-						<div class="form-group">
-							<a href="exerciseLog.jsp" class="btn btn-info currentpage" role="button">Exercise Log</a>
-						</div>
+						<%if(isTracking){%>
+                                                <div class="form-group">
+                                                        <a href="exerciseLog.jsp" class="btn btn-info currentpage" role="button">Exercise Log</a>
+                                                </div>
+                                                <%}%>
 						
                                                 <div class="form-group">
                                                         <a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>

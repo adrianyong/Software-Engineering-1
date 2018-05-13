@@ -4,6 +4,7 @@
     Author     : dad15gwu
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="model.HealthScore"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
@@ -31,6 +32,8 @@
             String timeOfDay = "";
             String healthScoreMsg = "";
             
+            boolean isTracking = true;
+            
             try{
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
@@ -53,6 +56,8 @@
 
                 HealthScore healthScore = new HealthScore(user);
                 healthScoreMsg = Integer.toString(healthScore.getHealthScore());
+                
+                isTracking = user.isTrackingActivity();
             } catch(Exception e){
                 request.setAttribute("message","Invalid session, please log in");
                 request.getRequestDispatcher("userLogin.jsp").forward(request, response);
@@ -94,9 +99,11 @@
 						<a href="profile.jsp" class="btn btn-info notpage" role="button">Home</a>
 					</div>
 					
+					<%if(isTracking){%>
 					<div class="form-group">
 						<a href="exerciseLog.jsp" class="btn btn-info notpage" role="button">Exercise Log</a>
 					</div>
+					<%}%>
 					
 					<div class="form-group">
 							<a href="foodLog.jsp" class="btn btn-info notpage" role="button">Food Log</a>
@@ -118,18 +125,38 @@
 				<%
                                     User.ActivityLevel activityLevel = user.getActivityLevel();
                                     String activityLevelString = activityLevel.toString();
+                                    
+                                    String heightUnitString = user.getHeightUnit().toString();
+                                    String weightUnitString = user.getWeightUnit().toString();
+                                    
+                                    DecimalFormat df = new DecimalFormat("#.##");
+                                    String restingHeartRateString = df.format(user.getRestingHeartRate());
+                                    String bodyFatPercentageString = df.format(user.getBodyFatPercentage());
 				%>
 				<div class="container mainboxes">
 					<div class="row h-100">
 						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
 							<form class="form-mb4 w-100 side-pad-25" action="WebController">
 								<input type="hidden" name="formType" value="settings">
-								<% boolean tracking = user.isTrackingActivity();
-								if(!tracking){
-									%>
+                                                                <div class="form-group form-inline w-100">
+                                                                    <h4 class="w-100">User Settings</h4>
+                                                                </div>
+                                                                <div class="form-group form-inline w-100">
+                                                                    <label for="tracking" class="w-50">Would you like to Track Activity?</label>
+                                                                    <select name="tracking" class="form-control w-50 border-0 backgroundBlack2">
+                                                                            <option value="True" <%if (isTracking){%>
+                                                                                    selected
+                                                                                    <%}%>>True</option>
+                                                                            <option value="False" <%if (!isTracking){%>
+                                                                                    selected
+                                                                                    <%}%>>False</option>
+                                                                    </select>
+                                                                </div>
+								<% 
+								if(!isTracking){%>
 								<div class="form-group form-inline w-100">
 									<label for="activityLevel" class="w-50">Activity Level</label>
-									<select name="activityLevel" class="form-control w-50 border-0 backgroundBlack">
+									<select name="activityLevel" class="form-control w-50 border-0 backgroundBlack2">
 										<option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
 												selected
 												<%}%>>No Exercise</option>
@@ -154,13 +181,57 @@
 									<select name="activityLevel" class="form-control w-50 border-0 backgroundBlack2">
 										<option value="NoExercise" <%if (activityLevelString.equals("NoExercise")){%>
 												selected
-												<%}%>>No Exercise</option>
+												<%}%>>Sedentary</option>
 										<option value="LightExercise" <%if (activityLevelString.equals("LightExercise")){%>
 												selected
-												<%}%>>Light Exercise</option>
+												<%}%>>Active Lifestyle</option>
 									</select>
 								</div>
 								<%}%>
+                                                                <div class="form-group form-inline w-100">
+                                                                    <h4 class="w-100">Unit Preferences</h4>
+                                                                </div>
+                                                                
+                                                                <div class="form-group form-inline">
+                                                                    <label for="heightUnit" class="w-50">Height Preferences</label>
+                                                                    <select name="heightUnit" class="form-control w-50 border-0 backgroundBlack2">
+                                                                            <option value="cm" <%if (heightUnitString.equals("cm")){%>
+												selected
+												<%}%>>Cm</option>
+                                                                            <option value="feetInches" <%if (heightUnitString.equals("feetInches")){%>
+												selected
+												<%}%>>Feet</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="form-group form-inline">
+                                                                    <label for="weightUnit" class="w-50">Weight Preferences</label>
+                                                                    <select name="weightUnit" class="form-control w-50 border-0 backgroundBlack2">
+                                                                            <option value="kg" <%if (weightUnitString.equals("kg")){%>
+												selected
+												<%}%>>Kg</option>
+                                                                            <option value="pound" <%if (weightUnitString.equals("pound")){%>
+												selected
+												<%}%>>Pound</option>
+                                                                            <option value="stonePound" <%if (weightUnitString.equals("stonePound")){%>
+												selected
+												<%}%>>Stone</option>
+                                                                    </select>
+                                                                </div>
+                                                                    
+                                                                <div class="form-group form-inline w-100">
+                                                                    <h4 class="w-100">Additional Health Data</h4>
+                                                                </div>
+                                                                    
+                                                                <div class="form-group form-inline">
+                                                                    <label for="restingHeartRate" class="w-50">Resting Heart Rate (bpm)</label>
+                                                                    <input type="number" class="form-control w-50 border-0 backgroundBlack2" id="restingHeartRate" value="<%=restingHeartRateString%>" name="restingHeartRate">
+                                                                </div>
+                                                                    
+                                                                <div class="form-group form-inline">
+                                                                    <label for="bodyFatPercentage" class="w-50">Body Fat Percentage</label>
+                                                                    <input type="number" class="form-control w-50 border-0 backgroundBlack2" id="bodyFatPercentage" value="<%=bodyFatPercentageString%>" name="bodyFatPercentage">
+                                                                </div>
 
 								<button type="submit" class="btn btn-info w20">Save</button>
 							</form>
