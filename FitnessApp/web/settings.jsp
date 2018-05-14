@@ -234,8 +234,40 @@
                                                                 </div>
 
 								<button type="submit" class="btn btn-info w20">Save</button>
-							</form>
+                                                        </form>
 						</div>
+                                                <div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
+                                                    <form class="form-mb4 w-100 side-pad-25" action="WebController">
+                                                        <input type="hidden" name="formType" value="changePassword">
+                                                        <div class="form-group form-inline w-100">
+                                                            <h4 class="w-100">Change password</h4>
+                                                        </div>
+
+                                                        <div class="form-group form-inline">
+                                                            <label for="currentPassword" class="w-50">Current Password</label>
+                                                            <input type="password" class="form-control w-50 border-0 backgroundBlack2" id="currentPassword" name="currentPassword">
+                                                        </div>
+
+                                                        <div class="form-group form-inline">
+                                                            <label for="newPassword" class="w-50">New Password</label>
+                                                            <input type="password" class="form-control w-50 border-0 backgroundBlack2" id="newPassword" name="newPassword">
+                                                        </div>
+
+                                                        <button type="submit" class="btn btn-info w20">Save</button>
+                                                        
+                                                        <%
+                                                        String message = (String)request.getAttribute("message"); 
+
+                                                        if(message != null){
+                                                        %>
+
+                                                        <div class="alert alert-danger text-center">
+                                                                <strong>Error: </strong> <%= message%>
+                                                        </div>
+
+                                                        <%}%>
+                                                    </form>
+                                                </div>
 						
 
 					</div>

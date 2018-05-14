@@ -62,6 +62,9 @@ public class WebController extends HttpServlet {
         case "settings":
             settings(request, response, httpSession);
             break;
+        case "changePassword":
+            changePassword(request, response, httpSession);
+            break;
         case "goals":
             goals(request, response, httpSession);
             break;
@@ -346,6 +349,37 @@ public class WebController extends HttpServlet {
                 u.setRestingHeartRate((int) Double.parseDouble(restingHeartRate));
                 u.setBodyFatPercentage((int) Double.parseDouble(bodyFatPercentage));
             }
+        }
+        
+        PersistanceController.saveUsers(users);
+        
+        try {
+            response.sendRedirect("settings.jsp");
+        } catch (Exception ex) {
+            System.out.println("ERROR: UNABLE TO RELOAD settings PAGE");
+        }
+    }
+    
+    void changePassword(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
+        String email = (String) httpSession.getAttribute("email");
+        
+        String currentPassword = request.getParameter("currentPassword");
+        String newPassword = request.getParameter("newPassword");
+        
+        List<User> users = null;
+        try {
+            users = PersistanceController.loadUsers();
+        } catch (Exception ex) {
+            Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for(User u : users){
+            if (u.getEmail().equals(email) && u.getPassword().equals(currentPassword)){
+                u.setPassword(newPassword);
+                httpSession.setAttribute("password", newPassword);
+            }
+            else
+                request.setAttribute("message","Incorrect password");
         }
         
         PersistanceController.saveUsers(users);
