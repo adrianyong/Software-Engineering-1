@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="model.HealthScore"%>
 <%@page import="java.util.Calendar"%>
@@ -76,7 +77,7 @@
             var data = google.visualization.arrayToDataTable([
               ['Date', 'Weight'],
               <%
-                List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
+                List<HealthData> healthDatas = new ArrayList(PersistanceController.loadHealthData(email));
                 String oldDate = "";
                 for(HealthData hd : healthDatas){
                     String weightDisplay = Double.toString(hd.getWeight());
@@ -250,6 +251,7 @@
 							<%
 								try {
 									//List<HealthData> healthDatas = PersistanceController.loadHealthData(email);
+                                                                        Collections.reverse(healthDatas);
 									for(HealthData hd : healthDatas){
 										String weightDisplay = "";
 										String heightDisplay = "";

@@ -247,10 +247,17 @@
                                                             <label for="currentPassword" class="w-50">Current Password</label>
                                                             <input type="password" class="form-control w-50 border-0 backgroundBlack2" id="currentPassword" name="currentPassword">
                                                         </div>
-
+                 
+                                                        <br>
+                                                        
                                                         <div class="form-group form-inline">
                                                             <label for="newPassword" class="w-50">New Password</label>
                                                             <input type="password" class="form-control w-50 border-0 backgroundBlack2" id="newPassword" name="newPassword">
+                                                        </div>
+                                                        
+                                                        <div class="form-group form-inline">
+                                                            <label for="confirmPassword" class="w-50">Confirm Password</label>
+                                                            <input type="password" class="form-control w-50 border-0 backgroundBlack2" id="confirmPassword" name="confirmPassword">
                                                         </div>
 
                                                         <button type="submit" class="btn btn-info w20">Save</button>

@@ -87,7 +87,6 @@
                 goalWeight = df.format((int) Conversions.weightKgToStonePart(goalWeightDouble));
                 goalWeight2 = df.format((int) Conversions.weightKgToPoundsPart(goalWeightDouble));
             }
-
             %>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -129,16 +128,31 @@
                 else if(user.getGoal().getGoalSpeed()==Goal.GoalSpeed.Slow)
                     goalS = 0.225/7;
                 Date date = new Date();
-                for(double i = startingW + goalS; i < goalW; i += goalS){
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-                    String dateTime = formatter.format(date);
-                    %>
-                    ['<%=dateTime%>', null,  <%=i%>],
-                    <%
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    cal.add(Calendar.DATE, 1);
-                    date = cal.getTime();
+                if(user.getGoal().getType()==Goal.GoalType.GainWeight){
+                    for(double i = startingW + goalS; i < goalW; i += goalS){
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                        String dateTime = formatter.format(date);
+                        %>
+                        ['<%=dateTime%>', null,  <%=i%>],
+                        <%
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);
+                        cal.add(Calendar.DATE, 1);
+                        date = cal.getTime();
+                    }
+                }
+                else if(user.getGoal().getType()==Goal.GoalType.LoseWeight){
+                    for(double i = startingW - goalS; i > goalW; i -= goalS){
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+                        String dateTime = formatter.format(date);
+                        %>
+                        ['<%=dateTime%>', null,  <%=i%>],
+                        <%
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);
+                        cal.add(Calendar.DATE, 1);
+                        date = cal.getTime();
+                    }
                 }
               %>
             ]);
@@ -228,7 +242,7 @@
 						<div class="col-xl bigbox rounded-0.25 text-center align-items-center d-flex">
 								<div class="container w-100 left-pad">
 									<div class="form-group form-inline">
-										<h2 class="w-50 no-margin text-left text-truncate">Goal Weight:</h2>
+										<h2 class="w-50 no-margin text-left text-truncate">Goal Weight</h2>
 										<%if("kg".equals(weightUnit)){%>
 											<h3 class="w-50 no-margin text-left text-truncate"><%=goalWeight%>kg</h3>
 										<%}

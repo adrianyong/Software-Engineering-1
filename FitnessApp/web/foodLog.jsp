@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="model.FoodTemplate"%>
 <%@page import="model.Food"%>
@@ -212,7 +213,7 @@
                             <div class="container section-act pad-5">
 							<%
 								try {
-									List<Food> foods = PersistanceController.loadFoods(email);
+									List<Food> foods = new ArrayList(PersistanceController.loadFoods(email));
 									Collections.reverse(foods);;
                                                                         DecimalFormat df = new DecimalFormat("#.##");
 									for(Food f : foods){

@@ -4,6 +4,8 @@
     Author     : 100021268
 --%>
 
+<%@page import="model.Goal"%>
+<%@page import="java.lang.Math.*"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.HealthScore"%>
@@ -37,6 +39,7 @@
             
             int caloriesConsumed = 0;
             int caloriesLeft = 0;
+            int caloriesTotal = 0;
             
             boolean isTracking = true;
             
@@ -59,6 +62,11 @@
                 caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
                 caloriesLeft = modifiedBMR - caloriesConsumed;
                 
+                if(caloriesNotBurnt < 0)
+                    caloriesNotBurnt =+ BMR;
+                
+                 caloriesTotal = (caloriesBurnt + caloriesNotBurnt);
+                
                 isTracking = user.isTrackingActivity();
             } catch(Exception e){
                 request.setAttribute("message","Invalid session, please log in");
@@ -75,7 +83,9 @@
             var data = google.visualization.arrayToDataTable([
               ['Type', 'Calories'],
               ['Consumed', <%=caloriesConsumed%>],
+              <%if(caloriesLeft >= 0){%>
               ['Not yet consumed', <%=caloriesLeft%>],
+              <%}%>
             ]);
 
             var options = {
@@ -84,7 +94,11 @@
                 pieSliceText: "none",
                 animation: {"startup": true},
                 legend: { position: 'bottom' },
+                <%if(caloriesLeft >= 0){%>
                 colors: ['#048a72','#97BEB8'],
+                <%}else{%>
+                colors: ['#be979a'],
+                <%}%>
                 backgroundColor: { fill:'transparent' },
                 chartArea: {'width': '95%', 'height': '95%'},
                 legend: {position: 'none'},
@@ -97,68 +111,18 @@
             chart.draw(data, options);
           }
         </script>
+        <!--Goal days-->
         <%
             double startingWeight = user.getDataList().get(0).getWeight();
             double currentWeight = user.getWeight();
             double goalWeight = user.getGoal().getGoalWeight();
             
-            double currentWeightPercent = ((currentWeight - startingWeight) * 100) / (goalWeight - startingWeight);
+            double currentWeightPercent = 0;
+            if(user.getGoal().getType()==Goal.GoalType.GainWeight)
+                currentWeightPercent = ((currentWeight - startingWeight) * 100) / (goalWeight - startingWeight);
+            else if(user.getGoal().getType()==Goal.GoalType.LoseWeight)
+                currentWeightPercent = ((startingWeight - currentWeight) * 100) / (goalWeight - startingWeight);
         %>
-        <!--Goal days-->
-        <script type="text/javascript">
-            google.charts.load("current", {packages:["corechart"]});
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
-              var data = google.visualization.arrayToDataTable([
-                ['Type', 'startingWeight', 'currentWeight', 'goalWeight', { role: 'annotation' } ],
-                ['2010', <%=startingWeight%>, <%=currentWeight%>, <%=goalWeight%>, '']
-              ]);
-
-              var view = new google.visualization.DataView(data);
-              view.setColumns([0, 1,
-                               { calc: "stringify",
-                                 sourceColumn: 1,
-                                 type: "string",
-                                 role: "annotation" },
-                               2]);
-
-              var options = {
-                bar: {groupWidth: "95%"},
-                legend: { position: "none" },
-                isStacked: true,
-                animation: {"startup": true},
-                colors: ['#048a72','#97BEB8'],
-                backgroundColor: { fill:'transparent' },
-                chartArea: {'width': '90%', 'height': '80%'},
-                legend: {position: 'none'},
-                'tooltip' : {
-                    trigger: 'none'
-                },
-                hAxis: { 
-                    textPosition: 'none', 
-                    axisFontSize : 0,
-                    viewWindowMode:'explicit',
-                    viewWindow:{
-                      max:<%=goalWeight%>,
-                      min:<%=startingWeight%>
-                    },
-                    gridlines: { 
-                        count: 0 
-                    } 
-                },
-                vAxis: { 
-                    textPosition: 'none', 
-                    axisFontSize : 0,
-                    gridlines: { 
-                        count: 0 
-                    } 
-                },
-
-              };
-              var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
-              chart.draw(view, options);
-          }
-      </script>
       
         <!--Weight chart-->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -212,7 +176,7 @@
           function drawChart() {
             var data = google.visualization.arrayToDataTable([
               ['Type', 'Calories'],
-              ['', <%=BMR%>],
+              ['', <%=caloriesTotal%>],
               ['Burnt', <%=caloriesBurnt%>],
               ['Not yet burnt', <%=caloriesNotBurnt%>],
             ]);
@@ -230,7 +194,11 @@
                 pieSliceText: "none",
                 animation: {"startup": true},
                 legend: { position: 'bottom' },
-                colors: ['#97BEB8','#048a72'],
+                <%if(caloriesBurnt < modifiedBMR){%>
+                    colors: ['#97BEB8','#048a72'],
+                <%}else{%>
+                    colors: ['#048a72','#16594c'],
+                <%}%>
                 backgroundColor: { fill:'transparent' },
                 chartArea: {'width': '95%', 'height': '95%'},
                 legend: {position: 'none'},

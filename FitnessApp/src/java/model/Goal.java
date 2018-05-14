@@ -20,6 +20,12 @@ public class Goal {
         this.goalSpeed=goalSpeed;
     }
     
+    public Goal(double goalWeight, String goalType, String goalSpeed){
+        this.goalWeight = goalWeight;
+        this.goalType=GoalType.valueOf(goalType);
+        this.goalSpeed=GoalSpeed.valueOf(goalSpeed);
+    }
+    
     public Goal(String goalWeight, String goalType, String goalSpeed){
         this.goalWeight = Double.parseDouble(goalWeight);
         this.goalType=GoalType.valueOf(goalType);

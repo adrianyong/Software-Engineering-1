@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.util.Collections"%>
@@ -198,11 +199,11 @@
 						<div class="col-xl bigbox rounded-0.25 no-pad">
 						<div class="container section-act">
                                 <%
-                                    List<Activity> activityLog = user.getActivityLog();
+                                    List<Activity> activityLog = new ArrayList(user.getActivityLog());
                                     Collections.reverse(activityLog);
                                     DecimalFormat df = new DecimalFormat("#.##");
                                     if(activityLog.size()>0){
-                                    for(Activity a: user.getActivityLog()){
+                                    for(Activity a: activityLog){
                                         String activity = a.getName();
                                         String duration = df.format(a.getDuration());
 

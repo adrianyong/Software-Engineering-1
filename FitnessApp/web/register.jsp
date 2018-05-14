@@ -36,6 +36,9 @@
 						<label for="password" class="text-left w-100">Password</label>
 						<input type="password" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="password" placeholder="Enter password" name="password" required>
 						
+                                                <label for="confirmPassword" class="text-left w-100">Confirm Password</label>
+						<input type="confirmPassword" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="confirmPassword" placeholder="Enter password" name="confirmPassword" required>
+                                                
 						<label for="firstName" class="text-left w-100">First Name: </label>
 						<input type="input" class="form-control border-right-0 border-left-0 border-bottom-0 rounded-0" id="firstName" placeholder="Enter first name" name="firstName" required>
 						

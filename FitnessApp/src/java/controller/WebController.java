@@ -137,6 +137,7 @@ public class WebController extends HttpServlet {
         String activityLevel = request.getParameter("activityLevel");
         String goalType = request.getParameter("goalType");
         String goalWeight = request.getParameter("goalWeight");
+        String goalWeight2 = request.getParameter("goalWeight2");
         String goalSpeed = request.getParameter("goalSpeed");
         
         String height = request.getParameter("height");
@@ -163,8 +164,18 @@ public class WebController extends HttpServlet {
             System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER IN REGISTRATION");
         }
         
-        System.out.println(goalWeight + " " + goalType + " " + goalSpeed);
-        user.setGoal(new Goal(goalWeight, goalType, goalSpeed));
+        double goalWeightKg = 0;
+        if("kg".equals(weightUnit)){
+            goalWeightKg = Double.parseDouble(goalWeight);
+        }
+        else if("pound".equals(weightUnit)){
+            goalWeightKg = Conversions.weightPoundsToKg(Double.parseDouble(goalWeight));
+        }
+        else if("stonePound".equals(weightUnit)){
+            goalWeightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(goalWeight), Double.parseDouble(goalWeight2));
+        }
+        
+        user.setGoal(new Goal(goalWeightKg, goalType, goalSpeed));
 
         double weightKg = 0;
         double heightKg = 0;
