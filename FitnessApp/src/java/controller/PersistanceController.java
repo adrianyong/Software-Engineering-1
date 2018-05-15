@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -224,63 +222,6 @@ public class PersistanceController {
         return users;
     }
     
-    public static void addUser(User u){
-        List<User> users;
-        try {
-            users = loadUsers();
-        } catch (Exception ex) {
-            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\", POSSIBLY EMPTY FILE, INITIALISING");
-            users = new ArrayList();
-        }
-        users.add(u);
-        saveUsers(users);
-    }
-    
-    public static boolean matchUser(String email){
-        //System.out.println("Searching for email " + email);
-        List<User> users;
-        try {
-            users = loadUsers();
-        } catch (Exception ex) {
-            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
-            return false;
-        }
-        
-        for(User u : users){
-            //System.out.println("Now trying user " + u.getFullName());
-            if(u.getEmail().equals(email)){
-                //System.out.println("Found at user " + u.getFullName());
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public static User getUser(String email, String password){
-        //System.out.println("Getting user with email " + email);
-        List<User> users;
-        try {
-            users = loadUsers();
-        } catch (Exception ex) {
-            System.out.println("ERROR: UNABLE TO OPEN \"userdata.json\" FILE TO LOAD USERS");
-            return null;
-        }
-        
-        for(User u : users){
-            //System.out.println("Now trying user " + u.getFullName());
-            //System.out.println("Checking " + u.getEmail() + " against " + email);
-            if(u.getEmail().equals(email)){
-                //System.out.println("Checking " + u.getPassword() + " against " + password);
-                if(u.getPassword().equals(password)){
-                    //System.out.println("User found " + u.getFullName());
-                    return u;
-                }
-            }
-            //System.out.println("User email not found");
-        }
-        return null;
-    }
-    
     public static void saveUserFile(List<HealthData> healthData, List<Activity> activities, List<HealthScore> healthScores, List<Food> foods, String email){
         PrintWriter pw = null;
         try {
@@ -433,56 +374,6 @@ public class PersistanceController {
         return healthData;
     }
     
-    public static void addHealthData(HealthData data, String email){
-        System.out.println("Adding new data for " + email);
-        
-        List<HealthData> healthData;
-        try {
-            healthData = loadHealthData(email);
-        } catch (Exception ex){
-            healthData = new ArrayList();
-        }
-        healthData.add(data);
-        
-        List<Activity> activities;
-        try {
-            activities = loadActivities(email);
-        } catch (Exception ex){
-            activities = new ArrayList();
-        }
-        
-        List<HealthScore> healthScores;
-        try {
-            healthScores = loadHealthScores(email);
-        } catch (Exception ex){
-            healthScores = new ArrayList();
-        }
-        
-        List<Food> foods;
-        try {
-            foods = loadFoods(email);
-        } catch (Exception ex){
-            foods = new ArrayList();
-        }
-        saveUserFile(healthData, activities, healthScores, foods, email);
-        
-        System.out.println("New health data added");
-    }
-    
-    public static HealthData getMostRecentHealthData(String email){
-        List<HealthData> healthData = null;
-        try {
-            healthData = loadHealthData(email);
-        } catch (Exception ex){
-            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
-            healthData = new ArrayList();
-        }
-        if(healthData.size()==0)
-            return null;
-        
-        return healthData.get(healthData.size()-1);
-    }
-    
     //Activity JSON saving and loading 
     public static List<Activity> loadActivities(String email){
         List<Activity> activities = new ArrayList();
@@ -540,57 +431,6 @@ public class PersistanceController {
         return activities;
     }
     
-    public static void addActivity(Activity activity, String email){
-        System.out.println("Adding new data for " + email);
-        
-        List<HealthData> healthData;
-        try {
-            healthData = loadHealthData(email);
-        } catch (Exception ex){
-            healthData = new ArrayList();
-        }
-        
-        List<Activity> activities;
-        try {
-            activities = loadActivities(email);
-        } catch (Exception ex){
-            activities = new ArrayList();
-        }
-        activities.add(activity);
-        
-        List<HealthScore> healthScores;
-        try {
-            healthScores = loadHealthScores(email);
-        } catch (Exception ex){
-            healthScores = new ArrayList();
-        }
-        
-        List<Food> foods;
-        try {
-            foods = loadFoods(email);
-        } catch (Exception ex){
-            foods = new ArrayList();
-        }
-        
-        saveUserFile(healthData, activities, healthScores, foods, email);
-        
-        System.out.println("New activity added");
-    }
-    
-    public static Activity getMostRecentActivity(String email){
-        List<Activity> activites = null;
-        try {
-            activites = loadActivities(email);
-        } catch (Exception ex){
-            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
-            activites = new ArrayList();
-        }
-        if(activites.size()==0)
-            return null;
-        
-        return activites.get(activites.size()-1);
-    }
-    
     //Health Score JSON saving and loading 
     public static List<HealthScore> loadHealthScores(String email){
         List<HealthScore> healthScores = new ArrayList();
@@ -646,103 +486,6 @@ public class PersistanceController {
         System.out.println("User \"" + email + "\" data loaded");
         
         return healthScores;
-    }
-    
-    public static void addHealthScore(HealthScore healthScore, String email){
-        System.out.println("Adding new data for " + email);
-        
-        List<HealthData> healthData;
-        try {
-            healthData = loadHealthData(email);
-        } catch (Exception ex){
-            healthData = new ArrayList();
-        }
-        
-        List<Activity> activities;
-        try {
-            activities = loadActivities(email);
-        } catch (Exception ex){
-            activities = new ArrayList();
-        }
-        
-        List<HealthScore> healthScores;
-        try {
-            healthScores = loadHealthScores(email);
-        } catch (Exception ex){
-            healthScores = new ArrayList();
-        }
-        healthScores.add(healthScore);
-        
-        List<Food> foods;
-        try {
-            foods = loadFoods(email);
-        } catch (Exception ex){
-            foods = new ArrayList();
-        }
-        
-        saveUserFile(healthData, activities, healthScores, foods, email);
-        
-        System.out.println("New activity added");
-    }
-    
-    public static void addCalories(double caloriesBurnt, double caloriesConsumed, String email){
-        System.out.println("Adding new data for " + email);
-        
-        List<HealthData> healthData;
-        try {
-            healthData = loadHealthData(email);
-        } catch (Exception ex){
-            healthData = new ArrayList();
-        }
-        
-        List<Activity> activities;
-        try {
-            activities = loadActivities(email);
-        } catch (Exception ex){
-            activities = new ArrayList();
-        }
-        
-        List<HealthScore> healthScores;
-        try {
-            healthScores = loadHealthScores(email);
-        } catch (Exception ex){
-            healthScores = new ArrayList();
-        }
-        Collections.reverse(healthScores);
-        for(HealthScore hs : healthScores){
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String oldDate = formatter.format(hs.getDateTime());
-            String currentDate = formatter.format(new Date());
-            if(oldDate.equals(currentDate)){
-                hs.setCaloriesBurnt(hs.getCaloriesBurnt() + (int) caloriesBurnt);
-                hs.setCaloriesConsumed(hs.getCaloriesConsumed() + (int) caloriesConsumed);
-            }
-        }
-        
-        List<Food> foods;
-        try {
-            foods = loadFoods(email);
-        } catch (Exception ex){
-            foods = new ArrayList();
-        }
-        
-        saveUserFile(healthData, activities, healthScores, foods, email);
-        
-        System.out.println("New activity added");
-    }
-    
-    public static HealthScore getMostRecentHealthScore(String email){
-        List<HealthScore> healthScores = null;
-        try {
-            healthScores = loadHealthScores(email);
-        } catch (Exception ex){
-            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
-            healthScores = new ArrayList();
-        }
-        if(healthScores.size()==0)
-            return null;
-        
-        return healthScores.get(healthScores.size()-1);
     }
     
     //Food JSON saving and loading 
@@ -804,57 +547,4 @@ public class PersistanceController {
         
         return foods;
     }
-    
-    public static void addFood(Food food, String email){
-        System.out.println("Adding new data for " + email);
-        
-        List<HealthData> healthData;
-        try {
-            healthData = loadHealthData(email);
-        } catch (Exception ex){
-            healthData = new ArrayList();
-        }
-        
-        List<Activity> activities;
-        try {
-            activities = loadActivities(email);
-        } catch (Exception ex){
-            activities = new ArrayList();
-        }
-        
-        List<HealthScore> healthScores;
-        try {
-            healthScores = loadHealthScores(email);
-        } catch (Exception ex){
-            healthScores = new ArrayList();
-        }
-        
-        List<Food> foods;
-        try {
-            foods = loadFoods(email);
-        } catch (Exception ex){
-            foods = new ArrayList();
-        }
-        foods.add(food);
-        
-        
-        saveUserFile(healthData, activities, healthScores, foods, email);
-        
-        System.out.println("New activity added");
-    }
-    
-    public static Food getMostRecentFood(String email){
-        List<Food> foods = null;
-        try {
-            foods = loadFoods(email);
-        } catch (Exception ex){
-            System.out.println("ERROR: UNABLE TO LOAD MOST RECENT, THERE MAY BE NO ENTRIES");
-            foods = new ArrayList();
-        }
-        if(foods.size()==0)
-            return null;
-        
-        return foods.get(foods.size()-1);
-    }
-    
 }

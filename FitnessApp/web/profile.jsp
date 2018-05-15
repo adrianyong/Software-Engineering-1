@@ -4,6 +4,7 @@
     Author     : 100021268
 --%>
 
+<%@page import="controller.SystemController"%>
 <%@page import="model.Goal"%>
 <%@page import="java.lang.Math.*"%>
 <%@page import="java.util.List"%>
@@ -48,7 +49,7 @@
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
 
-                user = PersistanceController.getUser(email, password);
+                user = SystemController.getUser(email, password);
                 BMR = (int) Calculations.BMR(user);
                 modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
 
@@ -56,10 +57,10 @@
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
                 hour = cal.get(Calendar.HOUR_OF_DAY);
-                caloriesBurnt = (int) ((hour/24.0f)*BMR) + PersistanceController.getMostRecentHealthScore(email).getCaloriesBurnt();
+                caloriesBurnt = (int) ((hour/24.0f)*BMR) + SystemController.getMostRecentHealthScore(email).getCaloriesBurnt();
                 caloriesNotBurnt = (int) BMR - caloriesBurnt;
 
-                caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
+                caloriesConsumed = SystemController.getMostRecentHealthScore(email).getCaloriesConsumed();
                 caloriesLeft = modifiedBMR - caloriesConsumed;
                 
                 if(caloriesNotBurnt < 0)
@@ -243,13 +244,13 @@
 					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 					String oldDate = null;
 					try{
-						oldDate = formatter.format(PersistanceController.getMostRecentHealthScore(email).getDateTime());
+						oldDate = formatter.format(SystemController.getMostRecentHealthScore(email).getDateTime());
 					}catch (Exception ex){
 						oldDate = "";
 					}
 					String newDate = formatter.format(healthScore.getDateTime());
 					if(!oldDate.equals(newDate))
-						PersistanceController.addHealthScore(healthScore, email);
+						SystemController.addHealthScore(healthScore, email);
 
 					name = (String) httpSession.getAttribute("name");
 					

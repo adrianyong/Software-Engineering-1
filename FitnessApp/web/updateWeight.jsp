@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="controller.SystemController"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="model.HealthScore"%>
@@ -37,7 +38,7 @@
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
 
-                user = PersistanceController.getUser(email, password);
+                user = SystemController.getUser(email, password);
                 name = (String) httpSession.getAttribute("name");
                 
                 Date date = new Date();
@@ -118,7 +119,7 @@
 			<div style="background:transparent !important" class="jumbotron jumbotitle d-flex align-items-center">
 			
 			<%
-				HealthData recentData = PersistanceController.getMostRecentHealthData(email);
+				HealthData recentData = SystemController.getMostRecentHealthData(email);
 				
 				String lastWeight = "";
 				String lastWeight2 = "";

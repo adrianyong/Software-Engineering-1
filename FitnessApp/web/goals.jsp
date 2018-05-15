@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="controller.SystemController"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="model.HealthData"%>
 <%@page import="java.util.List"%>
@@ -41,7 +42,7 @@
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
 
-                user = PersistanceController.getUser(email, password);
+                user = SystemController.getUser(email, password);
                 name = (String) httpSession.getAttribute("name");
                 
                 Date date = new Date();

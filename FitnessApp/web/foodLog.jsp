@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="controller.SystemController"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="model.FoodTemplate"%>
@@ -41,7 +42,7 @@
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
 
-                user = PersistanceController.getUser(email, password);
+                user = SystemController.getUser(email, password);
                 name = (String) httpSession.getAttribute("name");
                 
                 Date date = new Date();
@@ -61,7 +62,7 @@
                 healthScoreMsg = Integer.toString(healthScore.getHealthScore());
 
                 modifiedBMR = (int) user.getGoal().getModifiedBMR(user);
-                int caloriesConsumed = PersistanceController.getMostRecentHealthScore(email).getCaloriesConsumed();
+                int caloriesConsumed = SystemController.getMostRecentHealthScore(email).getCaloriesConsumed();
                 caloriesLeft = modifiedBMR - caloriesConsumed;
                 
                 isTracking = user.isTrackingActivity();

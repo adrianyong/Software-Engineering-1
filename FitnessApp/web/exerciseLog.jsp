@@ -4,6 +4,7 @@
     Author     : Bento
 --%>
 
+<%@page import="controller.SystemController"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.text.DecimalFormat"%>
@@ -42,7 +43,7 @@
                 email = (String) httpSession.getAttribute("email");
                 password = (String) httpSession.getAttribute("password");
                 name = (String) httpSession.getAttribute("name");
-                user = PersistanceController.getUser(email, password);
+                user = SystemController.getUser(email, password);
 
                 Date date = new Date();
                 Calendar cal = Calendar.getInstance();

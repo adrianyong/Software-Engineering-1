@@ -146,8 +146,8 @@ public class WebController extends HttpServlet {
         String weight2 = request.getParameter("weight2");
         
         //Error is user with email already exists
-        System.out.println("User already exists? " + PersistanceController.matchUser(email));
-        if(PersistanceController.matchUser(email)){
+        System.out.println("User already exists? " + SystemController.matchUser(email));
+        if(SystemController.matchUser(email)){
             httpSession.invalidate();
             request.setAttribute("message","User with that email already exists");
             try {
@@ -186,7 +186,7 @@ public class WebController extends HttpServlet {
         }
 
         HealthData healthData = new HealthData(weightKg, heightKg);
-        PersistanceController.addHealthData(healthData, email);
+        SystemController.addHealthData(healthData, email);
         
         double goalWeightKg = 0;
         if("kg".equals(weightUnit)){
@@ -209,7 +209,7 @@ public class WebController extends HttpServlet {
         user.setGoal(new Goal(goalWeightKg, goalType, goalSpeed));
         
         //System.out.println(user);
-        PersistanceController.addUser(user);
+        SystemController.addUser(user);
 
         request.setAttribute("firstName",firstName);
         request.setAttribute("messageType","Success");
@@ -245,9 +245,9 @@ public class WebController extends HttpServlet {
         }
 
         User user = null;
-        if(PersistanceController.matchUser(email) && error==false){
+        if(SystemController.matchUser(email) && error==false){
             //Email is correct
-            user = PersistanceController.getUser(email, password);
+            user = SystemController.getUser(email, password);
             if(user == null){
                 //Password is incorrect
                 request.setAttribute("message","Wrong password");
@@ -301,7 +301,7 @@ public class WebController extends HttpServlet {
         String email = (String) httpSession.getAttribute("email");
         String password = (String) httpSession.getAttribute("password");
         
-        User user = PersistanceController.getUser(email, password);
+        User user = SystemController.getUser(email, password);
         HealthData healthData = null;
         
         String weight = request.getParameter("weight");
@@ -332,7 +332,7 @@ public class WebController extends HttpServlet {
         }
 
         healthData = new HealthData(weightKg, heightKg);
-        PersistanceController.addHealthData(healthData, email);
+        SystemController.addHealthData(healthData, email);
         
         try {
             response.sendRedirect("updateWeight.jsp");
@@ -412,7 +412,7 @@ public class WebController extends HttpServlet {
     void goals(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
         String email = (String) httpSession.getAttribute("email");
         String password = (String) httpSession.getAttribute("password");
-        User user = PersistanceController.getUser(email, password);
+        User user = SystemController.getUser(email, password);
         String weightUnit = user.getWeightUnit().toString();
         
         String goalType = request.getParameter("goalType");
@@ -467,14 +467,14 @@ public class WebController extends HttpServlet {
     void activity(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
         String email = (String) httpSession.getAttribute("email");
         String password = (String) httpSession.getAttribute("password");
-        User user = PersistanceController.getUser(email, password);
+        User user = SystemController.getUser(email, password);
         
         String activity = request.getParameter("activity");
         String duration = request.getParameter("duration");
 
         Activity a = new Activity(user, activity, Double.parseDouble(duration));
-        PersistanceController.addActivity(a, email);
-        PersistanceController.addCalories(a.getCaloriesBurnt(), 0, email);
+        SystemController.addActivity(a, email);
+        SystemController.addCalories(a.getCaloriesBurnt(), 0, email);
         
         try {
             response.sendRedirect("exerciseLog.jsp");
@@ -486,15 +486,15 @@ public class WebController extends HttpServlet {
     void food(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession){
         String email = (String) httpSession.getAttribute("email");
         String password = (String) httpSession.getAttribute("password");
-        User user = PersistanceController.getUser(email, password);
+        User user = SystemController.getUser(email, password);
         
         String food = request.getParameter("food");
         String quantity = request.getParameter("quantity");
         String meal = request.getParameter("meal");
 
         Food f = new Food(food,Double.parseDouble(quantity),Food.Meal.valueOf(meal));
-        PersistanceController.addFood(f, email);
-        PersistanceController.addCalories(0, f.getCalories(), email);
+        SystemController.addFood(f, email);
+        SystemController.addCalories(0, f.getCalories(), email);
         
         try {
             response.sendRedirect("foodLog.jsp");
