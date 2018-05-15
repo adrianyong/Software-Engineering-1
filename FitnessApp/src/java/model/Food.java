@@ -35,7 +35,7 @@ public final class Food {
         this.portion = portionIn;
         
         FoodTemplate ft = getFoodTemplate(name);
-        this.calories = (ft.getCalories()/100)*portionIn;
+        this.calories = (ft.getCalories()/100.0d)*portionIn;
         
         this.meal = mealIn;
         this.dateTime = new Date();

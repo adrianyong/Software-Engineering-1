@@ -243,7 +243,6 @@ public class SystemController {
         } catch (Exception ex){
             healthScores = new ArrayList();
         }
-        Collections.reverse(healthScores);
         for(HealthScore hs : healthScores){
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             String oldDate = formatter.format(hs.getDateTime());
