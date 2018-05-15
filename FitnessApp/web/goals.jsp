@@ -273,35 +273,35 @@
 						<div class="col-xl bigbox rounded-0.25 d-flex align-items-center">
 							<form class="form-mb4 w-100 side-pad-5" action="WebController">
 								<input type="hidden" name="formType" value="goals">
-								<div class="form-group">
+								<!--<div class="form-group">
 									<label for="goalType" class="w-100 text-left">Goal:</label>
 									<select name="goalType" class="form-control w-100 border-0 backgroundBlack2">
-										<option value="GainWeight"<%if (goalType.equals("GainWeight")){%>
+										<option value="GainWeight"<%//if (goalType.equals("GainWeight")){%>
                                                                                     selected
-                                                                                    <%}%>>Gain Weight</option>
-										<option value="LoseWeight"<%if (goalType.equals("LoseWeight")){%>
+                                                                                    <%//}%>>Gain Weight</option>
+										<option value="LoseWeight"<%//if (goalType.equals("LoseWeight")){%>
                                                                                     selected
-                                                                                    <%}%>>Lose Weight</option>
-										<option value="MaintainWeight"<%if (goalType.equals("MaintainWeight")){%>
+                                                                                    <%//}%>>Lose Weight</option>
+										<option value="MaintainWeight"<%//if (goalType.equals("MaintainWeight")){%>
                                                                                     selected
-                                                                                    <%}%>>Maintain Weight</option>
+                                                                                    <%//}%>>Maintain Weight</option>
 									</select>
-								</div>
+								</div>-->
 
 								<%
 								if("kg".equals(weightUnit)){%>
 								<div class="form-group">
-									<label for="goalWeight" class=" w-100 text-left">Weight (kg) </label>
+									<label for="goalWeight" class=" w-100 text-left">Goal Weight (kg) </label>
 									<input type="number" class="form-control border-0 backgroundBlack2" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">
 								</div><%}
 								else if("pound".equals(weightUnit)){%>
 								<div class="form-group">
-									<label for="goalWeight" class="w-100 text-left">Weight (lb)</label>
+									<label for="goalWeight" class="w-100 text-left">Goal Weight (lb)</label>
 									<input type="number" class="form-control border-0 backgroundBlack2" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">
 								</div><%}
 								else if("stonePound".equals(weightUnit)){%>
 								<div class="form-group form-inline">
-									<label for="goalWeight" class=" w-100 text-left">Weight (st & lbs)</label>
+									<label for="goalWeight" class=" w-100 text-left">Goal Weight (st & lbs)</label>
 									<input type="number" class="form-control w-50 border-0 backgroundBlack2" id="goalWeight" value="<%=goalWeight%>" name="goalWeight">
 									<input type="number" class="form-control w-50 border-0 backgroundBlack2" id="goalWeight2" value="<%=goalWeight2%>" name="goalWeight2">
 								</div><%}%>

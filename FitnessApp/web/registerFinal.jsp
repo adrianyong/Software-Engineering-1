@@ -105,14 +105,14 @@
 							</div>
 							<%}%>
 
-							<div class="form-group form-inline">
+<!--							<div class="form-group form-inline">
 								<label for="goalType" class="w-50 text-left">Goal</label>
 								<select name="goalType" class="form-control w-50 border-0 backgroundBlack">
 									<option value="GainWeight">Gain Weight</option>
 									<option value="LoseWeight">Lose Weight</option>
 									<option value="MaintainWeight">Maintain Weight</option>
 								</select>
-							</div>
+							</div>-->
 							
 							<div class="form-group form-inline">
 								<label for="goalSpeed" class="w-50 text-left">Goal Speed</label>

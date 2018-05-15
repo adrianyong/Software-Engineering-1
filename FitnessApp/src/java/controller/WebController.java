@@ -163,19 +163,6 @@ public class WebController extends HttpServlet {
         } catch (ParseException ex) {
             System.out.println("ERROR: UNABLE TO INSTIANIATE NEW USER IN REGISTRATION");
         }
-        
-        double goalWeightKg = 0;
-        if("kg".equals(weightUnit)){
-            goalWeightKg = Double.parseDouble(goalWeight);
-        }
-        else if("pound".equals(weightUnit)){
-            goalWeightKg = Conversions.weightPoundsToKg(Double.parseDouble(goalWeight));
-        }
-        else if("stonePound".equals(weightUnit)){
-            goalWeightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(goalWeight), Double.parseDouble(goalWeight2));
-        }
-        
-        user.setGoal(new Goal(goalWeightKg, goalType, goalSpeed));
 
         double weightKg = 0;
         double heightKg = 0;
@@ -200,6 +187,26 @@ public class WebController extends HttpServlet {
 
         HealthData healthData = new HealthData(weightKg, heightKg);
         PersistanceController.addHealthData(healthData, email);
+        
+        double goalWeightKg = 0;
+        if("kg".equals(weightUnit)){
+            goalWeightKg = Double.parseDouble(goalWeight);
+        }
+        else if("pound".equals(weightUnit)){
+            goalWeightKg = Conversions.weightPoundsToKg(Double.parseDouble(goalWeight));
+        }
+        else if("stonePound".equals(weightUnit)){
+            goalWeightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(goalWeight), Double.parseDouble(goalWeight2));
+        }
+        
+        if(goalWeightKg <weightKg)
+            goalType = Goal.GoalType.LoseWeight.toString();
+        else if(goalWeightKg > weightKg)
+            goalType = Goal.GoalType.GainWeight.toString();
+        else if(goalWeightKg == weightKg)
+            goalType = Goal.GoalType.MaintainWeight.toString();
+        
+        user.setGoal(new Goal(goalWeightKg, goalType, goalSpeed));
         
         //System.out.println(user);
         PersistanceController.addUser(user);
@@ -424,6 +431,13 @@ public class WebController extends HttpServlet {
         else if("stonePound".equals(weightUnit)){
             weightKg = Conversions.weightStonePoundsToKg(Double.parseDouble(goalWeight), Double.parseDouble(goalWeight2));
         }
+        
+        if(weightKg < user.getWeight())
+            goalType = Goal.GoalType.LoseWeight.toString();
+        else if(weightKg > user.getWeight())
+            goalType = Goal.GoalType.GainWeight.toString();
+        else if(weightKg == user.getWeight())
+            goalType = Goal.GoalType.MaintainWeight.toString();
         
         List<User> users = null;
         try {
