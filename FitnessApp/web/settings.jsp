@@ -265,12 +265,19 @@
                                                         
                                                         <%
                                                         String message = (String)request.getAttribute("message"); 
+                                                        String type = (String)request.getAttribute("type"); 
 
                                                         if(message != null){
                                                         %>
 
-                                                        <div class="alert alert-danger text-center">
+                                                        <br>
+                                                        <div class="alert alert-<%=type%> text-center">
+                                                            <%if(type.equals("success")){%>
+                                                                <strong>Success! </strong> <%= message%>
+                                                            <%}%>
+                                                            <%if(type.equals("danger")){%>
                                                                 <strong>Error: </strong> <%= message%>
+                                                            <%}%>
                                                         </div>
 
                                                         <%}%>

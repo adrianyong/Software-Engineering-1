@@ -85,6 +85,7 @@ public class WebController extends HttpServlet {
         String email = request.getParameter("email");
         email = email.toLowerCase();
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
 
@@ -114,6 +115,17 @@ public class WebController extends HttpServlet {
         httpSession.setAttribute("weightUnit", weightUnit);
         httpSession.setAttribute("tracking", tracking);
 
+        if(!password.equals(confirmPassword)){
+            //Passwords do not match
+            request.setAttribute("message","Passwords did not match");
+            //httpSession.invalidate();
+            try {
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            } catch (Exception ex) {
+                System.out.println("ERROR: UNABLE TO RELOAD LOGIN PAGE");
+            }
+        }
+        
         try {
             response.sendRedirect("registerFinal.jsp");
         } catch (Exception ex) {
@@ -383,6 +395,15 @@ public class WebController extends HttpServlet {
         
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
+        String confirmPassword = request.getParameter("confirmPassword");
+        
+        boolean error = false;
+        
+        if(!newPassword.equals(confirmPassword)){
+            error = true;
+            request.setAttribute("message","Passwords do not match");
+            request.setAttribute("type","danger");
+        }
         
         List<User> users = null;
         try {
@@ -392,18 +413,26 @@ public class WebController extends HttpServlet {
         }
         
         for(User u : users){
-            if (u.getEmail().equals(email) && u.getPassword().equals(currentPassword)){
-                u.setPassword(newPassword);
-                httpSession.setAttribute("password", newPassword);
+            if (u.getEmail().equals(email)){
+                if(u.getPassword().equals(currentPassword))
+                    u.setPassword(newPassword);
+                else{
+                    request.setAttribute("message","Incorrect password");
+                    request.setAttribute("type","danger");
+                    error = true;
+                }
             }
-            else
-                request.setAttribute("message","Incorrect password");
         }
         
-        PersistanceController.saveUsers(users);
+        if(!error){
+            PersistanceController.saveUsers(users);
+            httpSession.setAttribute("password", newPassword);
+            request.setAttribute("message","Password changed successfully");
+            request.setAttribute("type","success");
+        }
         
         try {
-            response.sendRedirect("settings.jsp");
+            request.getRequestDispatcher("settings.jsp").forward(request, response);
         } catch (Exception ex) {
             System.out.println("ERROR: UNABLE TO RELOAD settings PAGE");
         }
