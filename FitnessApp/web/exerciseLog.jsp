@@ -137,7 +137,7 @@
 			<div style="background:transparent !important" class="jumbotron jumbomainprof d-flex align-items-center">
                 
 				<form class="sidebar">
-						<label class="floatleft">Health Score :  <%= healthScoreMsg%></label>
+						<label class="floatleft" onclick="return alert('Your health is not measured by your weight alone.\nHere at healthBot we understand that and created the healthBot Health Score to reflect this.\nWe use your BMI, body fat percentage and resting heart rate to give you a truer representation of your health.\nShare it with your friends and family and see who amongst you can reach the top score of 7 ! ')">Health Score: <%= healthScoreMsg%></label>
 						<div class="form-group">
 							<a href="profile.jsp" class="btn btn-info notpage" role="button">Home</a>
 						</div>

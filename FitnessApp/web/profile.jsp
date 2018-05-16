@@ -58,13 +58,13 @@
                 cal.setTime(date);
                 hour = cal.get(Calendar.HOUR_OF_DAY);
                 caloriesBurnt = (int) ((hour/24.0f)*BMR) + SystemController.getMostRecentHealthScore(email).getCaloriesBurnt();
-                caloriesNotBurnt = (int) BMR - caloriesBurnt;
+                caloriesNotBurnt = (int) BMR - caloriesBurnt + SystemController.getMostRecentHealthScore(email).getCaloriesBurnt();
 
                 caloriesConsumed = SystemController.getMostRecentHealthScore(email).getCaloriesConsumed();
                 caloriesLeft = modifiedBMR - caloriesConsumed;
                 
-                if(caloriesNotBurnt < 0)
-                    caloriesNotBurnt =+ BMR;
+//                if(caloriesNotBurnt < 0)
+//                    caloriesNotBurnt =+ BMR;
                 
                  caloriesTotal = (caloriesBurnt + caloriesNotBurnt);
                 
@@ -122,7 +122,7 @@
             if(user.getGoal().getType()==Goal.GoalType.GainWeight)
                 currentWeightPercent = ((currentWeight - startingWeight) * 100) / (goalWeight - startingWeight);
             else if(user.getGoal().getType()==Goal.GoalType.LoseWeight)
-                currentWeightPercent = ((startingWeight - currentWeight) * 100) / (goalWeight - startingWeight);
+                currentWeightPercent = ((startingWeight - currentWeight) * 100) / (startingWeight - goalWeight);
         %>
       
         <!--Weight chart-->
@@ -195,11 +195,7 @@
                 pieSliceText: "none",
                 animation: {"startup": true},
                 legend: { position: 'bottom' },
-                <%if(caloriesBurnt < modifiedBMR){%>
-                    colors: ['#97BEB8','#048a72'],
-                <%}else{%>
-                    colors: ['#048a72','#16594c'],
-                <%}%>
+                colors: ['#97BEB8','#048a72'],
                 backgroundColor: { fill:'transparent' },
                 chartArea: {'width': '95%', 'height': '95%'},
                 legend: {position: 'none'},
@@ -288,7 +284,7 @@
 			
 
 				<form class="sidebar">
-					<label class="floatleft" onclick="return alert('Your healthScore is our representation of how healthy you are.\nThis does not take into account your weight, as health isn’t quite so black and white!\nYour personal healthScore can range from -7 to 7.')">Health Score: <%= healthScoreMsg%></label>
+					<label class="floatleft" onclick="return alert('Your health is not measured by your weight alone.\nHere at healthBot we understand that and created the healthBot Health Score to reflect this.\nWe use your BMI, body fat percentage and resting heart rate to give you a truer representation of your health.\nShare it with your friends and family and see who amongst you can reach the top score of 7 ! ')">Health Score: <%= healthScoreMsg%></label>
 					<div class="form-group">
 						<a href="profile.jsp" class="btn btn-info currentpage" role="button">Home</a>
 					</div>
