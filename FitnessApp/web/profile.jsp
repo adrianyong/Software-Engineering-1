@@ -288,7 +288,7 @@
 			
 
 				<form class="sidebar">
-					<label class="floatleft">Health Score :  <%= healthScoreMsg%></label>
+					<label class="floatleft" onclick="return alert('Your healthScore is our representation of how healthy you are.\nThis does not take into account your weight, as health isn’t quite so black and white!\nYour personal healthScore can range from -7 to 7.')">Health Score: <%= healthScoreMsg%></label>
 					<div class="form-group">
 						<a href="profile.jsp" class="btn btn-info currentpage" role="button">Home</a>
 					</div>

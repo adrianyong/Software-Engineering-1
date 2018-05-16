@@ -36,6 +36,10 @@ import org.json.simple.parser.ParseException;
  */
 public class PersistanceController {
     
+    /**
+     * Method to save all users from a list to the userdata json file
+     * @param users
+     */
     public static void saveUsers(List<User> users){
         PrintWriter pw = null;
         try {
@@ -89,6 +93,13 @@ public class PersistanceController {
         pw.close();
     }
     
+    /**
+     * Method to load a list of all users from the userdata.json file
+     * @return a list of all users
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ParseException
+     */
     public static List<User> loadUsers() throws FileNotFoundException, IOException, ParseException{
         Object obj = null;
         new File("FitnessApp/").mkdir();
@@ -222,6 +233,14 @@ public class PersistanceController {
         return users;
     }
     
+    /**
+     * Method to save the user file containing health data, activities, healthscores and foods
+     * @param healthData
+     * @param activities
+     * @param healthScores
+     * @param foods
+     * @param email
+     */
     public static void saveUserFile(List<HealthData> healthData, List<Activity> activities, List<HealthScore> healthScores, List<Food> foods, String email){
         PrintWriter pw = null;
         try {
@@ -317,7 +336,11 @@ public class PersistanceController {
         System.out.println("User \"" + email + "\" data saved");
     }
 
-    //HealthData JSON saving and loading 
+    /**
+     * Method for loading the healthdata part of the user data
+     * @param email
+     * @return a list of healthdata
+     */
     public static List<HealthData> loadHealthData(String email){
         List<HealthData> healthData = new ArrayList();
         Object obj = null;
@@ -374,7 +397,11 @@ public class PersistanceController {
         return healthData;
     }
     
-    //Activity JSON saving and loading 
+    /**
+     * Method for loading the activities part of the user data
+     * @param email
+     * @return list of activities
+     */
     public static List<Activity> loadActivities(String email){
         List<Activity> activities = new ArrayList();
         Object obj = null;
@@ -431,7 +458,11 @@ public class PersistanceController {
         return activities;
     }
     
-    //Health Score JSON saving and loading 
+    /**
+     * Method for loading the healthscore part of the user data
+     * @param email
+     * @return a list of health score
+     */
     public static List<HealthScore> loadHealthScores(String email){
         List<HealthScore> healthScores = new ArrayList();
         Object obj = null;
@@ -488,7 +519,11 @@ public class PersistanceController {
         return healthScores;
     }
     
-    //Food JSON saving and loading 
+    /**
+     * Method for loading the food part of the user data
+     * @param email
+     * @return a list of foods
+     */
     public static List<Food> loadFoods(String email){
         List<Food> foods = new ArrayList();
         Object obj = null;

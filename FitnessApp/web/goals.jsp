@@ -334,7 +334,7 @@
 										<%}%>
 									</select>
 								</div>
-								<button type="submit" class="btn btn-info w-100" onclick="return confirm('Are you sure?')">Update Goal</button></p>
+								<button type="submit" class="btn btn-info w-100" onclick="return confirm('Are you sure you want to change your goal?')">Update Goal</button></p>
 							</form>
 						
 						</div>

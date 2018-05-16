@@ -25,6 +25,10 @@ import model.User;
 
 public class SystemController {
 
+    /**
+     * Method to add a new user to the database
+     * @param u
+     */
     public static void addUser(User u){
         List<User> users;
         try {
@@ -37,6 +41,11 @@ public class SystemController {
         saveUsers(users);
     }
     
+    /**
+     * Method to check if a user already exists with that email
+     * @param email
+     * @return true if exists, false if not
+     */
     public static boolean matchUser(String email){
         //System.out.println("Searching for email " + email);
         List<User> users;
@@ -57,6 +66,12 @@ public class SystemController {
         return false;
     }
     
+    /**
+     * Method to get a user object by email
+     * @param email
+     * @param password
+     * @return user object if found, null if not
+     */
     public static User getUser(String email, String password){
         //System.out.println("Getting user with email " + email);
         List<User> users;
@@ -82,6 +97,11 @@ public class SystemController {
         return null;
     }
     
+    /**
+     * Method to add health data to the user
+     * @param data
+     * @param email
+     */
     public static void addHealthData(HealthData data, String email){
         System.out.println("Adding new data for " + email);
         
@@ -118,6 +138,11 @@ public class SystemController {
         System.out.println("New health data added");
     }
     
+    /**
+     * Method to get the most recent health data of a user
+     * @param email
+     * @return
+     */
     public static HealthData getMostRecentHealthData(String email){
         List<HealthData> healthData = null;
         try {
@@ -132,6 +157,11 @@ public class SystemController {
         return healthData.get(healthData.size()-1);
     }
     
+    /**
+     * Method to add an activity for a user
+     * @param activity
+     * @param email
+     */
     public static void addActivity(Activity activity, String email){
         System.out.println("Adding new data for " + email);
         
@@ -169,6 +199,11 @@ public class SystemController {
         System.out.println("New activity added");
     }
     
+    /**
+     * Method to get the most recent activity of a user
+     * @param email
+     * @return
+     */
     public static Activity getMostRecentActivity(String email){
         List<Activity> activites = null;
         try {
@@ -183,6 +218,11 @@ public class SystemController {
         return activites.get(activites.size()-1);
     }
     
+    /**
+     * Method to add a healthscore for a user
+     * @param healthScore
+     * @param email
+     */
     public static void addHealthScore(HealthScore healthScore, String email){
         System.out.println("Adding new data for " + email);
         
@@ -220,6 +260,12 @@ public class SystemController {
         System.out.println("New activity added");
     }
     
+    /**
+     * Method to add new calories burnt or consumed for the user
+     * @param caloriesBurnt
+     * @param caloriesConsumed
+     * @param email
+     */
     public static void addCalories(double caloriesBurnt, double caloriesConsumed, String email){
         System.out.println("Adding new data for " + email);
         
@@ -265,6 +311,11 @@ public class SystemController {
         System.out.println("New activity added");
     }
     
+    /**
+     * Method to get the most recent healthscore for a user
+     * @param email
+     * @return
+     */
     public static HealthScore getMostRecentHealthScore(String email){
         List<HealthScore> healthScores = null;
         try {
@@ -279,6 +330,11 @@ public class SystemController {
         return healthScores.get(healthScores.size()-1);
     }
     
+    /**
+     * Method to add food for a user
+     * @param food
+     * @param email
+     */
     public static void addFood(Food food, String email){
         System.out.println("Adding new data for " + email);
         
@@ -317,6 +373,11 @@ public class SystemController {
         System.out.println("New activity added");
     }
     
+    /**
+     * Method to get the most recent food of a user
+     * @param email
+     * @return
+     */
     public static Food getMostRecentFood(String email){
         List<Food> foods = null;
         try {
@@ -331,56 +392,10 @@ public class SystemController {
         return foods.get(foods.size()-1);
     }
     
-    //private static List<User> users = new ArrayList<User>();
-
-//    public static void main(String[] args) throws java.text.ParseException, IOException, FileNotFoundException, org.json.simple.parser.ParseException{
-//        try {
-//            users = PersistanceController.loadUsers();
-//            System.out.println("All users loaded successfully.");
-//        } catch (Exception e) {
-//            System.out.println("Error: unable to load users, they may not exist!");
-//        }
-//        
-//        try {
-//            PersistanceController.loadHealthData(users);
-//            System.out.println("All user data loaded successfully.");
-//        } catch (Exception e) {
-//            System.out.println("Error: unable to load user data, it may not exist!");
-//        }
-//        
-//        /*if(users.isEmpty()){
-//            createTestUsers();
-//            try {
-//                PersistanceController.saveUsers(users);
-//                System.out.println("All users saved successfully.");
-//            } catch (Exception e){
-//                System.out.println("Error: unable to save users!");
-//            }
-//        }*/
-//        
-//        for(User u : users){
-//            u.updateData(70, 180, "NoExercise");
-//            u.updateData(80, 170, "ModerateExercise");
-//            u.updateData(60, 200, "LightExercise");
-//        }
-//        PersistanceController.saveHealthData(users);
-//        
-//    }
-//    
-//    public static List<User> getUsers() throws IOException, FileNotFoundException, org.json.simple.parser.ParseException, ParseException{
-//        List<User> users = PersistanceController.loadUsers();
-//        return users;
-//    }
-//    
-//    public static void addUser(User user) throws IOException, FileNotFoundException, org.json.simple.parser.ParseException, ParseException{
-//        List<User> users = PersistanceController.loadUsers();
-//        System.out.println(users + "loaded");
-//        users.add(user);
-//        System.out.println(user + "added");
-//        PersistanceController.saveUsers(users);
-//        System.out.println(users + "saved");
-//    }
     
+     /**
+     * Old test code for creating users
+     */
 //    public static List<User> createTestUsers() throws ParseException{
 //        User user1 = new User("bentownsend1997@gmail.com", "password", "Ben", "Townsend", "16/03/1997", "Male", true, false);
 //        System.out.println("User \"" + user1.getFullName() + "\" created");

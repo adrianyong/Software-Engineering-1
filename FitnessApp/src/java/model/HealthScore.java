@@ -165,4 +165,9 @@ public class HealthScore {
     public void setCaloriesConsumed(int caloriesConsumed) {
         this.caloriesConsumed = caloriesConsumed;
     }
+    
+    @Override
+    public String toString(){
+        return healthScore + " " + caloriesBurnt + " " + caloriesConsumed + " " + dateTime.toString(); 
+    }
 }
